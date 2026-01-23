@@ -7,4 +7,6 @@
  */
 
 rootProject.name = "komunasuarus"
-include("plugin")
+include("hover-schema")
+include("hover-engine")
+include("hover-gradle")
