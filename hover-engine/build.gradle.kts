@@ -9,4 +9,5 @@ kotlin {
 dependencies {
     implementation(project(":hover-schema"))
     implementation(kotlin("stdlib"))
+    testImplementation(kotlin("test"))
 }

@@ -49,7 +49,7 @@ class SnippetExtractor {
     }
 
     private fun parseMdx(path: Path): List<SnippetSource> {
-        val lines = path.readText().split("\n", ignoreCase = false, limit = -1)
+        val lines = splitLinesPreserveTrailing(path.readText())
         val sources = mutableListOf<SnippetSource>()
         var index = 0
         while (index < lines.size) {

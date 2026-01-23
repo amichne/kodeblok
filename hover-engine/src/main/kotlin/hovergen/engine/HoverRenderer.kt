@@ -9,14 +9,17 @@ object HoverRenderer {
             return "Symbol: `${escapeInline(tokenText)}`\n\n_No semantic info available._"
         }
         val lines = mutableListOf<String>()
-        if (meta.exprType != null) {
-            lines.add("**Type:** `${escapeInline(meta.exprType)}`")
+        val exprType = meta.exprType
+        if (exprType != null) {
+            lines.add("**Type:** `${escapeInline(exprType)}`")
         }
-        if (meta.receiverType != null) {
-            lines.add("**Receiver:** `${escapeInline(meta.receiverType)}`")
+        val receiverType = meta.receiverType
+        if (receiverType != null) {
+            lines.add("**Receiver:** `${escapeInline(receiverType)}`")
         }
-        if (meta.declaredType != null && meta.declaredType != meta.exprType) {
-            lines.add("**Declared:** `${escapeInline(meta.declaredType)}`")
+        val declaredType = meta.declaredType
+        if (declaredType != null && declaredType != exprType) {
+            lines.add("**Declared:** `${escapeInline(declaredType)}`")
         }
         if (meta.reasonKind != ReasonKind.UNKNOWN) {
             lines.add("_Reason: ${meta.reasonKind.name}_")

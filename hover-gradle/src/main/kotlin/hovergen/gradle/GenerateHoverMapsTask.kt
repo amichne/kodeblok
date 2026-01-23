@@ -4,6 +4,8 @@ import hovergen.engine.HoverEngine
 import hovergen.engine.HoverEngineException
 import hovergen.engine.HoverMapWriter
 import hovergen.engine.SnippetExtractor
+import hovergen.engine.analysis.AnalysisApiConfig
+import hovergen.engine.analysis.AnalysisApiSemanticAnalyzer
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileCollection
@@ -39,7 +41,10 @@ abstract class GenerateHoverMapsTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val engine = HoverEngine()
+        val analyzer = AnalysisApiSemanticAnalyzer(
+            AnalysisApiConfig(classpath.files.map { it.toPath() })
+        )
+        val engine = HoverEngine(analyzer)
         val extractor = SnippetExtractor()
         val docsPath = docsDir.orNull?.asFile?.toPath()
         val snippetsPath = snippetsDir.orNull?.asFile?.toPath()

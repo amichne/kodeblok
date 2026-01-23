@@ -6,7 +6,7 @@ private val caretMarkerRegex = Regex("//\\s*\\^\\s*hover:id=([A-Za-z0-9_.-]+)\\s
 class MarkerParser {
     fun parse(source: SnippetSource): NormalizedSnippet {
         val normalizedRaw = normalizeLineEndings(source.rawCode)
-        val lines = normalizedRaw.split("\n", ignoreCase = false, limit = -1)
+        val lines = splitLinesPreserveTrailing(normalizedRaw)
         val markers = mutableListOf<HoverMarker>()
         val normalizedLines = lines.mapIndexed { index, line ->
             val lineNumber = index + 1
@@ -57,7 +57,4 @@ class MarkerParser {
             origin = source.origin
         )
     }
-
-    private fun normalizeLineEndings(input: String): String =
-        input.replace("\r\n", "\n").replace('\r', '\n')
 }

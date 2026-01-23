@@ -7,7 +7,7 @@ private val tokenRegex = Regex("`[^`]+`|[A-Za-z_][A-Za-z0-9_]*|\\d+(?:\\.\\d+)?"
 
 class TokenLocator {
     fun locateTargets(snippet: NormalizedSnippet): List<HoverTarget> {
-        val lines = snippet.code.split("\n", ignoreCase = false, limit = -1)
+        val lines = splitLinesPreserveTrailing(snippet.code)
         return snippet.markers.map { marker ->
             when (marker.kind) {
                 MarkerKind.INLINE -> locateInline(marker, lines, snippet)
