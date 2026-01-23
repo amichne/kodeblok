@@ -5,5 +5,8 @@ plugins {
 subprojects {
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
+        }
     }
 }
