@@ -1,7 +1,7 @@
 package hovergen.engine.analysis
 
 import hovergen.engine.*
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertEquals
 
 class AnalysisApiSemanticAnalyzerTest {
@@ -10,7 +10,7 @@ class AnalysisApiSemanticAnalyzerTest {
         val source = SnippetSource(
             snippetId = "analysis",
             rawCode = """
-                val s = \"hi\"
+                val s = "hi"
                 s.length /*hover:id=len*/
             """.trimIndent(),
             origin = OriginLocation("inline", 1, 1)

@@ -4,10 +4,12 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
+    compileOnly(gradleApi())
+    compileOnly(kotlin("gradle-plugin"))
     implementation(project(":hover-engine"))
     implementation(kotlin("stdlib"))
 }

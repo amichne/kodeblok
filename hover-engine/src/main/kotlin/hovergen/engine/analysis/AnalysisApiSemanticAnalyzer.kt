@@ -31,7 +31,7 @@ class AnalysisApiSemanticAnalyzer(
         kotlinVersion: String
     ): Map<String, HoverMeta> {
         config.validate(snippet.origin)
-        AnalysisApiEnvironment.create(wrapped.code, config).use { environment ->
+        AnalysisApiEnvironment.create(wrapped.code, config, kotlinVersion).use { environment ->
             return analyze(environment.ktFile) {
                 targets.associate { target ->
                     val expression = findExpression(

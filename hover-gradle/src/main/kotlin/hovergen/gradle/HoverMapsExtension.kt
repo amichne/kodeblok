@@ -1,8 +1,8 @@
 package hovergen.gradle
 
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.DirectoryProperty
 import javax.inject.Inject
 
 abstract class HoverMapsExtension @Inject constructor(objects: ObjectFactory) {

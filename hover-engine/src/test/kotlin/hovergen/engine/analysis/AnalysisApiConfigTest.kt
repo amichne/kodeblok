@@ -1,7 +1,7 @@
 package hovergen.engine.analysis
 
 import hovergen.engine.OriginLocation
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertFailsWith
 
 class AnalysisApiConfigTest {

@@ -3,7 +3,7 @@ package hovergen.engine
 import hovergen.schema.HoverMapJsonWriter
 import kotlin.io.path.Path
 import kotlin.io.path.readText
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertEquals
 
 class HoverEngineTest {
