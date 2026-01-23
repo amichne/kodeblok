@@ -3,7 +3,7 @@ package hovergen.engine
 import hovergen.schema.Position
 import hovergen.schema.Range
 
-const val ENGINE_KOTLIN_VERSION = "2.1.20"
+const val ENGINE_KOTLIN_VERSION = "2.3.0"
 
 data class SnippetSource(
     val snippetId: String,

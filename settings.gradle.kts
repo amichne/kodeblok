@@ -6,6 +6,13 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+    }
+}
+
 rootProject.name = "komunasuarus"
 include("hover-schema")
 include("hover-engine")
