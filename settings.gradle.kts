@@ -17,3 +17,4 @@ rootProject.name = "komunasuarus"
 include("hover-schema")
 include("hover-engine")
 include("hover-gradle")
+include("hover-cli")
