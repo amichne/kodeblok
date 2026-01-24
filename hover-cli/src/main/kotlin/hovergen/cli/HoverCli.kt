@@ -11,6 +11,12 @@ import kotlin.system.exitProcess
  * Standalone CLI for generating hover maps from Kotlin snippets.
  */
 fun main(args: Array<String>) {
+    // Handle --version flag
+    if (args.contains("--version")) {
+        println("Komunasuarus Hover CLI version ${BuildConfig.VERSION}")
+        exitProcess(0)
+    }
+
     val config = parseArgs(args) ?: run {
         printUsage()
         exitProcess(1)
