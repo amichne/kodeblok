@@ -48,12 +48,37 @@ application {
 }
 
 tasks.jar {
+    dependsOn(":hover-engine:assemble", ":hover-schema:jar")
+
+    isZip64 = true
+
     manifest {
         attributes["Main-Class"] = "hovergen.cli.HoverCliKt"
     }
+
     // Create a fat JAR with all dependencies
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
+    from(configurations.runtimeClasspath.get().map {
+        if (it.isDirectory) it else zipTree(it)
+    })
+
+    // Explicitly merge META-INF/services files (for ServiceLoader)
+    from(configurations.runtimeClasspath.get().map {
+        if (!it.isDirectory) {
+            zipTree(it).matching {
+                include("META-INF/services/**")
+            }
+        } else {
+            files()
+        }
+    }) {
+        into("META-INF/services")
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+
+    archiveBaseName.set("hover-cli")
+    archiveVersion.set(project.findProperty("hover.cli.version") as String? ?: "dev")
 }
 
 kotlin {
