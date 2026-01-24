@@ -105,6 +105,23 @@ val createJre by tasks.registering(Exec::class) {
     )
 }
 
+val processShellScript by tasks.registering {
+    description = "Processes shell script template"
+    group = "distribution"
+
+    val templateFile = file("src/dist/bin/hover-cli.template")
+    val outputFile = layout.buildDirectory.file("scripts/hover-cli")
+
+    inputs.file(templateFile)
+    outputs.file(outputFile)
+
+    doLast {
+        outputFile.get().asFile.parentFile.mkdirs()
+        templateFile.copyTo(outputFile.get().asFile, overwrite = true)
+        outputFile.get().asFile.setExecutable(true)
+    }
+}
+
 kotlin {
     jvmToolchain(21)
 }
