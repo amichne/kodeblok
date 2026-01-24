@@ -81,6 +81,30 @@ tasks.jar {
     archiveVersion.set(project.findProperty("hover.cli.version") as String? ?: "dev")
 }
 
+val createJre by tasks.registering(Exec::class) {
+    description = "Creates a minimal JRE for macOS using jlink"
+    group = "distribution"
+
+    val jreOutputDir = layout.buildDirectory.dir("jre-macos")
+
+    inputs.property("javaHome", System.getProperty("java.home"))
+    outputs.dir(jreOutputDir)
+
+    doFirst {
+        delete(jreOutputDir)
+    }
+
+    commandLine(
+        "${System.getProperty("java.home")}/bin/jlink",
+        "--add-modules", "java.base,java.logging,java.xml,java.desktop,jdk.compiler,jdk.unsupported,jdk.zipfs",
+        "--output", jreOutputDir.get().asFile.absolutePath,
+        "--compress", "2",
+        "--no-header-files",
+        "--no-man-pages",
+        "--strip-debug"
+    )
+}
+
 kotlin {
     jvmToolchain(21)
 }
