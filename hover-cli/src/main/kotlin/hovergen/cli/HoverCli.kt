@@ -4,6 +4,7 @@ import hovergen.engine.*
 import hovergen.engine.analysis.AnalysisApiConfig
 import hovergen.engine.analysis.AnalysisApiSemanticAnalyzer
 import java.io.File
+import java.nio.file.Path
 import kotlin.system.exitProcess
 
 /**
@@ -36,26 +37,32 @@ fun main(args: Array<String>) {
         config.outputDir.mkdirs()
 
         // Initialize semantic analyzer with Analysis API
-        val analysisConfig = AnalysisApiConfig(
-            classpath = config.classpath,
-            jdkHome = config.jdkHome
-        )
+        val analysisConfig = if (config.jdkHome != null) {
+            AnalysisApiConfig(
+                classpath = config.classpath.map { Path.of(it) },
+                jdkHome = Path.of(config.jdkHome)
+            )
+        } else {
+            AnalysisApiConfig(
+                classpath = config.classpath.map { Path.of(it) }
+            )
+        }
         val analyzer = AnalysisApiSemanticAnalyzer(analysisConfig)
         val engine = HoverEngine(analyzer)
 
         // Extract snippets
         println("Extracting snippets...")
-        val extractor = SnippetExtractor(
-            snippetsDir = config.snippetsDir,
-            docsDir = config.docsDir,
+        val extractor = SnippetExtractor()
+        val snippets = extractor.extract(
+            snippetsDir = config.snippetsDir.toPath(),
+            docsDir = config.docsDir.toPath(),
             includeMdx = config.includeMdx
         )
-        val snippets = extractor.extractSnippets()
         println("Found ${snippets.size} snippet(s)")
         println()
 
         // Generate hover maps
-        val writer = HoverMapWriter(config.outputDir)
+        val outputPath = config.outputDir.toPath()
         var successCount = 0
         var failureCount = 0
 
@@ -63,7 +70,7 @@ fun main(args: Array<String>) {
             try {
                 print("Processing ${source.snippetId}... ")
                 val hoverMap = engine.generateHoverMap(source, config.kotlinVersion)
-                writer.writeHoverMap(hoverMap)
+                HoverMapWriter.write(hoverMap, outputPath)
                 println("✓")
                 successCount++
             } catch (e: Exception) {
