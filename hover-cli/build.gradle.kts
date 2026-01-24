@@ -122,6 +122,38 @@ val processShellScript by tasks.registering {
     }
 }
 
+val assembleMacosDistribution by tasks.registering(Copy::class) {
+    description = "Assembles the complete macOS distribution"
+    group = "distribution"
+
+    dependsOn(tasks.jar, createJre, processShellScript)
+
+    val distDir = layout.buildDirectory.dir("dist/hover-cli")
+
+    into(distDir)
+
+    // Copy shell wrapper to bin/
+    from(processShellScript) {
+        into("bin")
+    }
+
+    // Copy fat JAR to lib/
+    from(tasks.jar) {
+        into("lib")
+        rename { "hover-cli.jar" }
+    }
+
+    // Copy JRE to jre/
+    from(createJre) {
+        into("jre")
+    }
+
+    doLast {
+        val binDir = distDir.get().asFile.resolve("bin")
+        binDir.listFiles()?.forEach { it.setExecutable(true) }
+    }
+}
+
 kotlin {
     jvmToolchain(21)
 }
