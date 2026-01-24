@@ -260,21 +260,6 @@ The large size is due to:
 
 This is acceptable for a developer tool with full semantic analysis capabilities.
 
-## Future Expansion
-
-### Linux Support
-
-- Same fat JAR (platform-independent)
-- Create Linux JRE with jlink for x64 and arm64
-- Use same shell wrapper script (POSIX sh compatible)
-- Distribute as .tar.gz or .deb/.rpm
-
-### Windows Support
-
-- Same fat JAR (platform-independent)
-- Create Windows JRE with jlink
-- Create .bat wrapper script
-- Distribute as .zip or .msi installer
 
 ### CI/CD Pipeline
 

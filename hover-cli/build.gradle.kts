@@ -154,6 +154,26 @@ val assembleMacosDistribution by tasks.registering(Copy::class) {
     }
 }
 
+val createMacosTarball by tasks.registering(Tar::class) {
+    description = "Creates a .tar.gz distribution for macOS"
+    group = "distribution"
+
+    dependsOn(assembleMacosDistribution)
+
+    val version = project.findProperty("hover.cli.version") as String? ?: "dev"
+    archiveBaseName.set("hover-cli-macos")
+    archiveVersion.set(version)
+    compression = Compression.GZIP
+    archiveExtension.set("tar.gz")
+
+    from(layout.buildDirectory.dir("dist"))
+
+    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
+
+    // Preserve file and directory permissions from source
+    isPreserveFileTimestamps = false
+}
+
 kotlin {
     jvmToolchain(21)
 }
