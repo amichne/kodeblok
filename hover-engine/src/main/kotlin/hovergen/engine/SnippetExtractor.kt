@@ -6,7 +6,11 @@ import kotlin.io.path.isDirectory
 import kotlin.io.path.readText
 
 class SnippetExtractor {
-    fun extract(snippetsDir: Path?, docsDir: Path?, includeMdx: Boolean): List<SnippetSource> {
+    fun extract(
+        snippetsDir: Path?,
+        docsDir: Path?,
+        includeMdx: Boolean,
+    ): List<SnippetSource> {
         val sources = mutableListOf<SnippetSource>()
         if (snippetsDir != null) {
             sources.addAll(extractFromSnippetsDir(snippetsDir))
@@ -23,7 +27,9 @@ class SnippetExtractor {
             return emptyList()
         }
         return Files.walk(snippetsDir)
-            .filter { Files.isRegularFile(it) && it.fileName.toString().endsWith(".kt") }
+            .filter {
+                Files.isRegularFile(it) && it.fileName.toString().endsWith(".kt")
+            }
             .map { path ->
                 val snippetId = path.fileName.toString().removeSuffix(".kt")
                 SnippetSource(
@@ -92,7 +98,7 @@ class SnippetExtractor {
             return null
         }
         val idMatch = Regex("\\bid=([^\\s]+)").find(trimmed)
-            ?: throw HoverEngineException("Missing id in kotlin fence: $line")
+                      ?: throw HoverEngineException("Missing id in kotlin fence: $line")
         val rawId = idMatch.groupValues[1].trim()
         val snippetId = rawId.trim('"', '\'')
         if (snippetId.isBlank()) {
