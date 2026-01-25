@@ -324,6 +324,12 @@ ls -la docs/snippets/
   --classpath "./libs/*"
 ```
 
+**Why the providers JAR is checked in** - We evaluated removing `libs/analysis-api-providers-for-ide-2.0.0-dev-8570.jar`, but:
+- `analysis-api-standalone-for-ide` does not ship providers, so it cannot replace the jar by itself.
+- `analysis-api-providers-for-ide` is published in the Kotlin dev repo only at `2.0.0-dev-8570`, which would force downgrading the rest of the Analysis API stack.
+- `analysis-api-providers-for-ide` is not published for `2.3.20-ij253-*` in `intellij-dependencies`, so we cannot align versions there.
+- Pulling providers from IntelliJ Kotlin plugin libs adds a hard runtime dependency on `intellijHome` for all environments (including CI), which we avoid for the CLI.
+
 ## Design Philosophy
 
 - **Deterministic** - Same input always produces same output (for caching)

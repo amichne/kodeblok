@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm) apply false
+//    alias(libs.plugins.kotlin.jvm) apply false
+    kotlin("jvm") version "2.3.0"
 }
 
 subprojects {
@@ -65,4 +66,13 @@ tasks.register<Exec>("validateHoverGradleIntegration") {
         "-PhoverPluginVersion=${hoverPluginVersion.get()}",
         "--refresh-dependencies",
     )
+}
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    jvmToolchain(8)
 }
