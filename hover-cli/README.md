@@ -18,7 +18,7 @@ Build the standalone JAR:
 ./gradlew :hover-cli:jar
 ```
 
-The JAR will be created at `hover-cli/build/libs/hover-cli.jar`
+The JAR will be created at `hover-cli/build/libs/hover-cli-<version>.jar`
 
 Build a portable distribution with a bundled JRE (macOS):
 
@@ -38,6 +38,9 @@ The `hover` launcher reads environment variables to locate the installed CLI:
 export HOVER_CLI_HOME=/path/to/hover-cli
 hover --snippets-dir ./docs/snippets --output-dir ./output
 ```
+
+`HOVER_CLI_HOME` should point at the distribution root containing `bin/`, `lib/`, and `jre/`.
+The `hover` launcher script lives at the repo root.
 
 Override paths explicitly when needed:
 
@@ -63,7 +66,7 @@ Force rebuild:
 ### Using java -jar directly
 
 ```bash
-java -jar hover-cli/build/libs/hover-cli.jar --snippets-dir ./docs/snippets --output-dir ./output
+java -jar hover-cli/build/libs/hover-cli-*.jar --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
 ### Using Gradle run task

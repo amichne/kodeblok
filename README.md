@@ -36,6 +36,8 @@ export HOVER_CLI_HOME=/path/to/hover-cli/build/dist/hover-cli
 hover --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
 ```
 
+Make `hover` available on your PATH (the launcher lives at the repo root).
+
 **See [CLI-USAGE.md](./CLI-USAGE.md) for complete examples and integration guides.**
 
 ### Gradle Plugin
