@@ -42,3 +42,27 @@ tasks.register("publishHoverGradlePluginToMavenLocal") {
         ":hover-gradle:publishToMavenLocal",
     )
 }
+
+tasks.register<Exec>("validateHoverGradleIntegration") {
+    group = "verification"
+    description = "Runs the golden-path consumer build for the hover-gradle plugin."
+    dependsOn("publishHoverGradlePluginToMavenLocal")
+
+    val intellijHome = providers.gradleProperty("intellijHome")
+        .orNull
+        ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
+    val hoverPluginVersion = providers.gradleProperty("hover.plugin.version")
+        .orElse(providers.gradleProperty("hover.cli.version"))
+        .orElse("0.1.0-SNAPSHOT")
+
+    val consumerDir = file("docs/integration/gradle-consumer")
+    commandLine(
+        file("gradlew").absolutePath,
+        "-p",
+        consumerDir.absolutePath,
+        "generateHoverMaps",
+        "-PintellijHome=$intellijHome",
+        "-PhoverPluginVersion=${hoverPluginVersion.get()}",
+        "--refresh-dependencies",
+    )
+}

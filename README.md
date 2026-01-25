@@ -92,6 +92,14 @@ plugins {
     id("com.komunasuarus.hovermaps") version "1.0.0"
 }
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven("https://www.jetbrains.com/intellij-repository/releases")
+    maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
+    maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+}
+
 hoverMaps {
     docsDir.set(layout.projectDirectory.dir("docs"))
     snippetsDir.set(layout.projectDirectory.dir("docs/snippets"))
@@ -279,6 +287,12 @@ Run engine tests:
 
 ```bash
 ./gradlew :hover-engine:test
+```
+
+Run the golden-path Gradle integration check:
+
+```bash
+./gradlew validateHoverGradleIntegration
 ```
 
 Test with example snippet:

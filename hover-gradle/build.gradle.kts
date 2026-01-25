@@ -23,3 +23,9 @@ gradlePlugin {
         }
     }
 }
+
+tasks.withType<Jar>().configureEach {
+    manifest {
+        attributes["Implementation-Version"] = project.version
+    }
+}

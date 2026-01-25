@@ -1,13 +1,6 @@
 package hovergen.gradle
 
-import hovergen.engine.HoverEngine
-import hovergen.engine.HoverEngineException
-import hovergen.engine.HoverMapWriter
-import hovergen.engine.SnippetExtractor
-import hovergen.engine.analysis.AnalysisApiConfig
-import hovergen.engine.analysis.AnalysisApiSemanticAnalyzer
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -17,8 +10,12 @@ import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.workers.WorkerExecutor
+import javax.inject.Inject
 
-abstract class GenerateHoverMapsTask : DefaultTask() {
+abstract class GenerateHoverMapsTask @Inject constructor(
+    private val workerExecutor: WorkerExecutor
+) : DefaultTask() {
     @get:InputDirectory
     @get:Optional
     abstract val docsDir: DirectoryProperty
@@ -37,25 +34,24 @@ abstract class GenerateHoverMapsTask : DefaultTask() {
     abstract val kotlinVersion: Property<String>
 
     @get:Classpath
-    abstract val classpath: ConfigurableFileCollection
+    abstract val analysisClasspath: ConfigurableFileCollection
+
+    @get:Classpath
+    abstract val workerClasspath: ConfigurableFileCollection
 
     @TaskAction
     fun generate() {
-        val analyzer = AnalysisApiSemanticAnalyzer(
-            AnalysisApiConfig(classpath.files.map { it.toPath() })
-        )
-        val engine = HoverEngine(analyzer)
-        val extractor = SnippetExtractor()
-        val docsPath = docsDir.orNull?.asFile?.toPath()
-        val snippetsPath = snippetsDir.orNull?.asFile?.toPath()
-        val sources = extractor.extract(snippetsPath, docsPath, includeMdx.get())
-        try {
-            sources.forEach { source ->
-                val hoverMap = engine.generateHoverMap(source, kotlinVersion.get())
-                HoverMapWriter.write(hoverMap, outputDir.get().asFile.toPath())
-            }
-        } catch (exception: HoverEngineException) {
-            throw GradleException(exception.message ?: "Hover map generation failed", exception)
+        val queue = workerExecutor.processIsolation {
+            it.classpath.from(workerClasspath)
         }
+        queue.submit(GenerateHoverMapsWorkAction::class.java) { params ->
+            params.docsDir.set(docsDir)
+            params.snippetsDir.set(snippetsDir)
+            params.outputDir.set(outputDir)
+            params.includeMdx.set(includeMdx)
+            params.kotlinVersion.set(kotlinVersion)
+            params.analysisClasspath.from(analysisClasspath)
+        }
+        queue.await()
     }
 }
