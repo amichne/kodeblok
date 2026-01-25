@@ -20,9 +20,34 @@ Build the standalone JAR:
 
 The JAR will be created at `hover-cli/build/libs/hover-cli.jar`
 
+Build a portable distribution with a bundled JRE (macOS):
+
+```bash
+./gradlew :hover-cli:assembleMacosDistribution
+```
+
+The distribution is created at `hover-cli/build/dist/hover-cli`.
+
 ## Usage
 
-### Using the convenience script (recommended)
+### Using the short `hover` command (portable)
+
+The `hover` launcher reads environment variables to locate the installed CLI:
+
+```bash
+export HOVER_CLI_HOME=/path/to/hover-cli
+hover --snippets-dir ./docs/snippets --output-dir ./output
+```
+
+Override paths explicitly when needed:
+
+```bash
+export HOVER_CLI_JAR=/path/to/hover-cli.jar
+export HOVER_CLI_JAVA=/path/to/java
+hover --snippets-dir ./docs/snippets --output-dir ./output
+```
+
+### Using the repo convenience script (development)
 
 The root `hover-cli.sh` script automatically builds if needed and runs the CLI:
 
@@ -59,10 +84,25 @@ java -jar hover-cli/build/libs/hover-cli.jar --snippets-dir ./docs/snippets --ou
 - `-d, --docs-dir <path>` - Directory to scan for MDX files (default: same as snippets-dir)
 - `--no-mdx` - Don't extract snippets from MDX files
 - `-k, --kotlin-version <ver>` - Kotlin version for validation (default: 2.3.0)
-- `-cp, --classpath <paths>` - Colon-separated classpath for Analysis API
+- `-cp, --classpath <paths>` - Classpath for Analysis API (use OS path separator)
 - `--jdk-home <path>` - JDK home directory for Analysis API
 - `-v, --verbose` - Enable verbose error output
 - `-h, --help` - Show help message
+
+### Environment Defaults
+
+These are optional and overridden by CLI options:
+
+- `HOVER_SNIPPETS_DIR`
+- `HOVER_DOCS_DIR`
+- `HOVER_OUTPUT_DIR`
+- `HOVER_INCLUDE_MDX` - `true`/`false`
+- `HOVER_KOTLIN_VERSION`
+- `HOVER_CLASSPATH` - Use OS path separator
+- `HOVER_JDK_HOME`
+- `HOVER_VERBOSE` - `true`/`false`
+
+With required values set in the environment, you can run `hover` without CLI options.
 
 ## Examples
 
@@ -71,7 +111,7 @@ java -jar hover-cli/build/libs/hover-cli.jar --snippets-dir ./docs/snippets --ou
 Extract snippets from a directory and generate hover maps:
 
 ```bash
-./hover-cli.sh --snippets-dir ./docs/snippets --output-dir ./hovermaps
+hover --snippets-dir ./docs/snippets --output-dir ./hovermaps
 ```
 
 ### With MDX extraction
@@ -79,7 +119,7 @@ Extract snippets from a directory and generate hover maps:
 Scan both `.kt` files in snippets directory and MDX files in docs:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./docs/snippets \
   --docs-dir ./docs \
   --output-dir ./website/static/hovermaps
@@ -90,7 +130,7 @@ Scan both `.kt` files in snippets directory and MDX files in docs:
 Provide additional classpath for semantic analysis:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*:./build/classes/kotlin/main"
@@ -101,7 +141,7 @@ Provide additional classpath for semantic analysis:
 Only process `.kt` files:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --no-mdx
@@ -112,7 +152,7 @@ Only process `.kt` files:
 Get full stack traces on errors:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --verbose
@@ -198,7 +238,7 @@ java -version
 Semantic analysis requires proper classpath configuration. Use `--classpath` to include dependencies:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*"
@@ -209,7 +249,7 @@ Semantic analysis requires proper classpath configuration. Use `--classpath` to 
 Ensure your snippets are compatible with Kotlin 2.3.0, or specify a different version:
 
 ```bash
-./hover-cli.sh \
+hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --kotlin-version 2.3.0
@@ -247,7 +287,7 @@ The CLI can be integrated into CI/CD pipelines:
 # Example GitHub Actions workflow
 - name: Generate hover maps
   run: |
-    ./hover-cli.sh \
+    hover \
       --snippets-dir ./docs/snippets \
       --output-dir ./website/static/hovermaps
 ```

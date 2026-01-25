@@ -32,7 +32,7 @@ fun main(args: Array<String>) {
         println("  Include MDX:  ${config.includeMdx}")
         println("  Kotlin ver:   ${config.kotlinVersion}")
         if (config.classpath.isNotEmpty()) {
-            println("  Classpath:    ${config.classpath.joinToString(":")}")
+            println("  Classpath:    ${config.classpath.joinToString(File.pathSeparator)}")
         }
         if (config.jdkHome != null) {
             println("  JDK home:     ${config.jdkHome}")
@@ -118,19 +118,49 @@ data class CliConfig(
     val verbose: Boolean
 )
 
+private data class EnvBooleanResult(val value: Boolean?, val invalid: Boolean)
+
+private fun envValue(name: String): String? =
+    System.getenv(name)?.trim()?.takeIf { it.isNotEmpty() }
+
+private fun readEnvBoolean(name: String): EnvBooleanResult {
+    val raw = envValue(name) ?: return EnvBooleanResult(null, false)
+    return when (raw.lowercase()) {
+        "1", "true", "yes", "y", "on" -> EnvBooleanResult(true, false)
+        "0", "false", "no", "n", "off" -> EnvBooleanResult(false, false)
+        else -> {
+            System.err.println("Invalid value for $name: $raw (expected true/false)")
+            EnvBooleanResult(null, true)
+        }
+    }
+}
+
+private fun splitClasspath(value: String): List<String> =
+    value.split(File.pathSeparator).map { it.trim() }.filter { it.isNotEmpty() }
+
 fun parseArgs(args: Array<String>): CliConfig? {
-    if (args.isEmpty() || args.contains("--help") || args.contains("-h")) {
+    if (args.contains("--help") || args.contains("-h")) {
         return null
     }
 
-    var snippetsDir: File? = null
-    var docsDir: File? = null
-    var outputDir: File? = null
-    var includeMdx = true
-    var kotlinVersion = ENGINE_KOTLIN_VERSION
-    val classpath = mutableListOf<String>()
-    var jdkHome: String? = null
-    var verbose = false
+    var snippetsDir: File? = envValue("HOVER_SNIPPETS_DIR")?.let(::File)
+    var docsDir: File? = envValue("HOVER_DOCS_DIR")?.let(::File)
+    var outputDir: File? = envValue("HOVER_OUTPUT_DIR")?.let(::File)
+
+    val includeMdxEnv = readEnvBoolean("HOVER_INCLUDE_MDX")
+    if (includeMdxEnv.invalid) return null
+    var includeMdx = includeMdxEnv.value ?: true
+
+    var kotlinVersion = envValue("HOVER_KOTLIN_VERSION") ?: ENGINE_KOTLIN_VERSION
+    val classpath = mutableListOf<String>().apply {
+        envValue("HOVER_CLASSPATH")?.let { addAll(splitClasspath(it)) }
+    }
+
+    var jdkHome: String? = envValue("HOVER_JDK_HOME")
+
+    val verboseEnv = readEnvBoolean("HOVER_VERBOSE")
+    if (verboseEnv.invalid) return null
+    var verbose = verboseEnv.value ?: false
 
     var i = 0
     while (i < args.size) {
@@ -167,7 +197,7 @@ fun parseArgs(args: Array<String>): CliConfig? {
                     System.err.println("Missing value for ${args[i - 1]}")
                     return null
                 }
-                classpath.addAll(cpValue.split(":"))
+                classpath.addAll(splitClasspath(cpValue))
             }
             "--jdk-home" -> {
                 jdkHome = args.getOrNull(++i) ?: run {
@@ -237,10 +267,20 @@ fun printUsage() {
           -d, --docs-dir <path>         Directory to scan for MDX files (default: same as snippets-dir)
           --no-mdx                      Don't extract snippets from MDX files
           -k, --kotlin-version <ver>    Kotlin version for validation (default: $ENGINE_KOTLIN_VERSION)
-          -cp, --classpath <paths>      Colon-separated classpath for Analysis API
+          -cp, --classpath <paths>      Classpath for Analysis API (use OS path separator)
           --jdk-home <path>             JDK home directory for Analysis API
           -v, --verbose                 Enable verbose error output
           -h, --help                    Show this help message
+
+        Environment Defaults (overridden by CLI options):
+          HOVER_SNIPPETS_DIR            Same as --snippets-dir
+          HOVER_DOCS_DIR                Same as --docs-dir
+          HOVER_OUTPUT_DIR              Same as --output-dir
+          HOVER_INCLUDE_MDX             true/false (default: true)
+          HOVER_KOTLIN_VERSION          Same as --kotlin-version
+          HOVER_CLASSPATH               Classpath (use OS path separator)
+          HOVER_JDK_HOME                Same as --jdk-home
+          HOVER_VERBOSE                 true/false (default: false)
 
         Examples:
           # Basic usage - extract from snippets directory

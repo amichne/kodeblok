@@ -1,0 +1,65 @@
+#!/bin/sh
+# Short hover-cli launcher for PATH usage.
+
+set -e
+
+# Resolve script directory (handles symlinks)
+SCRIPT="$0"
+while [ -h "$SCRIPT" ]; do
+    LS=$(ls -ld "$SCRIPT")
+    LINK=$(expr "$LS" : '.*-> \(.*\)$')
+    if expr "$LINK" : '/.*' > /dev/null; then
+        SCRIPT="$LINK"
+    else
+        SCRIPT=$(dirname "$SCRIPT")/"$LINK"
+    fi
+done
+SCRIPT_DIR=$(cd "$(dirname "$SCRIPT")" && pwd)
+
+# Prefer the repo helper when available (dev workflow)
+if [ -z "${HOVER_CLI_JAR:-}" ] && [ -z "${HOVER_CLI_HOME:-}" ] && [ -x "$SCRIPT_DIR/hover-cli.sh" ]; then
+    exec "$SCRIPT_DIR/hover-cli.sh" "$@"
+fi
+
+# Resolve JAR path
+if [ -n "${HOVER_CLI_JAR:-}" ]; then
+    JAR_PATH="$HOVER_CLI_JAR"
+elif [ -n "${HOVER_CLI_HOME:-}" ]; then
+    JAR_PATH="$HOVER_CLI_HOME/lib/hover-cli.jar"
+elif [ -f "$SCRIPT_DIR/../lib/hover-cli.jar" ]; then
+    JAR_PATH="$SCRIPT_DIR/../lib/hover-cli.jar"
+else
+    JAR_PATH=$(ls -t "$SCRIPT_DIR"/hover-cli/build/libs/hover-cli-*.jar 2>/dev/null | head -n1 || true)
+fi
+
+if [ -z "$JAR_PATH" ] || [ ! -f "$JAR_PATH" ]; then
+    echo "Error: hover-cli JAR not found." >&2
+    echo "Set HOVER_CLI_HOME or HOVER_CLI_JAR." >&2
+    exit 1
+fi
+
+# Resolve Java binary
+if [ -n "${HOVER_CLI_JAVA:-}" ]; then
+    JAVA_BIN="$HOVER_CLI_JAVA"
+elif [ -n "${HOVER_CLI_HOME:-}" ] && [ -x "$HOVER_CLI_HOME/jre/bin/java" ]; then
+    JAVA_BIN="$HOVER_CLI_HOME/jre/bin/java"
+elif [ -x "$SCRIPT_DIR/../jre/bin/java" ]; then
+    JAVA_BIN="$SCRIPT_DIR/../jre/bin/java"
+elif [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+    JAVA_BIN="$JAVA_HOME/bin/java"
+else
+    JAVA_BIN="java"
+fi
+
+if [ "$JAVA_BIN" = "java" ]; then
+    if ! command -v java >/dev/null 2>&1; then
+        echo "Error: java not found on PATH." >&2
+        echo "Set HOVER_CLI_JAVA or JAVA_HOME." >&2
+        exit 1
+    fi
+elif [ ! -x "$JAVA_BIN" ]; then
+    echo "Error: java not executable at $JAVA_BIN" >&2
+    exit 1
+fi
+
+exec "$JAVA_BIN" -jar "$JAR_PATH" "$@"

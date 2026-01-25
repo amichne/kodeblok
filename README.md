@@ -23,9 +23,17 @@ Run as a standalone command-line tool without IntelliJ or IDE:
 ./gradlew :hover-cli:jar
 
 # Generate hover maps
-./hover-cli.sh \
+./hover \
   --snippets-dir ./docs/snippets \
   --output-dir ./website/static/hovermaps
+```
+
+For a portable install, build the distribution and set `HOVER_CLI_HOME`:
+
+```bash
+./gradlew :hover-cli:assembleMacosDistribution
+export HOVER_CLI_HOME=/path/to/hover-cli/build/dist/hover-cli
+hover --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
 ```
 
 **See [CLI-USAGE.md](./CLI-USAGE.md) for complete examples and integration guides.**
@@ -230,7 +238,7 @@ Run tests:
 ### Example 1: Generate from Snippets Directory
 
 ```bash
-./hover-cli.sh \
+./hover \
   --snippets-dir ./docs/snippets \
   --output-dir ./hovermaps
 ```
@@ -238,7 +246,7 @@ Run tests:
 ### Example 2: Include MDX Files
 
 ```bash
-./hover-cli.sh \
+./hover \
   --snippets-dir ./docs/snippets \
   --docs-dir ./docs \
   --output-dir ./website/static/hovermaps
@@ -251,7 +259,7 @@ Run tests:
 - name: Generate hover maps
   run: |
     ./gradlew :hover-cli:jar
-    ./hover-cli.sh \
+    ./hover \
       --snippets-dir ./docs/snippets \
       --output-dir ./website/static/hovermaps
 ```
@@ -269,6 +277,7 @@ komunasuarus/
 ├── hover-gradle/          # Gradle plugin
 ├── hover-cli/             # Standalone CLI tool
 ├── docs/snippets/         # Example Kotlin snippets
+├── hover                 # Short CLI launcher
 ├── hover-cli.sh           # CLI convenience launcher
 └── CLI-USAGE.md          # Complete usage guide
 ```
@@ -298,7 +307,7 @@ Run the golden-path Gradle integration check:
 Test with example snippet:
 
 ```bash
-./hover-cli.sh \
+./hover \
   --snippets-dir ./docs/snippets \
   --output-dir ./test-output \
   --verbose
@@ -318,7 +327,7 @@ ls -la docs/snippets/
 
 **No semantic info** - Provide classpath for better type inference:
 ```bash
-./hover-cli.sh \
+./hover \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./libs/*"
