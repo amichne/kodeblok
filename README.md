@@ -53,6 +53,69 @@ Then run:
 ./gradlew generateHoverMaps
 ```
 
+### Golden Path: Local Maven Integration (Development)
+
+Use this when you want to test the Gradle plugin from a separate project using Maven Local.
+
+1) Publish the plugin from this repo:
+
+```bash
+./gradlew publishHoverGradlePluginToMavenLocal
+```
+
+2) In the consumer `settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven("https://www.jetbrains.com/intellij-repository/releases")
+        maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+```
+
+3) In the consumer `gradle.properties` (required for Analysis API):
+
+```properties
+intellijHome=/Applications/IntelliJ IDEA.app
+```
+
+4) In the consumer `build.gradle.kts`:
+
+```kotlin
+plugins {
+    kotlin("jvm") version "2.3.0"
+    id("com.komunasuarus.hovermaps") version "1.0.0"
+}
+
+hoverMaps {
+    docsDir.set(layout.projectDirectory.dir("docs"))
+    snippetsDir.set(layout.projectDirectory.dir("docs/snippets"))
+    outputDir.set(layout.projectDirectory.dir("build/hovermaps"))
+    includeMdx.set(false)
+}
+```
+
+5) Add a snippet file and generate output:
+
+```kotlin
+// docs/snippets/example.kt
+val name = "Kotlin"
+val greeting = "Hi, " + name /*hover:id=greeting_name*/
+println(greeting)
+// ^ hover:id=call_println
+```
+
+```bash
+./gradlew generateHoverMaps
+```
+
+Result: `build/hovermaps/example.json`.
+
 ## Project Structure
 
 This is a multi-module Gradle project:

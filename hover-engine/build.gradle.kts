@@ -3,6 +3,7 @@ import org.gradle.api.tasks.testing.Test
 plugins {
     alias(libs.plugins.kotlin.jvm)
     `java-library`
+    `maven-publish`
 }
 
 kotlin {
@@ -25,6 +26,12 @@ if (!kotlinPluginJar.exists()) {
 if (!kotlinPluginLibDir.exists()) {
     error("Kotlin plugin lib directory not found at ${kotlinPluginLibDir.path}")
 }
+val kotlinPluginLibs = fileTree(kotlinPluginLibDir) { include("*.jar") }
+val kotlinStdlibJar = configurations.runtimeClasspath.map { files ->
+    files.firstOrNull { file ->
+        file.name.startsWith("kotlin-stdlib-") && !file.name.contains("jdk")
+    } ?: error("kotlin-stdlib jar not found on runtimeClasspath")
+}
 
 val analysisApiResourcesJar = layout.buildDirectory.file("analysis-api-resources.jar")
 val extractAnalysisApiResources by tasks.registering(Zip::class) {
@@ -34,6 +41,18 @@ val extractAnalysisApiResources by tasks.registering(Zip::class) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveFileName.set(analysisApiResourcesJar.get().asFile.name)
     destinationDirectory.set(analysisApiResourcesJar.get().asFile.parentFile)
+}
+
+tasks.named<Jar>("jar") {
+    dependsOn(extractAnalysisApiResources)
+    from(zipTree(analysisApiResourcesJar))
+    from(kotlinPluginLibs.map { zipTree(it) }) {
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    }
+    from(kotlinStdlibJar.map { zipTree(it) }) {
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 dependencies {
@@ -65,4 +84,12 @@ dependencies {
 
 tasks.withType<Test>().configureEach {
     systemProperty("hovergen.classpath", configurations.getByName("compileClasspath").asPath)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
