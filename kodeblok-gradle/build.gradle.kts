@@ -19,7 +19,7 @@ gradlePlugin {
     plugins {
         create("hoverMaps") {
             id = "com.komunasuarus.hovermaps"
-            implementationClass = "hovergen.gradle.HoverMapsPlugin"
+            implementationClass = "kodeblok.gradle.KodeblokMapsPlugin"
         }
     }
 }

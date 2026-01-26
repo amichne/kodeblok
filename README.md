@@ -138,9 +138,9 @@ Result: `build/hovermaps/example.json`.
 
 This is a multi-module Gradle project:
 
-- **hover-schema** - JSON schema and data models for hover map output
-- **hover-engine** - Core extraction, parsing, wrapping, and semantic analysis
-- **hover-gradle** - Gradle plugin providing `generateHoverMaps` task
+- **kodeblok-schema** - JSON schema and data models for hover map output
+- **kodeblok-engine** - Core extraction, parsing, wrapping, and semantic analysis
+- **kodeblok-gradle** - Gradle plugin providing `generateHoverMaps` task
 - **kodeblok-cli** - Standalone CLI tool (no IntelliJ/IDE required)
 
 ## Input Format
@@ -212,8 +212,8 @@ println("Hello")
 
 - **[CLI-USAGE.md](./CLI-USAGE.md)** - Complete CLI usage guide with examples
 - **[kodeblok-cli/README.md](./kodeblok-cli/README.md)** - CLI tool documentation
-- **hover-engine/** - Core engine implementation
-- **hover-schema/** - JSON schema definitions
+- **kodeblok-engine/** - Core engine implementation
+- **kodeblok-schema/** - JSON schema definitions
 
 ## Building
 
@@ -261,7 +261,7 @@ Run tests:
 - name: Generate kodeblok maps
   run: |
     ./gradlew :kodeblok-cli:jar
-    ./hover \
+    ./kodeblok \
       --snippets-dir ./docs/snippets \
       --output-dir ./website/static/hovermaps
 ```
@@ -274,19 +274,19 @@ See [CLI-USAGE.md](./CLI-USAGE.md) for more examples.
 
 ```
 komunasuarus/
-├── hover-schema/          # Data models and JSON serialization
-├── hover-engine/          # Core analysis and extraction logic
-├── hover-gradle/          # Gradle plugin
-├── kodeblok-cli/             # Standalone CLI tool
+├── kodeblok-schema/       # Data models and JSON serialization
+├── kodeblok-engine/       # Core analysis and extraction logic
+├── kodeblok-gradle/       # Gradle plugin
+├── kodeblok-cli/          # Standalone CLI tool
 ├── docs/snippets/         # Example Kotlin snippets
-├── hover                 # Short CLI launcher
-├── kodeblok-cli.sh           # CLI convenience launcher
+├── kodeblok              # Short CLI launcher
+├── kodeblok-cli.sh       # CLI convenience launcher
 └── CLI-USAGE.md          # Complete usage guide
 ```
 
 ### Key Components
 
-- **HoverEngine** (`hover-engine/src/main/kotlin/hovergen/engine/HoverEngine.kt`) - Main orchestrator
+- **KodeblokEngine** (`kodeblok-engine/src/main/kotlin/kodeblok/engine/KodeblokEngine.kt`) - Main orchestrator
 - **SemanticAnalyzer** - Interface for semantic analysis (K2 Analysis API implementation)
 - **MarkerParser** - Parses inline and caret hover markers
 - **TokenLocator** - Maps markers to actual code tokens

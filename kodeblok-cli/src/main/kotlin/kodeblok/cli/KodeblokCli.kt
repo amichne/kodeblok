@@ -1,6 +1,6 @@
 package kodeblok.cli
 
-import hovergen.cli.BuildConfig
+import kodeblok.cli.BuildConfig
 import kodeblok.engine.ENGINE_KOTLIN_VERSION
 import kodeblok.engine.KodeblokEngine
 import kodeblok.engine.KodeblokMapWriter
