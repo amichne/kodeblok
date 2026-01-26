@@ -46,7 +46,7 @@ sourceSets {
 }
 
 application {
-    mainClass.set("hovergen.cli.HoverCliKt")
+    mainClass.set("hovergen.cli.KodeblokCliKt")
 }
 
 tasks.jar {
@@ -55,7 +55,7 @@ tasks.jar {
     isZip64 = true
 
     manifest {
-        attributes["Main-Class"] = "hovergen.cli.HoverCliKt"
+        attributes["Main-Class"] = "hovergen.cli.KodeblokCliKt"
     }
 
     // Create a fat JAR with all dependencies

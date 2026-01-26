@@ -1,6 +1,6 @@
-# Komunasuarus Hover Maps Generator - Standalone CLI
+# Komunasuarus kodeblock Maps Generator - Standalone CLI
 
-A standalone command-line tool for generating hover maps from Kotlin code snippets. This tool extracts Kotlin snippets with hover markers and generates JSON hover maps with semantic type information using the Kotlin Analysis API.
+A standalone command-line tool for generating kodeblock maps from Kotlin code snippets. This tool extracts Kotlin snippets with kodeblock markers and generates JSON kodeblock maps with semantic type information using the Kotlin Analysis API.
 
 ## Features
 
@@ -36,7 +36,7 @@ The `hover` launcher reads environment variables to locate the installed CLI:
 
 ```bash
 export HOVER_CLI_HOME=/path/to/kodeblok-cli
-hover --snippets-dir ./docs/snippets --output-dir ./output
+kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
 `HOVER_CLI_HOME` should point at the distribution root containing `bin/`, `lib/`, and `jre/`.
@@ -47,7 +47,7 @@ Override paths explicitly when needed:
 ```bash
 export HOVER_CLI_JAR=/path/to/kodeblok-cli.jar
 export HOVER_CLI_JAVA=/path/to/java
-hover --snippets-dir ./docs/snippets --output-dir ./output
+kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
 ### Using the repo convenience script (development)
@@ -80,7 +80,7 @@ java -jar kodeblok-cli/build/libs/kodeblok-cli-*.jar --snippets-dir ./docs/snipp
 ### Required
 
 - `-s, --snippets-dir <path>` - Directory containing Kotlin snippet files
-- `-o, --output-dir <path>` - Directory to write hover map JSON files
+- `-o, --output-dir <path>` - Directory to write kodeblock map JSON files
 
 ### Optional
 
@@ -111,10 +111,10 @@ With required values set in the environment, you can run `hover` without CLI opt
 
 ### Basic usage
 
-Extract snippets from a directory and generate hover maps:
+Extract snippets from a directory and generate kodeblock maps:
 
 ```bash
-hover --snippets-dir ./docs/snippets --output-dir ./hovermaps
+kodeblock --snippets-dir ./docs/snippets --output-dir ./hovermaps
 ```
 
 ### With MDX extraction
@@ -122,7 +122,7 @@ hover --snippets-dir ./docs/snippets --output-dir ./hovermaps
 Scan both `.kt` files in snippets directory and MDX files in docs:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./docs/snippets \
   --docs-dir ./docs \
   --output-dir ./website/static/hovermaps
@@ -133,7 +133,7 @@ hover \
 Provide additional classpath for semantic analysis:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*:./build/classes/kotlin/main"
@@ -144,7 +144,7 @@ hover \
 Only process `.kt` files:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --no-mdx
@@ -155,7 +155,7 @@ hover \
 Get full stack traces on errors:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --verbose
@@ -165,7 +165,7 @@ hover \
 
 ### Kotlin Snippet Files
 
-Create `.kt` files with hover markers:
+Create `.kt` files with kodeblock markers:
 
 ```kotlin
 // docs/snippets/example.kt
@@ -177,7 +177,7 @@ println(greeting)
 
 ### MDX Fenced Code Blocks
 
-Add hover markers in fenced code blocks with `snippet:id` metadata:
+Add kodeblock markers in fenced code blocks with `snippet:id` metadata:
 
 ````markdown
 ```kotlin snippet:id=example
@@ -241,7 +241,7 @@ java -version
 Semantic analysis requires proper classpath configuration. Use `--classpath` to include dependencies:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*"
@@ -252,7 +252,7 @@ hover \
 Ensure your snippets are compatible with Kotlin 2.3.0, or specify a different version:
 
 ```bash
-hover \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --kotlin-version 2.3.0
@@ -264,16 +264,16 @@ hover \
 
 ```
 kodeblok-cli/
-├── src/main/kotlin/hovergen/cli/
-│   └── HoverCli.kt           # Main CLI entry point
+├── src/main/kotlin/kodeblok/cli/
+│   └── KodeblokCli.kt           # Main CLI entry point
 ├── build.gradle.kts          # Build configuration
 └── README.md                 # This file
 ```
 
 ### Dependencies
 
-- `hover-engine` - Core hover map generation logic
-- `hover-schema` - JSON schema and data models
+- `kodeblock-engine` - Core kodeblock map generation logic
+- `kodeblock-schema` - JSON schema and data models
 - Kotlin stdlib
 
 ### Running tests
@@ -288,9 +288,9 @@ The CLI can be integrated into CI/CD pipelines:
 
 ```yaml
 # Example GitHub Actions workflow
-- name: Generate hover maps
+- name: Generate kodeblock maps
   run: |
-    hover \
+    kodeblock \
       --snippets-dir ./docs/snippets \
       --output-dir ./website/static/hovermaps
 ```
