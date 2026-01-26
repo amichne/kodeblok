@@ -1,4 +1,4 @@
-# AGENTS.md — Hover Maps Generator (K2 + Analysis API) for Docusaurus Kotlin Snippets
+# AGENTS.md — Kodeblok's for Docusaurus Kotlin Snippets
 
 ## Mission
 Implement a CI-friendly Kotlin tool (Gradle plugin + engine) that:

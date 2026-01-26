@@ -20,10 +20,10 @@ Run as a standalone command-line tool without IntelliJ or IDE:
 
 ```bash
 # Build the CLI
-./gradlew :hover-cli:jar
+./gradlew :kodeblok-cli:jar
 
-# Generate hover maps
-./hover \
+# Generate kodeblok maps
+./kodeblok \
   --snippets-dir ./docs/snippets \
   --output-dir ./website/static/hovermaps
 ```
@@ -31,9 +31,9 @@ Run as a standalone command-line tool without IntelliJ or IDE:
 For a portable install, build the distribution and set `HOVER_CLI_HOME`:
 
 ```bash
-./gradlew :hover-cli:assembleMacosDistribution
-export HOVER_CLI_HOME=/path/to/hover-cli/build/dist/hover-cli
-hover --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
+./gradlew :kodeblok-cli:assembleMacosDistribution
+export HOVER_CLI_HOME=/path/to/kodeblok-cli/build/dist/kodeblok-cli
+kodeblok --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
 ```
 
 Make `hover` available on your PATH (the launcher lives at the repo root).
@@ -123,9 +123,9 @@ hoverMaps {
 ```kotlin
 // docs/snippets/example.kt
 val name = "Kotlin"
-val greeting = "Hi, " + name /*hover:id=greeting_name*/
+val greeting = "Hi, " + name /*kodeblok:id=greeting_name*/
 println(greeting)
-// ^ hover:id=call_println
+// ^ kodeblok:id=call_println
 ```
 
 ```bash
@@ -141,7 +141,7 @@ This is a multi-module Gradle project:
 - **hover-schema** - JSON schema and data models for hover map output
 - **hover-engine** - Core extraction, parsing, wrapping, and semantic analysis
 - **hover-gradle** - Gradle plugin providing `generateHoverMaps` task
-- **hover-cli** - Standalone CLI tool (no IntelliJ/IDE required)
+- **kodeblok-cli** - Standalone CLI tool (no IntelliJ/IDE required)
 
 ## Input Format
 
@@ -152,9 +152,9 @@ Create `.kt` files with hover markers:
 ```kotlin
 // docs/snippets/example.kt
 val name = "Kotlin"
-val greeting = "Hi, " + name /*hover:id=greeting_name*/
+val greeting = "Hi, " + name /*kodeblok:id=greeting_name*/
 println(greeting)
-// ^ hover:id=call_println
+// ^ kodeblok:id=call_println
 ```
 
 ### MDX Fenced Code Blocks
@@ -193,13 +193,13 @@ Generates JSON hover maps:
 
 **Inline markers** - Place at end of token:
 ```kotlin
-val x = 42 /*hover:id=my_marker*/
+val x = 42 /*kodeblok:id=my_marker*/
 ```
 
 **Caret markers** - Place on line after, aligned with token start:
 ```kotlin
 println("Hello")
-// ^ hover:id=my_marker
+// ^ kodeblok:id=my_marker
 ```
 
 ## Requirements
@@ -211,7 +211,7 @@ println("Hello")
 ## Documentation
 
 - **[CLI-USAGE.md](./CLI-USAGE.md)** - Complete CLI usage guide with examples
-- **[hover-cli/README.md](./hover-cli/README.md)** - CLI tool documentation
+- **[kodeblok-cli/README.md](./kodeblok-cli/README.md)** - CLI tool documentation
 - **hover-engine/** - Core engine implementation
 - **hover-schema/** - JSON schema definitions
 
@@ -226,7 +226,7 @@ Build all modules:
 Build just the CLI:
 
 ```bash
-./gradlew :hover-cli:jar
+./gradlew :kodeblok-cli:jar
 ```
 
 Run tests:
@@ -240,7 +240,7 @@ Run tests:
 ### Example 1: Generate from Snippets Directory
 
 ```bash
-./hover \
+./kodeblok \
   --snippets-dir ./docs/snippets \
   --output-dir ./hovermaps
 ```
@@ -248,7 +248,7 @@ Run tests:
 ### Example 2: Include MDX Files
 
 ```bash
-./hover \
+./kodeblok \
   --snippets-dir ./docs/snippets \
   --docs-dir ./docs \
   --output-dir ./website/static/hovermaps
@@ -258,9 +258,9 @@ Run tests:
 
 ```yaml
 # .github/workflows/hovermaps.yml
-- name: Generate hover maps
+- name: Generate kodeblok maps
   run: |
-    ./gradlew :hover-cli:jar
+    ./gradlew :kodeblok-cli:jar
     ./hover \
       --snippets-dir ./docs/snippets \
       --output-dir ./website/static/hovermaps
@@ -277,10 +277,10 @@ komunasuarus/
 ├── hover-schema/          # Data models and JSON serialization
 ├── hover-engine/          # Core analysis and extraction logic
 ├── hover-gradle/          # Gradle plugin
-├── hover-cli/             # Standalone CLI tool
+├── kodeblok-cli/             # Standalone CLI tool
 ├── docs/snippets/         # Example Kotlin snippets
 ├── hover                 # Short CLI launcher
-├── hover-cli.sh           # CLI convenience launcher
+├── kodeblok-cli.sh           # CLI convenience launcher
 └── CLI-USAGE.md          # Complete usage guide
 ```
 
@@ -297,7 +297,7 @@ komunasuarus/
 Run engine tests:
 
 ```bash
-./gradlew :hover-engine:test
+./gradlew :kodeblok-engine:test
 ```
 
 Run the golden-path Gradle integration check:
@@ -309,7 +309,7 @@ Run the golden-path Gradle integration check:
 Test with example snippet:
 
 ```bash
-./hover \
+./kodeblok \
   --snippets-dir ./docs/snippets \
   --output-dir ./test-output \
   --verbose
@@ -329,7 +329,7 @@ ls -la docs/snippets/
 
 **No semantic info** - Provide classpath for better type inference:
 ```bash
-./hover \
+./kodeblok \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./libs/*"

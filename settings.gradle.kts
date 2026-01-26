@@ -17,7 +17,7 @@ plugins {
 }
 
 rootProject.name = "komunasuarus"
-include("hover-schema")
-include("hover-engine")
-include("hover-gradle")
-include("hover-cli")
+include("kodeblok-schema")
+include("kodeblok-engine")
+include("kodeblok-gradle")
+include("kodeblok-cli")

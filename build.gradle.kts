@@ -5,8 +5,8 @@ plugins {
 
 subprojects {
     group = "com.komunasuarus"
-    version = providers.gradleProperty("hover.plugin.version")
-        .orElse(providers.gradleProperty("hover.cli.version"))
+    version = providers.gradleProperty("kodeblok.plugin.version")
+        .orElse(providers.gradleProperty("kodeblok.cli.version"))
         .orElse("0.1.0-SNAPSHOT")
         .get()
 
@@ -26,34 +26,34 @@ subprojects {
 
 tasks.register("publishHoverGradlePlugin") {
     group = "publishing"
-    description = "Publish the hover-gradle plugin to configured Maven repositories."
+    description = "Publish the kodeblok-gradle plugin to configured Maven repositories."
     dependsOn(
-        ":hover-schema:publish",
-        ":hover-engine:publish",
-        ":hover-gradle:publish",
+        ":kodeblok-schema:publish",
+        ":kodeblok-engine:publish",
+        ":kodeblok-gradle:publish",
     )
 }
 
 tasks.register("publishHoverGradlePluginToMavenLocal") {
     group = "publishing"
-    description = "Publish the hover-gradle plugin to Maven Local for development testing."
+    description = "Publish the kodeblok-gradle plugin to Maven Local for development testing."
     dependsOn(
-        ":hover-schema:publishToMavenLocal",
-        ":hover-engine:publishToMavenLocal",
-        ":hover-gradle:publishToMavenLocal",
+        ":kodeblok-schema:publishToMavenLocal",
+        ":kodeblok-engine:publishToMavenLocal",
+        ":kodeblok-gradle:publishToMavenLocal",
     )
 }
 
 tasks.register<Exec>("validateHoverGradleIntegration") {
     group = "verification"
-    description = "Runs the golden-path consumer build for the hover-gradle plugin."
+    description = "Runs the golden-path consumer build for the kodeblok-gradle plugin."
     dependsOn("publishHoverGradlePluginToMavenLocal")
 
     val intellijHome = providers.gradleProperty("intellijHome")
                            .orNull
                        ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
-    val hoverPluginVersion = providers.gradleProperty("hover.plugin.version")
-        .orElse(providers.gradleProperty("hover.cli.version"))
+    val hoverPluginVersion = providers.gradleProperty("kodeblok.plugin.version")
+        .orElse(providers.gradleProperty("kodeblok.cli.version"))
         .orElse("0.1.0-SNAPSHOT")
 
     val consumerDir = file("docs/integration/gradle-consumer")

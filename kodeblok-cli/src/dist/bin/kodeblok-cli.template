@@ -1,0 +1,50 @@
+#!/bin/sh
+# Hover CLI wrapper script
+# Auto-generated - do not edit manually
+
+# Resolve script directory (handles symlinks)
+SCRIPT="$0"
+while [ -h "$SCRIPT" ]; do
+    LS=$(ls -ld "$SCRIPT")
+    LINK=$(expr "$LS" : '.*-> \(.*\)$')
+    if expr "$LINK" : '/.*' > /dev/null; then
+        SCRIPT="$LINK"
+    else
+        SCRIPT=$(dirname "$SCRIPT")/"$LINK"
+    fi
+done
+SCRIPT_DIR=$(cd "$(dirname "$SCRIPT")" && pwd)
+
+# Paths to bundled JRE and JAR (override with env vars)
+if [ -n "${HOVER_CLI_HOME:-}" ]; then
+    DEFAULT_JAVA="$HOVER_CLI_HOME/jre/bin/java"
+    DEFAULT_JAR="$HOVER_CLI_HOME/lib/kodeblok-cli.jar"
+else
+    DEFAULT_JAVA="$SCRIPT_DIR/../jre/bin/java"
+    DEFAULT_JAR="$SCRIPT_DIR/../lib/kodeblok-cli.jar"
+fi
+
+JAVA_BIN="${HOVER_CLI_JAVA:-$DEFAULT_JAVA}"
+JAR_PATH="${HOVER_CLI_JAR:-$DEFAULT_JAR}"
+
+# Validation
+if [ ! -x "$JAVA_BIN" ]; then
+    if [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+        JAVA_BIN="$JAVA_HOME/bin/java"
+    elif command -v java >/dev/null 2>&1; then
+        JAVA_BIN="java"
+    else
+        echo "Error: Java runtime not found at $JAVA_BIN" >&2
+        echo "Set HOVER_CLI_JAVA or JAVA_HOME." >&2
+        exit 1
+    fi
+fi
+
+if [ ! -f "$JAR_PATH" ]; then
+    echo "Error: kodeblok-cli.jar not found at $JAR_PATH" >&2
+    echo "Please ensure the distribution is complete and unmodified." >&2
+    exit 1
+fi
+
+# Execute JAR with bundled JRE
+exec "$JAVA_BIN" -jar "$JAR_PATH" "$@"

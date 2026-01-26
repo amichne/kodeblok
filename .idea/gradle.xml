@@ -9,10 +9,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/hover-cli" />
-            <option value="$PROJECT_DIR$/hover-engine" />
-            <option value="$PROJECT_DIR$/hover-gradle" />
-            <option value="$PROJECT_DIR$/hover-schema" />
+            <option value="$PROJECT_DIR$/kodeblok-cli" />
+            <option value="$PROJECT_DIR$/kodeblok-engine" />
+            <option value="$PROJECT_DIR$/kodeblok-gradle" />
+            <option value="$PROJECT_DIR$/kodeblok-schema" />
           </set>
         </option>
       </GradleProjectSettings>
