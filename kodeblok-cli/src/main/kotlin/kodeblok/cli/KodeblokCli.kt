@@ -6,7 +6,7 @@ import kodeblok.engine.KodeblokEngine
 import kodeblok.engine.KodeblokMapWriter
 import kodeblok.engine.SnippetExtractor
 import kodeblok.engine.analysis.AnalysisApiConfig
-import kodeblok.engine.analysis.AnalysisApiSemanticAnalyzer
+import kodeblok.engine.analysis.AnalysisApiEagerAnalyzer
 import java.io.File
 import java.nio.file.Path
 import kotlin.system.exitProcess
@@ -57,7 +57,7 @@ fun main(args: Array<String>) {
                 classpath = config.classpath.map { Path.of(it) }
             )
         }
-        val analyzer = AnalysisApiSemanticAnalyzer(analysisConfig)
+        val analyzer = AnalysisApiEagerAnalyzer(analysisConfig)
         val engine = KodeblokEngine(analyzer)
 
         // Extract snippets
@@ -79,8 +79,8 @@ fun main(args: Array<String>) {
         snippets.forEach { source ->
             try {
                 print("Processing ${source.snippetId}... ")
-                val hoverMap = engine.generateHoverMap(source, config.kotlinVersion)
-                KodeblokMapWriter.write(hoverMap, outputPath)
+                val profile = engine.generateSemanticProfile(source, config.kotlinVersion)
+                KodeblokMapWriter.write(profile, outputPath)
                 println("✓")
                 successCount++
             } catch (e: Exception) {

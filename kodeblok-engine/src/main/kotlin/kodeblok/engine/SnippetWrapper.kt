@@ -13,7 +13,7 @@ class SnippetWrapper {
         }
 
         val builder = StringBuilder()
-        builder.append("package hovergen\n")
+        builder.append("package kodeblok\n")
         builder.append("fun __snippet__() {\n")
         builder.append(snippet.code)
         if (!snippet.code.endsWith("\n")) {

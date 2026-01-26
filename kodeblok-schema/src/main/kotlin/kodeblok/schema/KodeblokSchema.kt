@@ -2,6 +2,7 @@ package kodeblok.schema
 
 const val SCHEMA_VERSION: Int = 1
 
+@Deprecated("Use SemanticProfile from SemanticSchema instead.")
 data class HoverMap(
     val schemaVersion: Int = SCHEMA_VERSION,
     val snippetId: String,
@@ -11,6 +12,7 @@ data class HoverMap(
     val hovers: List<HoverEntry>,
 )
 
+@Deprecated("Use SemanticInsight from SemanticSchema instead.")
 data class HoverEntry(
     val id: String,
     val from: Position,
@@ -20,11 +22,7 @@ data class HoverEntry(
     val meta: HoverMeta? = null,
 )
 
-data class Position(
-    val line: Int,
-    val col: Int,
-)
-
+@Deprecated("Use semantic insight data from SemanticSchema instead.")
 data class HoverMeta(
     val exprType: String? = null,
     val declaredType: String? = null,
@@ -33,6 +31,7 @@ data class HoverMeta(
     val evidence: Range? = null,
 )
 
+@Deprecated("Use InsightKind from SemanticSchema instead.")
 enum class ReasonKind {
     IS_CHECK,
     NEGATED_IS_CHECK_WITH_EXIT,
@@ -41,11 +40,7 @@ enum class ReasonKind {
     UNKNOWN
 }
 
-data class Range(
-    val from: Position,
-    val to: Position,
-)
-
+@Deprecated("Use SemanticProfileSerializer instead.")
 object HoverMapJsonWriter {
     fun toJson(map: HoverMap): String {
         val builder = StringBuilder()

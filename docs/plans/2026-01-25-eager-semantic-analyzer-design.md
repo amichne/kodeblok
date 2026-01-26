@@ -6,7 +6,9 @@
 
 ## Overview
 
-Replace the annotation-marker-based semantic analyzer with an **eager analyzer** that analyzes entire Kotlin code blocks and produces a rich `SemanticProfile`. This enables documentation that showcases type safety, scope management, and IDE-like insights without requiring manual `/*hover:id=X*/` annotations.
+Replace the annotation-marker-based semantic analyzer with an **eager analyzer** that analyzes entire Kotlin code blocks
+and produces a rich `SemanticProfile`. This enables documentation that showcases type safety, scope management, and
+IDE-like insights without requiring manual `/*hover:id=X*/` annotations.
 
 ## Goals
 
@@ -292,10 +294,12 @@ object SemanticAnalyzerFactory {
 
 ```kotlin
 val analyzer = SemanticAnalyzerFactory.create(config)
-val profile = analyzer.analyze("""
+val profile = analyzer.analyze(
+    """
     val items = listOf("a", "b", "c")
     items.map { it.uppercase() }
-""".trimIndent())
+""".trimIndent()
+)
 
 // Query insights
 profile.insights
@@ -379,20 +383,23 @@ data class RawInsight(
 
 Each category defines what makes an insight "noteworthy" (HIGHLIGHTS vs ALL):
 
-| Category | HIGHLIGHTS when... |
-|----------|-------------------|
-| TypeInference | Fully inferred (no declaration) or generic args inferred |
-| Nullability | Platform type, null check narrowing, or `!!` usage |
-| SmartCasts | Type meaningfully narrows (nullable→non-null, supertype→subtype) |
-| Scoping | Any scope function or receiver change |
-| Extensions | Extension wins over member or comes from external package |
-| Lambdas | SAM conversion or complex multi-param inference |
-| Overloads | 3+ candidates, default args used, or named args affected resolution |
+| Category      | HIGHLIGHTS when...                                                  |
+|---------------|---------------------------------------------------------------------|
+| TypeInference | Fully inferred (no declaration) or generic args inferred            |
+| Nullability   | Platform type, null check narrowing, or `!!` usage                  |
+| SmartCasts    | Type meaningfully narrows (nullable→non-null, supertype→subtype)    |
+| Scoping       | Any scope function or receiver change                               |
+| Extensions    | Extension wins over member or comes from external package           |
+| Lambdas       | SAM conversion or complex multi-param inference                     |
+| Overloads     | 3+ candidates, default args used, or named args affected resolution |
 
 ### Example: SmartCast Heuristic
 
 ```kotlin
-private fun KaSession.isSignificantNarrowing(from: KaType, to: KaType): Boolean {
+private fun KaSession.isSignificantNarrowing(
+    from: KaType,
+    to: KaType
+): Boolean {
     return from.isMarkedNullable && !to.isMarkedNullable ||
            to.isSubtypeOf(from) && !from.isSubtypeOf(to)
 }
@@ -427,11 +434,26 @@ object SemanticProfileSerializer {
   "insights": [
     {
       "id": "ins_001",
-      "position": { "from": { "line": 1, "col": 5 }, "to": { "line": 1, "col": 10 } },
+      "position": {
+        "from": {
+          "line": 1,
+          "col": 5
+        },
+        "to": {
+          "line": 1,
+          "col": 10
+        }
+      },
       "category": "TYPE_INFERENCE",
       "level": "HIGHLIGHTS",
       "kind": "INFERRED_TYPE",
-      "scopeChain": [{ "scopeId": "scope_0", "kind": "FILE", "receiverType": null }],
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "receiverType": null
+        }
+      ],
       "data": {
         "type": "TypeInference",
         "inferredType": "List<String>",
@@ -491,10 +513,10 @@ kodeblok-schema/src/main/kotlin/kodeblok/schema/
 
 This design enables documentation narratives that show why well-designed libraries shine:
 
-| Insight | Narrative |
-|---------|-----------|
-| `TypeInferenceData` with no `declaredType` | "No type annotation needed—the compiler knows this is `List<User>`" |
-| `SmartCastData` with `evidencePosition` | "After the null check on line 3, the compiler knows `user` is non-null" |
-| `ExtensionData.resolvedFrom` | "This `toJson()` comes from kotlinx.serialization—feels native but it's an extension" |
-| `ScopingData.innerReceiver` | "Inside `apply`, `this` is the `StringBuilder`—no prefix needed" |
-| `OverloadData.resolutionFactors` | "Selected over 3 other overloads due to more specific parameter types" |
+| Insight                                    | Narrative                                                                             |
+|--------------------------------------------|---------------------------------------------------------------------------------------|
+| `TypeInferenceData` with no `declaredType` | "No type annotation needed—the compiler knows this is `List<User>`"                   |
+| `SmartCastData` with `evidencePosition`    | "After the null check on line 3, the compiler knows `user` is non-null"               |
+| `ExtensionData.resolvedFrom`               | "This `toJson()` comes from kotlinx.serialization—feels native but it's an extension" |
+| `ScopingData.innerReceiver`                | "Inside `apply`, `this` is the `StringBuilder`—no prefix needed"                      |
+| `OverloadData.resolutionFactors`           | "Selected over 3 other overloads due to more specific parameter types"                |
