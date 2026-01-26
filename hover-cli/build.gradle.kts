@@ -23,13 +23,15 @@ val generateBuildConfig by tasks.registering {
     doLast {
         val file = outputDir.get().asFile.resolve("hovergen/cli/BuildConfig.kt")
         file.parentFile.mkdirs()
-        file.writeText("""
+        file.writeText(
+            """
             package hovergen.cli
 
             object BuildConfig {
                 const val VERSION = "$version"
             }
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 }
 
@@ -96,9 +98,12 @@ val createJre by tasks.registering(Exec::class) {
 
     commandLine(
         "${System.getProperty("java.home")}/bin/jlink",
-        "--add-modules", "java.base,java.logging,java.xml,java.desktop,java.management,jdk.compiler,jdk.unsupported,jdk.zipfs,jdk.jfr",
-        "--output", jreOutputDir.get().asFile.absolutePath,
-        "--compress", "2",
+        "--add-modules",
+        "java.base,java.logging,java.xml,java.desktop,java.management,jdk.compiler,jdk.unsupported,jdk.zipfs,jdk.jfr",
+        "--output",
+        jreOutputDir.get().asFile.absolutePath,
+        "--compress",
+        "2",
         "--no-header-files",
         "--no-man-pages",
         "--strip-debug"

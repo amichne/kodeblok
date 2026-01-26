@@ -4,7 +4,10 @@ import hovergen.schema.HoverMeta
 import hovergen.schema.ReasonKind
 
 object HoverRenderer {
-    fun renderBody(tokenText: String, meta: HoverMeta?): String {
+    fun renderBody(
+        tokenText: String,
+        meta: HoverMeta?,
+    ): String {
         if (meta == null) {
             return "Symbol: `${escapeInline(tokenText)}`\n\n_No semantic info available._"
         }

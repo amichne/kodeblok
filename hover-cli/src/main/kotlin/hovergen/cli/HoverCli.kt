@@ -1,6 +1,9 @@
 package hovergen.cli
 
-import hovergen.engine.*
+import hovergen.engine.ENGINE_KOTLIN_VERSION
+import hovergen.engine.HoverEngine
+import hovergen.engine.HoverMapWriter
+import hovergen.engine.SnippetExtractor
 import hovergen.engine.analysis.AnalysisApiConfig
 import hovergen.engine.analysis.AnalysisApiSemanticAnalyzer
 import java.io.File
@@ -115,10 +118,13 @@ data class CliConfig(
     val kotlinVersion: String,
     val classpath: List<String>,
     val jdkHome: String?,
-    val verbose: Boolean
+    val verbose: Boolean,
 )
 
-private data class EnvBooleanResult(val value: Boolean?, val invalid: Boolean)
+private data class EnvBooleanResult(
+    val value: Boolean?,
+    val invalid: Boolean,
+)
 
 private fun envValue(name: String): String? =
     System.getenv(name)?.trim()?.takeIf { it.isNotEmpty() }
@@ -254,7 +260,8 @@ fun parseArgs(args: Array<String>): CliConfig? {
 }
 
 fun printUsage() {
-    println("""
+    println(
+        """
         Komunasuarus Hover Maps Generator - Standalone CLI
 
         Usage: hover-cli [OPTIONS]
@@ -294,5 +301,6 @@ fun printUsage() {
 
           # Disable MDX scanning, verbose output
           hover-cli -s ./snippets -o ./maps --no-mdx -v
-    """.trimIndent())
+    """.trimIndent()
+    )
 }

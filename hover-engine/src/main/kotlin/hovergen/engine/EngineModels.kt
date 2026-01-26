@@ -1,6 +1,5 @@
 package hovergen.engine
 
-import hovergen.schema.Position
 import hovergen.schema.Range
 
 const val ENGINE_KOTLIN_VERSION = "2.3.0"
@@ -8,13 +7,13 @@ const val ENGINE_KOTLIN_VERSION = "2.3.0"
 data class SnippetSource(
     val snippetId: String,
     val rawCode: String,
-    val origin: OriginLocation
+    val origin: OriginLocation,
 )
 
 data class OriginLocation(
     val path: String,
     val line: Int,
-    val col: Int
+    val col: Int,
 ) {
     fun display(): String = "$path:$line:$col"
 }
@@ -23,14 +22,14 @@ data class NormalizedSnippet(
     val snippetId: String,
     val code: String,
     val markers: List<HoverMarker>,
-    val origin: OriginLocation
+    val origin: OriginLocation,
 )
 
 data class HoverMarker(
     val id: String,
     val kind: MarkerKind,
     val line: Int,
-    val col: Int
+    val col: Int,
 )
 
 enum class MarkerKind {
@@ -41,13 +40,13 @@ enum class MarkerKind {
 data class HoverTarget(
     val id: String,
     val range: Range,
-    val tokenText: String
+    val tokenText: String,
 )
 
 data class WrappedSnippet(
     val code: String,
     val lineMap: LineMap,
-    val kind: WrapperKind
+    val kind: WrapperKind,
 )
 
 enum class WrapperKind {
@@ -56,7 +55,7 @@ enum class WrapperKind {
 }
 
 data class LineMap(
-    val lineOffset: Int
+    val lineOffset: Int,
 ) {
     fun snippetToWrapperLine(line: Int): Int = line + lineOffset
     fun wrapperToSnippetLine(line: Int): Int = line - lineOffset

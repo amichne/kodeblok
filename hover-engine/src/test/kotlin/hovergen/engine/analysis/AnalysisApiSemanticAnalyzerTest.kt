@@ -1,6 +1,11 @@
 package hovergen.engine.analysis
 
-import hovergen.engine.*
+import hovergen.engine.ENGINE_KOTLIN_VERSION
+import hovergen.engine.MarkerParser
+import hovergen.engine.OriginLocation
+import hovergen.engine.SnippetSource
+import hovergen.engine.SnippetWrapper
+import hovergen.engine.TokenLocator
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -20,10 +25,10 @@ class AnalysisApiSemanticAnalyzerTest {
         val wrapped = SnippetWrapper().wrap(normalized)
         val targets = TokenLocator().locateTargets(normalized)
         val classpath = System.getProperty("hovergen.classpath")
-            ?.split(java.io.File.pathSeparator)
-            ?.filter { it.isNotBlank() }
-            ?.map { java.nio.file.Path.of(it) }
-            ?: error("Missing hovergen.classpath")
+                            ?.split(java.io.File.pathSeparator)
+                            ?.filter { it.isNotBlank() }
+                            ?.map { java.nio.file.Path.of(it) }
+                        ?: error("Missing hovergen.classpath")
         val analyzer = AnalysisApiSemanticAnalyzer(
             AnalysisApiConfig(classpath = classpath)
         )

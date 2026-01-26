@@ -1,5 +1,6 @@
 package hovergen.engine.analysis
 
+import com.intellij.psi.PsiElement
 import hovergen.engine.HoverEngineException
 import hovergen.engine.HoverTarget
 import hovergen.engine.NormalizedSnippet
@@ -8,10 +9,8 @@ import hovergen.engine.WrappedSnippet
 import hovergen.engine.normalizeLineEndings
 import hovergen.schema.HoverMeta
 import hovergen.schema.ReasonKind
-import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.analysis.api.KaExperimentalApi
 import org.jetbrains.kotlin.analysis.api.analyze
-import org.jetbrains.kotlin.analysis.api.components.expressionType
 import org.jetbrains.kotlin.analysis.api.renderer.types.impl.KaTypeRendererForSource
 import org.jetbrains.kotlin.analysis.utils.printer.PrettyPrinter
 import org.jetbrains.kotlin.psi.KtExpression
@@ -20,7 +19,7 @@ import org.jetbrains.kotlin.psi.KtQualifiedExpression
 
 @OptIn(KaExperimentalApi::class)
 class AnalysisApiSemanticAnalyzer(
-    private val config: AnalysisApiConfig
+    private val config: AnalysisApiConfig,
 ) : SemanticAnalyzer {
     private val typeRenderer = KaTypeRendererForSource.WITH_QUALIFIED_NAMES
 
@@ -28,7 +27,7 @@ class AnalysisApiSemanticAnalyzer(
         snippet: NormalizedSnippet,
         wrapped: WrappedSnippet,
         targets: List<HoverTarget>,
-        kotlinVersion: String
+        kotlinVersion: String,
     ): Map<String, HoverMeta> {
         config.validate(snippet.origin)
         AnalysisApiEnvironment.create(wrapped.code, config, kotlinVersion).use { environment ->
@@ -56,14 +55,14 @@ class AnalysisApiSemanticAnalyzer(
     private fun findExpression(
         ktFile: KtFile,
         wrapped: WrappedSnippet,
-        target: HoverTarget
+        target: HoverTarget,
     ): KtExpression {
         val wrapperLine = wrapped.lineMap.snippetToWrapperLine(target.range.from.line)
         val offset = offsetForLineCol(ktFile.text, wrapperLine, target.range.from.col)
         val element = ktFile.findElementAt(offset)
-            ?: throw HoverEngineException("Hover target ${target.id} has no PSI element at offset")
+                      ?: throw HoverEngineException("Hover target ${target.id} has no PSI element at offset")
         return findParentExpression(element)
-            ?: throw HoverEngineException("Hover target ${target.id} is not part of a Kotlin expression")
+               ?: throw HoverEngineException("Hover target ${target.id} is not part of a Kotlin expression")
     }
 
     private fun findQualifiedSelector(expression: KtExpression): KtQualifiedExpression? {
@@ -80,7 +79,7 @@ class AnalysisApiSemanticAnalyzer(
 
     private fun renderType(
         session: org.jetbrains.kotlin.analysis.api.KaSession,
-        type: org.jetbrains.kotlin.analysis.api.types.KaType
+        type: org.jetbrains.kotlin.analysis.api.types.KaType,
     ): String {
         val printer = PrettyPrinter()
         typeRenderer.renderType(session, type, printer)
@@ -98,7 +97,11 @@ class AnalysisApiSemanticAnalyzer(
         return null
     }
 
-    private fun offsetForLineCol(text: String, line: Int, col: Int): Int {
+    private fun offsetForLineCol(
+        text: String,
+        line: Int,
+        col: Int,
+    ): Int {
         if (line < 1 || col < 1) {
             throw HoverEngineException("Invalid position line=$line col=$col")
         }

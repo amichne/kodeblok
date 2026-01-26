@@ -48,10 +48,10 @@ internal class AnalysisApiEnvironment(
             }
 
             val ktFile = session.modulesWithFiles.values
-                .flatten()
-                .filterIsInstance<KtFile>()
-                .firstOrNull()
-                ?: throw HoverEngineException("Standalone analysis did not produce a KtFile")
+                             .flatten()
+                             .filterIsInstance<KtFile>()
+                             .firstOrNull()
+                         ?: throw HoverEngineException("Standalone analysis did not produce a KtFile")
 
             return AnalysisApiEnvironment(session, ktFile, disposable, tempDir)
         }

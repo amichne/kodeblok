@@ -8,7 +8,7 @@ data class HoverMap(
     val codeHash: String,
     val language: String = "kotlin",
     val code: String,
-    val hovers: List<HoverEntry>
+    val hovers: List<HoverEntry>,
 )
 
 data class HoverEntry(
@@ -17,12 +17,12 @@ data class HoverEntry(
     val to: Position,
     val title: String? = null,
     val body: String,
-    val meta: HoverMeta? = null
+    val meta: HoverMeta? = null,
 )
 
 data class Position(
     val line: Int,
-    val col: Int
+    val col: Int,
 )
 
 data class HoverMeta(
@@ -30,7 +30,7 @@ data class HoverMeta(
     val declaredType: String? = null,
     val receiverType: String? = null,
     val reasonKind: ReasonKind = ReasonKind.UNKNOWN,
-    val evidence: Range? = null
+    val evidence: Range? = null,
 )
 
 enum class ReasonKind {
@@ -43,7 +43,7 @@ enum class ReasonKind {
 
 data class Range(
     val from: Position,
-    val to: Position
+    val to: Position,
 )
 
 object HoverMapJsonWriter {
@@ -53,7 +53,10 @@ object HoverMapJsonWriter {
         return builder.toString()
     }
 
-    private fun appendHoverMap(builder: StringBuilder, map: HoverMap) {
+    private fun appendHoverMap(
+        builder: StringBuilder,
+        map: HoverMap,
+    ) {
         builder.append('{')
         builder.append("\"schemaVersion\":").append(map.schemaVersion).append(',')
         builder.append("\"snippetId\":").appendQuoted(map.snippetId).append(',')
@@ -69,7 +72,10 @@ object HoverMapJsonWriter {
         builder.append('}')
     }
 
-    private fun appendHoverEntry(builder: StringBuilder, hover: HoverEntry) {
+    private fun appendHoverEntry(
+        builder: StringBuilder,
+        hover: HoverEntry,
+    ) {
         builder.append('{')
         builder.append("\"id\":").appendQuoted(hover.id).append(',')
         builder.append("\"from\":")
@@ -88,14 +94,20 @@ object HoverMapJsonWriter {
         builder.append('}')
     }
 
-    private fun appendPosition(builder: StringBuilder, position: Position) {
+    private fun appendPosition(
+        builder: StringBuilder,
+        position: Position,
+    ) {
         builder.append('{')
         builder.append("\"line\":").append(position.line).append(',')
         builder.append("\"col\":").append(position.col)
         builder.append('}')
     }
 
-    private fun appendMeta(builder: StringBuilder, meta: HoverMeta) {
+    private fun appendMeta(
+        builder: StringBuilder,
+        meta: HoverMeta,
+    ) {
         builder.append('{')
         var needsComma = false
         if (meta.exprType != null) {
@@ -121,7 +133,10 @@ object HoverMapJsonWriter {
         builder.append('}')
     }
 
-    private fun appendRange(builder: StringBuilder, range: Range) {
+    private fun appendRange(
+        builder: StringBuilder,
+        range: Range,
+    ) {
         builder.append('{')
         builder.append("\"from\":")
         appendPosition(builder, range.from)

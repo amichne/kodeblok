@@ -14,7 +14,7 @@ import org.gradle.workers.WorkerExecutor
 import javax.inject.Inject
 
 abstract class GenerateHoverMapsTask @Inject constructor(
-    private val workerExecutor: WorkerExecutor
+    private val workerExecutor: WorkerExecutor,
 ) : DefaultTask() {
     @get:InputDirectory
     @get:Optional

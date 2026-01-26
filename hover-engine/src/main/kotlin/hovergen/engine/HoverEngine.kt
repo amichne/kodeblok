@@ -4,9 +4,12 @@ import hovergen.schema.HoverEntry
 import hovergen.schema.HoverMap
 
 class HoverEngine(
-    private val analyzer: SemanticAnalyzer = NoOpSemanticAnalyzer()
+    private val analyzer: SemanticAnalyzer = NoOpSemanticAnalyzer(),
 ) {
-    fun generateHoverMap(source: SnippetSource, kotlinVersion: String): HoverMap {
+    fun generateHoverMap(
+        source: SnippetSource,
+        kotlinVersion: String,
+    ): HoverMap {
         validateKotlinVersion(kotlinVersion)
 
         val normalized = MarkerParser().parse(source)
@@ -55,7 +58,10 @@ class HoverEngine(
         }
     }
 
-    private fun versionsMatch(project: String, generator: String): Boolean {
+    private fun versionsMatch(
+        project: String,
+        generator: String,
+    ): Boolean {
         val normalizedProject = normalizeVersion(project)
         val normalizedGenerator = normalizeVersion(generator)
         return normalizedProject == normalizedGenerator

@@ -50,8 +50,8 @@ tasks.register<Exec>("validateHoverGradleIntegration") {
     dependsOn("publishHoverGradlePluginToMavenLocal")
 
     val intellijHome = providers.gradleProperty("intellijHome")
-        .orNull
-        ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
+                           .orNull
+                       ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
     val hoverPluginVersion = providers.gradleProperty("hover.plugin.version")
         .orElse(providers.gradleProperty("hover.cli.version"))
         .orElse("0.1.0-SNAPSHOT")

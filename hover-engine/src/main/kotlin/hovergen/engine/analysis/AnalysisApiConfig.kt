@@ -7,7 +7,7 @@ import java.nio.file.Path
 
 data class AnalysisApiConfig(
     val classpath: List<Path>,
-    val jdkHome: Path = Path.of(System.getProperty("java.home"))
+    val jdkHome: Path = Path.of(System.getProperty("java.home")),
 ) {
     fun validate(origin: OriginLocation) {
         if (classpath.isEmpty()) {

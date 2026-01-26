@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.testing.Test
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     `java-library`
@@ -17,7 +15,7 @@ val kotlinVersion = libs.versions.kotlin.get()
 val analysisApiVersion = "2.3.20-ij253-87"
 
 val intellijHome = project.findProperty("intellijHome") as String?
-    ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
+                   ?: error("Missing intellijHome property (set to IntelliJ IDEA app path).")
 val kotlinPluginJar = file("$intellijHome/Contents/plugins/Kotlin/lib/kotlin-plugin.jar")
 val kotlinPluginLibDir = file("$intellijHome/Contents/plugins/Kotlin/lib")
 if (!kotlinPluginJar.exists()) {

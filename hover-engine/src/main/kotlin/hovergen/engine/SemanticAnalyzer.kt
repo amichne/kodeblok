@@ -7,7 +7,7 @@ interface SemanticAnalyzer {
         snippet: NormalizedSnippet,
         wrapped: WrappedSnippet,
         targets: List<HoverTarget>,
-        kotlinVersion: String
+        kotlinVersion: String,
     ): Map<String, HoverMeta>
 }
 
@@ -16,6 +16,6 @@ class NoOpSemanticAnalyzer : SemanticAnalyzer {
         snippet: NormalizedSnippet,
         wrapped: WrappedSnippet,
         targets: List<HoverTarget>,
-        kotlinVersion: String
+        kotlinVersion: String,
     ): Map<String, HoverMeta> = emptyMap()
 }
