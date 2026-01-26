@@ -1,5 +1,3 @@
-# Kodeblok CLI
-
 **Standalone CLI for Kotlin Semantic Analysis**
 
 A command-line tool for generating semantic profiles from Kotlin code snippets. Extracts Kotlin snippets and produces JSON output with type inference, nullability, smart casts, and more using the Kotlin K2 Analysis API.
@@ -37,14 +35,16 @@ The distribution is created at `kodeblok-cli/build/dist/kodeblok-cli`.
 The `kodeblok` launcher script at the repo root handles JAR and Java resolution:
 
 ```bash
-./kodeblok --snippets-dir ./docs/snippets --output-dir ./output
+export HOVER_CLI_HOME=/path/to/kodeblok-cli
+kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
 For portable installations, set `HOVER_CLI_HOME`:
 
 ```bash
-export HOVER_CLI_HOME=/path/to/kodeblok-cli
-kodeblok --snippets-dir ./docs/snippets --output-dir ./output
+export HOVER_CLI_JAR=/path/to/kodeblok-cli.jar
+export HOVER_CLI_JAVA=/path/to/java
+kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
 `HOVER_CLI_HOME` should point to the distribution root containing `bin/`, `lib/`, and `jre/`.
@@ -78,7 +78,7 @@ java -jar kodeblok-cli/build/libs/kodeblok-cli-*.jar \
 | Option | Description |
 |--------|-------------|
 | `-s, --snippets-dir <path>` | Directory containing Kotlin snippet files |
-| `-o, --output-dir <path>` | Directory to write semantic profile JSON files |
+| `-o, --output-dir <path>` | Directory to write kodeblock JSON files |
 
 ### Optional
 
@@ -112,8 +112,10 @@ These provide defaults that CLI options override:
 
 ### Basic usage
 
+Extract snippets from a directory and generate kodeblock maps:
+
 ```bash
-./kodeblok --snippets-dir ./docs/snippets --output-dir ./hovermaps
+kodeblock --snippets-dir ./docs/snippets --output-dir ./hovermaps
 ```
 
 ### With MDX extraction
@@ -121,7 +123,7 @@ These provide defaults that CLI options override:
 Scan both `.kt` files in snippets directory and MDX files in docs:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./docs/snippets \
   --docs-dir ./docs \
   --output-dir ./website/static/hovermaps
@@ -132,7 +134,7 @@ Scan both `.kt` files in snippets directory and MDX files in docs:
 Provide additional classpath for better semantic analysis:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*:./build/classes/kotlin/main"
@@ -143,7 +145,7 @@ Provide additional classpath for better semantic analysis:
 Only process `.kt` files:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --no-mdx
@@ -154,7 +156,7 @@ Only process `.kt` files:
 Get full stack traces on errors:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --verbose
@@ -164,7 +166,7 @@ Get full stack traces on errors:
 
 ### Kotlin Snippet Files
 
-Create `.kt` files in your snippets directory:
+Create `.kt` files with kodeblock markers:
 
 ```kotlin
 // docs/snippets/example.kt
@@ -185,6 +187,7 @@ The analyzer automatically extracts insights without requiring manual markers.
 
 ### MDX Fenced Code Blocks
 
+Add kodeblock markers in fenced code blocks with `snippet:id` metadata:
 Add `snippet:id` metadata to fenced code blocks:
 
 ````markdown
@@ -278,7 +281,7 @@ java -version
 Provide classpath for better type inference:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --classpath "./lib/*"
@@ -289,8 +292,49 @@ Provide classpath for better type inference:
 Ensure snippets are compatible with Kotlin 2.3.0, or specify a different version:
 
 ```bash
-./kodeblok \
+kodeblock \
   --snippets-dir ./snippets \
   --output-dir ./maps \
   --kotlin-version 2.3.0
 ```
+
+## Development
+
+### Project Structure
+
+```
+kodeblok-cli/
+├── src/main/kotlin/kodeblok/cli/
+│   └── KodeblokCli.kt           # Main CLI entry point
+├── build.gradle.kts          # Build configuration
+└── README.md                 # This file
+```
+
+### Dependencies
+
+- `kodeblock-engine` - Core kodeblock map generation logic
+- `kodeblock-schema` - JSON schema and data models
+- Kotlin stdlib
+
+### Running tests
+
+```bash
+./gradlew :kodeblok-cli:test
+```
+
+## Integration
+
+The CLI can be integrated into CI/CD pipelines:
+
+```yaml
+# Example GitHub Actions workflow
+- name: Generate kodeblock maps
+  run: |
+    kodeblock \
+      --snippets-dir ./docs/snippets \
+      --output-dir ./website/static/hovermaps
+```
+
+## License
+
+See root project LICENSE file.
