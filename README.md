@@ -1,20 +1,21 @@
-# Komunasuarus
+# Kodeblok
 
-**Hover Maps Generator for Kotlin Snippets**
+**Semantic Insight Generator for Kotlin Snippets**
 
-A tool for generating deterministic hover maps from Kotlin code snippets with semantic type information. Designed for documentation sites to provide IDE-like hover tooltips without browser-side compilation.
+A tool for generating rich semantic analysis from Kotlin code snippets. Produces deterministic JSON output with type inference, nullability, smart casts, and more—designed for documentation sites to provide IDE-like hover tooltips without browser-side compilation.
 
 ## Features
 
-- **K2 Analysis API** - Uses Kotlin's official Analysis API for semantic type information
-- **Deterministic Output** - Consistent JSON output with code hashing for caching
+- **Eager Semantic Analysis** - Automatically analyzes entire code blocks without requiring manual markers
+- **K2 Analysis API** - Uses Kotlin's official Analysis API for accurate semantic information
+- **7 Insight Categories** - TYPE_INFERENCE, NULLABILITY, SMART_CASTS, SCOPING, EXTENSIONS, LAMBDAS, OVERLOADS
+- **Deterministic Output** - Consistent JSON with SHA-256 code hashing for caching
 - **Multiple Input Sources** - Extract from `.kt` files and MDX fenced code blocks
 - **Flexible Deployment** - Run as Gradle plugin or standalone CLI tool
-- **CI-Friendly** - Fast, fail-fast validation with clear error messages
 
 ## Quick Start
 
-### Standalone CLI (Recommended)
+### Standalone CLI
 
 Run as a standalone command-line tool without IntelliJ or IDE:
 
@@ -22,23 +23,19 @@ Run as a standalone command-line tool without IntelliJ or IDE:
 # Build the CLI
 ./gradlew :kodeblok-cli:jar
 
-# Generate kodeblok maps
+# Generate semantic profiles
 ./kodeblok \
   --snippets-dir ./docs/snippets \
   --output-dir ./website/static/hovermaps
 ```
 
-For a portable install, build the distribution and set `HOVER_CLI_HOME`:
+For a portable install, build the macOS distribution:
 
 ```bash
 ./gradlew :kodeblok-cli:assembleMacosDistribution
 export HOVER_CLI_HOME=/path/to/kodeblok-cli/build/dist/kodeblok-cli
 kodeblok --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
 ```
-
-Make `hover` available on your PATH (the launcher lives at the repo root).
-
-**See [CLI-USAGE.md](./CLI-USAGE.md) for complete examples and integration guides.**
 
 ### Gradle Plugin
 
@@ -63,17 +60,15 @@ Then run:
 ./gradlew generateHoverMaps
 ```
 
-### Golden Path: Local Maven Integration (Development)
+### Local Maven Integration (Development)
 
-Use this when you want to test the Gradle plugin from a separate project using Maven Local.
-
-1) Publish the plugin from this repo:
+1. Publish the plugin from this repo:
 
 ```bash
 ./gradlew publishHoverGradlePluginToMavenLocal
 ```
 
-2) In the consumer `settings.gradle.kts`:
+2. In the consumer `settings.gradle.kts`:
 
 ```kotlin
 pluginManagement {
@@ -88,13 +83,13 @@ pluginManagement {
 }
 ```
 
-3) In the consumer `gradle.properties` (required for Analysis API):
+3. In the consumer `gradle.properties` (required for Analysis API):
 
 ```properties
 intellijHome=/Applications/IntelliJ IDEA.app
 ```
 
-4) In the consumer `build.gradle.kts`:
+4. In the consumer `build.gradle.kts`:
 
 ```kotlin
 plugins {
@@ -118,44 +113,44 @@ hoverMaps {
 }
 ```
 
-5) Add a snippet file and generate output:
-
-```kotlin
-// docs/snippets/example.kt
-val name = "Kotlin"
-val greeting = "Hi, " + name /*kodeblok:id=greeting_name*/
-println(greeting)
-// ^ kodeblok:id=call_println
-```
-
-```bash
-./gradlew generateHoverMaps
-```
-
-Result: `build/hovermaps/example.json`.
-
 ## Project Structure
 
 This is a multi-module Gradle project:
 
-- **kodeblok-schema** - JSON schema and data models for hover map output
-- **kodeblok-engine** - Core extraction, parsing, wrapping, and semantic analysis
-- **kodeblok-gradle** - Gradle plugin providing `generateHoverMaps` task
-- **kodeblok-cli** - Standalone CLI tool (no IntelliJ/IDE required)
+```
+kodeblok/
+├── kodeblok-schema/     # JSON schema and data models (SemanticProfile, InsightData)
+├── kodeblok-engine/     # Core analysis: extraction, wrapping, semantic analysis
+│   └── analysis/        # Analysis API integration and insight extractors
+├── kodeblok-gradle/     # Gradle plugin providing generateHoverMaps task
+├── kodeblok-cli/        # Standalone CLI tool (no IntelliJ required)
+├── docs/snippets/       # Example Kotlin snippets
+├── kodeblok             # CLI launcher script
+└── kodeblok-cli.sh      # Development convenience script
+```
 
 ## Input Format
 
 ### Kotlin Snippet Files
 
-Create `.kt` files with hover markers:
+Create `.kt` files in your snippets directory:
 
 ```kotlin
 // docs/snippets/example.kt
-val name = "Kotlin"
-val greeting = "Hi, " + name /*kodeblok:id=greeting_name*/
-println(greeting)
-// ^ kodeblok:id=call_println
+data class User(val name: String)
+
+fun demo(repo: Repo, id: String) {
+    val user = repo.findUser(id)
+    if (user != null) {
+        val upper = user.name.uppercase()
+        println(upper)
+    }
+}
+
+interface Repo { fun findUser(id: String): User? }
 ```
+
+The analyzer automatically extracts insights for type inference, nullability checks, smart casts, and more.
 
 ### MDX Fenced Code Blocks
 
@@ -163,57 +158,60 @@ Embed snippets in documentation with `snippet:id` metadata:
 
 ````markdown
 ```kotlin snippet:id=example
-val x = 42 /*hover:id=literal*/
+val items = listOf("a", "b")
+val mapped = items.map { it.uppercase() }
 ```
 ````
 
 ## Output Format
 
-Generates JSON hover maps:
+Generates `SemanticProfile` JSON files with rich insight data:
 
 ```json
 {
-  "schemaVersion": 1,
   "snippetId": "example",
   "codeHash": "5f64d1240898f1bebcdf075040c61bb4df056f4bee3b54b375a90b9cd48bd87c",
-  "language": "kotlin",
-  "code": "val name = \"Kotlin\"\n...",
-  "hovers": [
+  "code": "val user = repo.findUser(id)\n...",
+  "insights": [
     {
-      "id": "greeting_name",
-      "from": {"line": 2, "col": 25},
-      "to": {"line": 2, "col": 28},
-      "body": "Symbol: `name`\n\n_No semantic info available._"
+      "id": "ins_001",
+      "position": { "from": { "line": 3, "col": 7 }, "to": { "line": 3, "col": 11 } },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "NULLABLE_RETURN",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null }
+      ],
+      "data": {
+        "type": "Nullability",
+        "inferredType": "User?",
+        "why": "Function return type is nullable; downstream code must narrow."
+      },
+      "tokenText": "user"
     }
-  ]
+  ],
+  "rootScopes": []
 }
 ```
 
-## Marker Syntax
+### Insight Categories
 
-**Inline markers** - Place at end of token:
-```kotlin
-val x = 42 /*kodeblok:id=my_marker*/
-```
-
-**Caret markers** - Place on line after, aligned with token start:
-```kotlin
-println("Hello")
-// ^ kodeblok:id=my_marker
-```
+| Category | Description |
+|----------|-------------|
+| `TYPE_INFERENCE` | Inferred types, generic arguments |
+| `NULLABILITY` | Nullable types, platform types, null-safe calls |
+| `SMART_CASTS` | Automatic type narrowing after checks |
+| `SCOPING` | Scope function context, receiver changes |
+| `EXTENSIONS` | Extension function and property calls |
+| `LAMBDAS` | Lambda parameter and return type inference |
+| `OVERLOADS` | Function overload resolution |
 
 ## Requirements
 
 - **JDK 21+** - Required for building and running
 - **Kotlin 2.3.0** - Project Kotlin version
 - **Gradle 8.14+** - For building (uses Gradle wrapper)
-
-## Documentation
-
-- **[CLI-USAGE.md](./CLI-USAGE.md)** - Complete CLI usage guide with examples
-- **[kodeblok-cli/README.md](./kodeblok-cli/README.md)** - CLI tool documentation
-- **kodeblok-engine/** - Core engine implementation
-- **kodeblok-schema/** - JSON schema definitions
 
 ## Building
 
@@ -235,9 +233,21 @@ Run tests:
 ./gradlew test
 ```
 
+Run engine tests specifically:
+
+```bash
+./gradlew :kodeblok-engine:test
+```
+
+Run Gradle integration validation:
+
+```bash
+./gradlew validateHoverGradleIntegration
+```
+
 ## Usage Examples
 
-### Example 1: Generate from Snippets Directory
+### Generate from Snippets Directory
 
 ```bash
 ./kodeblok \
@@ -245,7 +255,7 @@ Run tests:
   --output-dir ./hovermaps
 ```
 
-### Example 2: Include MDX Files
+### Include MDX Files
 
 ```bash
 ./kodeblok \
@@ -254,11 +264,20 @@ Run tests:
   --output-dir ./website/static/hovermaps
 ```
 
-### Example 3: CI Integration
+### With Custom Classpath
+
+```bash
+./kodeblok \
+  --snippets-dir ./snippets \
+  --output-dir ./maps \
+  --classpath "./libs/*"
+```
+
+### CI Integration
 
 ```yaml
 # .github/workflows/hovermaps.yml
-- name: Generate kodeblok maps
+- name: Generate semantic profiles
   run: |
     ./gradlew :kodeblok-cli:jar
     ./kodeblok \
@@ -266,54 +285,15 @@ Run tests:
       --output-dir ./website/static/hovermaps
 ```
 
-See [CLI-USAGE.md](./CLI-USAGE.md) for more examples.
+## Key Components
 
-## Development
-
-### Module Structure
-
-```
-komunasuarus/
-├── kodeblok-schema/       # Data models and JSON serialization
-├── kodeblok-engine/       # Core analysis and extraction logic
-├── kodeblok-gradle/       # Gradle plugin
-├── kodeblok-cli/          # Standalone CLI tool
-├── docs/snippets/         # Example Kotlin snippets
-├── kodeblok              # Short CLI launcher
-├── kodeblok-cli.sh       # CLI convenience launcher
-└── CLI-USAGE.md          # Complete usage guide
-```
-
-### Key Components
-
-- **KodeblokEngine** (`kodeblok-engine/src/main/kotlin/kodeblok/engine/KodeblokEngine.kt`) - Main orchestrator
-- **SemanticAnalyzer** - Interface for semantic analysis (K2 Analysis API implementation)
-- **MarkerParser** - Parses inline and caret hover markers
-- **TokenLocator** - Maps markers to actual code tokens
-- **HoverMapWriter** - Writes JSON output
-
-### Testing
-
-Run engine tests:
-
-```bash
-./gradlew :kodeblok-engine:test
-```
-
-Run the golden-path Gradle integration check:
-
-```bash
-./gradlew validateHoverGradleIntegration
-```
-
-Test with example snippet:
-
-```bash
-./kodeblok \
-  --snippets-dir ./docs/snippets \
-  --output-dir ./test-output \
-  --verbose
-```
+- **KodeblokEngine** - Main orchestrator for semantic profile generation
+- **SnippetExtractor** - Extracts snippets from `.kt` files and MDX blocks
+- **SnippetNormalizer** - Removes markers while preserving line/column alignment
+- **AnalysisApiEagerAnalyzer** - Eager semantic analysis using K2 Analysis API
+- **Insight Extractors** - Per-category extractors (TypeInference, Nullability, SmartCast, etc.)
+- **ScopeTreeBuilder** - Builds hierarchical scope trees
+- **KodeblokMapWriter** - Writes JSON output
 
 ## Troubleshooting
 
@@ -327,7 +307,7 @@ java -version
 ls -la docs/snippets/
 ```
 
-**No semantic info** - Provide classpath for better type inference:
+**Limited semantic info** - Provide classpath for better type inference:
 ```bash
 ./kodeblok \
   --snippets-dir ./snippets \
@@ -335,30 +315,16 @@ ls -la docs/snippets/
   --classpath "./libs/*"
 ```
 
-**Why the providers JAR is checked in** - We evaluated removing `libs/analysis-api-providers-for-ide-2.0.0-dev-8570.jar`, but:
-- `analysis-api-standalone-for-ide` does not ship providers, so it cannot replace the jar by itself.
-- `analysis-api-providers-for-ide` is published in the Kotlin dev repo only at `2.0.0-dev-8570`, which would force downgrading the rest of the Analysis API stack.
-- `analysis-api-providers-for-ide` is not published for `2.3.20-ij253-*` in `intellij-dependencies`, so we cannot align versions there.
-- Pulling providers from IntelliJ Kotlin plugin libs adds a hard runtime dependency on `intellijHome` for all environments (including CI), which we avoid for the CLI.
+**Why the providers JAR is checked in** - The `libs/analysis-api-providers-for-ide-2.0.0-dev-8570.jar` is checked in because:
+- `analysis-api-standalone-for-ide` doesn't ship providers
+- `analysis-api-providers-for-ide` isn't published for 2.3.20-ij253-* in public repos
+- Avoids requiring `intellijHome` for CLI usage in CI environments
 
 ## Design Philosophy
 
 - **Deterministic** - Same input always produces same output (for caching)
+- **Eager Analysis** - No manual markers required; analyzes entire code blocks
 - **Fail-fast** - Validates early with clear error messages
 - **Standalone** - No runtime IntelliJ dependency for CLI
 - **Version-pinned** - Explicit Kotlin version (2.3.0) for consistency
 - **CI-optimized** - Fast, cacheable, suitable for build pipelines
-
-## License
-
-[Add your license here]
-
-## Contributing
-
-[Add contribution guidelines here]
-
-## Links
-
-- **Documentation**: See `CLI-USAGE.md` and module READMEs
-- **Issues**: [Add issue tracker URL]
-- **Analysis API**: [Kotlin Analysis API Docs](https://github.com/JetBrains/kotlin/tree/master/analysis)
