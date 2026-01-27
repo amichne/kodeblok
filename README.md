@@ -2,7 +2,7 @@
 
 **Semantic Insight Generator for Kotlin Snippets**
 
-![demo](image ./static/demo.gif)
+<img src="static/demo.gif" alt="Demo" width="600" />
 
 A tool for generating rich semantic analysis from Kotlin code snippets. Produces deterministic JSON output with type inference, nullability, smart casts, and more—designed for documentation sites to provide IDE-like hover tooltips without browser-side compilation.
 
