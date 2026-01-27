@@ -1,0 +1,133 @@
+{
+  "snippetId": "demo-1",
+  "codeHash": "demo-1-hash",
+  "code": "data class User(val name: String)\n\nfun demo(repo: Repo, id: String) {\n  val user = repo.findUser(id)\n  if (user != null) {\n    val upper = user.name.uppercase()\n    log(upper)\n  }\n\n  val items = listOf(\"a\", \"b\")\n  val mapped = items.map { it.uppercase() }\n  println(mapped)\n}\n\ninterface Repo { fun findUser(id: String): User? }\nfun log(s: String) = Unit\n",
+  "insights": [
+    {
+      "id": "ins_001",
+      "position": { "from": { "line": 3, "col": 7 }, "to": { "line": 3, "col": 11 } },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "NULLABLE_RETURN",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null }
+      ],
+      "data": {
+        "type": "Nullability",
+        "declaredType": null,
+        "inferredType": "User?",
+        "why": "Function return type is nullable; downstream code must narrow."
+      },
+      "tokenText": "user"
+    },
+    {
+      "id": "ins_002",
+      "position": { "from": { "line": 4, "col": 7 }, "to": { "line": 4, "col": 20 } },
+      "category": "SMART_CASTS",
+      "level": "HIGHLIGHTS",
+      "kind": "SMART_CAST_AFTER_NULL_CHECK",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null }
+      ],
+      "data": {
+        "type": "SmartCast",
+        "fromType": "User?",
+        "toType": "User",
+        "evidence": "user != null",
+        "evidencePosition": { "line": 4, "col": 7 }
+      },
+      "tokenText": "user != null"
+    },
+    {
+      "id": "ins_003",
+      "position": { "from": { "line": 5, "col": 17 }, "to": { "line": 5, "col": 21 } },
+      "category": "SCOPING",
+      "level": "HIGHLIGHTS",
+      "kind": "NARROWED_SCOPE_BLOCK",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null },
+        { "scopeId": "scope_if", "kind": "LAMBDA", "receiverType": null }
+      ],
+      "data": {
+        "type": "Scoping",
+        "note": "Inside this block, user is treated as non-null due to prior check."
+      },
+      "tokenText": "user"
+    },
+    {
+      "id": "ins_004",
+      "position": { "from": { "line": 10, "col": 7 }, "to": { "line": 10, "col": 12 } },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_GENERIC_TYPE",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "declaredType": null,
+        "inferredType": "List<String>",
+        "why": "listOf literals drive generic inference."
+      },
+      "tokenText": "items"
+    },
+    {
+      "id": "ins_005",
+      "position": { "from": { "line": 11, "col": 25 }, "to": { "line": 11, "col": 27 } },
+      "category": "LAMBDAS",
+      "level": "HIGHLIGHTS",
+      "kind": "IMPLICIT_IT_TYPE",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null },
+        { "scopeId": "scope_map_lambda", "kind": "LAMBDA", "receiverType": null }
+      ],
+      "data": {
+        "type": "Lambdas",
+        "inferredParamTypes": ["String"],
+        "why": "Implicit `it` inferred from List<T>.map transform."
+      },
+      "tokenText": "it"
+    },
+    {
+      "id": "ins_006",
+      "position": { "from": { "line": 11, "col": 28 }, "to": { "line": 11, "col": 37 } },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_CALL",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null },
+        { "scopeId": "scope_map_lambda", "kind": "LAMBDA", "receiverType": null }
+      ],
+      "data": {
+        "type": "Extensions",
+        "resolvedFrom": "kotlin.text.uppercase",
+        "note": "Call resolved as an extension on String."
+      },
+      "tokenText": "uppercase"
+    },
+    {
+      "id": "ins_007",
+      "position": { "from": { "line": 11, "col": 15 }, "to": { "line": 11, "col": 18 } },
+      "category": "OVERLOADS",
+      "level": "NOTE",
+      "kind": "OVERLOAD_RESOLUTION",
+      "scopeChain": [
+        { "scopeId": "scope_file", "kind": "FILE", "receiverType": null },
+        { "scopeId": "scope_demo", "kind": "FUNCTION", "receiverType": null }
+      ],
+      "data": {
+        "type": "Overloads",
+        "candidateCount": 3,
+        "note": "Multiple map overloads considered; lambda shape influences selection."
+      },
+      "tokenText": "map"
+    }
+  ],
+  "rootScopes": []
+}
