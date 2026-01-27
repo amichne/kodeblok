@@ -1,6 +1,6 @@
 package kodeblok.engine
 
-import kodeblok.schema.HoverMapJsonWriter
+import kodeblok.schema.SemanticProfileSerializer
 import org.junit.Test
 import kotlin.io.path.Path
 import kotlin.io.path.readText
@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class HoverEngineTest {
     @Test
-    fun generatesHoverMapForSampleSnippet() {
+    fun generatesSemanticProfileForSampleSnippet() {
         val rootDir = findProjectRoot()
         val snippetPath = rootDir.resolve("docs/snippets/sample.kt")
         val source = SnippetSource(
@@ -17,8 +17,8 @@ class HoverEngineTest {
             origin = OriginLocation(snippetPath.toString(), 1, 1)
         )
 
-        val hoverMap = KodeblokEngine().generateHoverMap(source, ENGINE_KOTLIN_VERSION)
-        val actualJson = HoverMapJsonWriter.toJson(hoverMap)
+        val profile = KodeblokEngine().generateSemanticProfile(source, ENGINE_KOTLIN_VERSION)
+        val actualJson = SemanticProfileSerializer.toJson(profile)
         val expectedJson = rootDir.resolve("kodeblok-engine/src/test/resources/expected/sample.json").readText().trim()
 
         assertEquals(expectedJson, actualJson)

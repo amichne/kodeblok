@@ -5,7 +5,7 @@ import kodeblok.engine.HoverEngineException
 import kodeblok.engine.KodeblokMapWriter
 import kodeblok.engine.SnippetExtractor
 import kodeblok.engine.analysis.AnalysisApiConfig
-import kodeblok.engine.analysis.AnalysisApiSemanticAnalyzer
+import kodeblok.engine.analysis.AnalysisApiEagerAnalyzer
 import org.gradle.api.GradleException
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
@@ -24,7 +24,7 @@ abstract class GenerateHoverMapsWorkAction : WorkAction<GenerateHoverMapsWorkAct
     }
 
     override fun execute() {
-        val analyzer = AnalysisApiSemanticAnalyzer(
+        val analyzer = AnalysisApiEagerAnalyzer(
             AnalysisApiConfig(parameters.analysisClasspath.files.map { it.toPath() })
         )
         val engine = KodeblokEngine(analyzer)
@@ -34,8 +34,8 @@ abstract class GenerateHoverMapsWorkAction : WorkAction<GenerateHoverMapsWorkAct
         val sources = extractor.extract(snippetsPath, docsPath, parameters.includeMdx.get())
         try {
             sources.forEach { source ->
-                val hoverMap = engine.generateHoverMap(source, parameters.kotlinVersion.get())
-                KodeblokMapWriter.write(hoverMap, parameters.outputDir.get().asFile.toPath())
+                val profile = engine.generateSemanticProfile(source, parameters.kotlinVersion.get())
+                KodeblokMapWriter.write(profile, parameters.outputDir.get().asFile.toPath())
             }
         } catch (exception: HoverEngineException) {
             throw GradleException(exception.message ?: "Hover map generation failed", exception)

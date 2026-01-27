@@ -25,7 +25,7 @@ val generateBuildConfig by tasks.registering {
         file.parentFile.mkdirs()
         file.writeText(
             """
-            package hovergen.cli
+            package kodeblok.cli
 
             object BuildConfig {
                 const val VERSION = "$version"
@@ -46,7 +46,7 @@ sourceSets {
 }
 
 application {
-    mainClass.set("hovergen.cli.HoverCliKt")
+    mainClass.set("kodeblok.cli.KodeblokCliKt")
 }
 
 tasks.jar {
@@ -55,7 +55,7 @@ tasks.jar {
     isZip64 = true
 
     manifest {
-        attributes["Main-Class"] = "hovergen.cli.HoverCliKt"
+        attributes["Main-Class"] = "kodeblok.cli.KodeblokCliKt"
     }
 
     // Create a fat JAR with all dependencies

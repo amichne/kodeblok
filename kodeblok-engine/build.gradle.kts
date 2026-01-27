@@ -63,7 +63,7 @@ dependencies {
 }
 
 tasks.withType<Test>().configureEach {
-    systemProperty("hovergen.classpath", configurations.getByName("compileClasspath").asPath)
+    systemProperty("kodeblok.classpath", configurations.getByName("compileClasspath").asPath)
 }
 
 publishing {

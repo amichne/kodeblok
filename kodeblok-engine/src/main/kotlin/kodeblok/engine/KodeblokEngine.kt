@@ -1,53 +1,34 @@
 package kodeblok.engine
 
-import kodeblok.schema.HoverEntry
-import kodeblok.schema.HoverMap
+import kodeblok.engine.analysis.AnalysisApiEagerAnalyzer
+import kodeblok.engine.analysis.AnalysisConfig
+import kodeblok.engine.analysis.EagerSemanticAnalyzer
+import kodeblok.engine.analysis.NoOpEagerSemanticAnalyzer
+import kodeblok.schema.SemanticProfile
 
 class KodeblokEngine(
-    private val analyzer: SemanticAnalyzer = NoOpSemanticAnalyzer(),
+    private val analyzer: EagerSemanticAnalyzer = NoOpEagerSemanticAnalyzer(),
 ) {
-    fun generateHoverMap(
+    fun generateSemanticProfile(
         source: SnippetSource,
         kotlinVersion: String,
-    ): HoverMap {
+        analysisConfig: AnalysisConfig = AnalysisConfig(),
+    ): SemanticProfile {
         validateKotlinVersion(kotlinVersion)
 
-        val normalized = MarkerParser().parse(source)
-        ensureUniqueMarkerIds(normalized)
-
-        val wrapper = SnippetWrapper().wrap(normalized)
-        val targets = TokenLocator().locateTargets(normalized)
-        val metaById = analyzer.analyze(normalized, wrapper, targets, kotlinVersion)
-
-        val entries = targets.map { target ->
-            val meta = metaById[target.id]
-            HoverEntry(
-                id = target.id,
-                from = target.range.from,
-                to = target.range.to,
-                title = meta?.exprType,
-                body = KodeblokRenderer.renderBody(target.tokenText, meta),
-                meta = meta
-            )
+        val normalized = SnippetNormalizer().normalize(source)
+        val profile = if (analyzer is AnalysisApiEagerAnalyzer) {
+            val wrapped = SnippetWrapper().wrap(normalized)
+            analyzer.analyzeNormalized(normalized, wrapped, analysisConfig, kotlinVersion)
+        } else {
+            analyzer.analyze(normalized.code, analysisConfig, kotlinVersion)
         }
 
-        return HoverMap(
+        return profile.copy(
             snippetId = normalized.snippetId,
             codeHash = Hashing.sha256Hex(normalized.code),
-            code = normalized.code,
-            hovers = entries
+            code = normalized.code
         )
-    }
-
-    private fun ensureUniqueMarkerIds(normalized: NormalizedSnippet) {
-        val seen = mutableSetOf<String>()
-        normalized.markers.forEach { marker ->
-            if (!seen.add(marker.id)) {
-                throw HoverEngineException(
-                    "Duplicate hover marker id '${marker.id}' in ${normalized.origin.display()}"
-                )
-            }
-        }
     }
 
     private fun validateKotlinVersion(projectKotlinVersion: String) {

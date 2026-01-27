@@ -1,7 +1,5 @@
 package kodeblok.engine
 
-import kodeblok.schema.Range
-
 const val ENGINE_KOTLIN_VERSION = "2.3.0"
 
 data class SnippetSource(
@@ -21,26 +19,7 @@ data class OriginLocation(
 data class NormalizedSnippet(
     val snippetId: String,
     val code: String,
-    val markers: List<HoverMarker>,
     val origin: OriginLocation,
-)
-
-data class HoverMarker(
-    val id: String,
-    val kind: MarkerKind,
-    val line: Int,
-    val col: Int,
-)
-
-enum class MarkerKind {
-    INLINE,
-    CARET
-}
-
-data class HoverTarget(
-    val id: String,
-    val range: Range,
-    val tokenText: String,
 )
 
 data class WrappedSnippet(
@@ -51,7 +30,7 @@ data class WrappedSnippet(
 
 enum class WrapperKind {
     FILE_LEVEL,
-    WRAPPED_FUNCTION
+    WRAPPED_FUNCTION,
 }
 
 data class LineMap(

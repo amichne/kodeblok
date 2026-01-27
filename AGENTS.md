@@ -15,11 +15,11 @@ No browser-side Kotlin compilation. No code execution in docs.
 - Keep Analysis API calls isolated behind a tiny abstraction (API names change across Kotlin versions).
 
 ## Repository Layout (create these modules)
-- hover-schema/
+- kodeblok-schema/
   - Kotlin data classes for JSON schema + versioning + serialization
-- hover-engine/
+- kodeblok-engine/
   - extraction, marker parsing, wrapper generation, analysis, hover computation
-- hover-gradle/
+- kodeblok-gradle/
   - Gradle plugin providing `generateHoverMaps` task
 
 Output directory:
@@ -79,7 +79,7 @@ Goal: create analyzable Kotlin file even for partial snippets.
 - If snippet contains top-level `fun|class|object|interface|typealias|val|var` at column 0 -> treat as file-level.
 - Else wrap in:
   ```kotlin
-  package hovergen
+  package kodeblok
   fun __snippet__() {
     // snippet lines
   }
