@@ -8,14 +8,12 @@ import { CATEGORY_LABELS, getInsightColor } from "@/lib/utils";
 import { ArrowRight, Code, FileCode, GitBranch, Layers, Box, Terminal, AlertCircle, Info } from "lucide-react";
 
 export default function InsightInspector() {
-  const { 
-    filteredInsights, 
-    activeInsightId, 
-    selectedInsightId,
-    snippet 
+  const {
+    filteredInsights,
+    selectedInsightId
   } = useAppState();
 
-  // Only show selected (pinned) insight in the inspector
+  // Only show selected insight in the inspector
   const currentId = selectedInsightId;
   const insight = filteredInsights.find(i => i.id === currentId);
 

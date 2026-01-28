@@ -215,12 +215,7 @@
 .insight-lambdas { border-bottom-color: #facc15; } /* yellow-400 */
 .insight-overloads { border-bottom-color: #f87171; } /* red-400 */
 
-/* Active/Selected States */
-.insight-active {
-  background-color: var(--accent) !important;
-  z-index: 10;
-}
-
+/* Selected State - Click-based selection */
 .insight-selected {
   background-color: var(--accent) !important;
   border-bottom-width: 3px;
@@ -228,6 +223,5 @@
 }
 
 .insight-text-selected {
-  font-weight: bold;
-  text-shadow: 0 0 10px currentColor;
+  font-weight: 600;
 }

@@ -1,133 +1,141 @@
 import { useAppState } from "@/contexts/AppStateContext";
-import { getInsightColor } from "@/lib/utils";
-import { generateHoverMarkdown } from "@/lib/markdownGenerator";
+import { CATEGORY_LABELS } from "@/lib/utils";
 import Editor, { Monaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import { useEffect, useRef, useState } from "react";
-import InsightCard from "./InsightCard";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { SemanticInsight } from "@/lib/types";
 
+interface HoverInfo {
+  insight: SemanticInsight;
+  top: number;
+  left: number;
+}
+
 export default function CodePane() {
-  const { 
-    snippet, 
-    filteredInsights, 
-    activeInsightId, 
+  const {
+    snippet,
+    filteredInsights,
     selectedInsightId,
-    setActiveInsightId,
     setSelectedInsightId
   } = useAppState();
-  
+
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<Monaco | null>(null);
   const decorationsCollectionRef = useRef<editor.IEditorDecorationsCollection | null>(null);
-  const [hoverPosition, setHoverPosition] = useState<{ top: number; left: number } | null>(null);
-  const [hoveredInsight, setHoveredInsight] = useState<SemanticInsight | null>(null);
+
+  // Local hover state - lightweight, does not affect global state
+  const [hoverInfo, setHoverInfo] = useState<HoverInfo | null>(null);
+  const hoverTimeoutRef = useRef<number | null>(null);
+
+  // Find insight at position - binary search could be used for large sets,
+  // but linear scan is fine for typical insight counts
+  const findInsightAtPosition = useCallback((lineNumber: number, column: number): SemanticInsight | undefined => {
+    return filteredInsights.find(i =>
+      lineNumber >= i.position.from.line &&
+      lineNumber <= i.position.to.line &&
+      (lineNumber > i.position.from.line || column >= i.position.from.col) &&
+      (lineNumber < i.position.to.line || column <= i.position.to.col)
+    );
+  }, [filteredInsights]);
 
   // Handle editor mount
-  const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
-    editorRef.current = editor;
+  const handleEditorDidMount = (ed: editor.IStandaloneCodeEditor, monaco: Monaco) => {
+    editorRef.current = ed;
     monacoRef.current = monaco;
-    
-    // Define custom theme based on JetBrains Dark
+
+    // Define custom JetBrains Dark theme
     monaco.editor.defineTheme("jetbrains-dark", {
       base: "vs-dark",
       inherit: true,
       rules: [
-        { token: "keyword", foreground: "CC7832" }, // Orange
-        { token: "type", foreground: "A9B7C6" }, // Light Grey
-        { token: "string", foreground: "6A8759" }, // Green
-        { token: "number", foreground: "6897BB" }, // Blue
-        { token: "comment", foreground: "808080" }, // Grey
+        { token: "keyword", foreground: "CC7832" },
+        { token: "type", foreground: "A9B7C6" },
+        { token: "string", foreground: "6A8759" },
+        { token: "number", foreground: "6897BB" },
+        { token: "comment", foreground: "808080" },
       ],
       colors: {
-        "editor.background": "#1E1F22", // JetBrains Dark Background
+        "editor.background": "#1E1F22",
         "editor.lineHighlightBackground": "#2B2D30",
         "editorLineNumber.foreground": "#4E5157",
         "editorGutter.background": "#1E1F22",
       }
     });
-    
+
     monaco.editor.setTheme("jetbrains-dark");
-    
-    // Add event listeners
-    editor.onMouseMove((e) => {
-      const position = e.target.position;
-      
-      // Clear hover if not over text or no position
-      if (!position || e.target.type !== monaco.editor.MouseTargetType.CONTENT_TEXT) {
-        setActiveInsightId(null);
-        setHoveredInsight(null);
-        setHoverPosition(null);
-        return;
-      }
-      
-      // Find insight at this position
-      const insight = filteredInsights.find(i => 
-        position.lineNumber >= i.position.from.line &&
-        position.lineNumber <= i.position.to.line &&
-        (position.lineNumber > i.position.from.line || position.column >= i.position.from.col) &&
-        (position.lineNumber < i.position.to.line || position.column <= i.position.to.col)
-      );
-      
-      if (insight) {
-        setActiveInsightId(insight.id);
-        setHoveredInsight(insight);
-        
-        // Calculate screen coordinates for the hover card
-        const scrolledVisiblePosition = editor.getScrolledVisiblePosition(position);
-        if (scrolledVisiblePosition) {
-          const editorDomNode = editor.getDomNode();
-          if (editorDomNode) {
-            const rect = editorDomNode.getBoundingClientRect();
-            setHoverPosition({
-              top: rect.top + scrolledVisiblePosition.top + 25, // Offset below the line
-              left: rect.left + scrolledVisiblePosition.left + 10 // Offset to the right
-            });
-          }
-        }
-      } else {
-        setActiveInsightId(null);
-        setHoveredInsight(null);
-        setHoverPosition(null);
-      }
-    });
-    
-    editor.onMouseDown((e) => {
+
+    // Click handler - primary interaction for selection
+    ed.onMouseDown((e) => {
       if (e.target.type === monaco.editor.MouseTargetType.CONTENT_TEXT) {
         const position = e.target.position;
         if (!position) return;
-        
-        const insight = filteredInsights.find(i => 
-          position.lineNumber >= i.position.from.line &&
-          position.lineNumber <= i.position.to.line &&
-          (position.lineNumber > i.position.from.line || position.column >= i.position.from.col) &&
-          (position.lineNumber < i.position.to.line || position.column <= i.position.to.col)
-        );
-        
+
+        const insight = findInsightAtPosition(position.lineNumber, position.column);
         if (insight) {
           setSelectedInsightId(insight.id);
         }
       }
     });
+
+    // Hover handler - lightweight, local state only
+    ed.onMouseMove((e) => {
+      // Clear any pending hover
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+
+      const position = e.target.position;
+
+      // Clear hover if not over text or no position
+      if (!position || e.target.type !== monaco.editor.MouseTargetType.CONTENT_TEXT) {
+        setHoverInfo(null);
+        return;
+      }
+
+      // Small delay to avoid excessive updates while moving
+      hoverTimeoutRef.current = window.setTimeout(() => {
+        const insight = findInsightAtPosition(position.lineNumber, position.column);
+
+        if (insight) {
+          const scrolledVisiblePosition = ed.getScrolledVisiblePosition(position);
+          if (scrolledVisiblePosition) {
+            const editorDomNode = ed.getDomNode();
+            if (editorDomNode) {
+              const rect = editorDomNode.getBoundingClientRect();
+              setHoverInfo({
+                insight,
+                top: rect.top + scrolledVisiblePosition.top + 25,
+                left: rect.left + scrolledVisiblePosition.left + 10
+              });
+            }
+          }
+        } else {
+          setHoverInfo(null);
+        }
+      }, 50);
+    });
+
+    // Clear hover on mouse leave
+    ed.onMouseLeave(() => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+        hoverTimeoutRef.current = null;
+      }
+      setHoverInfo(null);
+    });
   };
 
-  // Update decorations when insights change
+  // Update decorations when insights or selection change
   useEffect(() => {
     if (!editorRef.current || !monacoRef.current || !snippet) return;
-    
+
     const decorations: editor.IModelDeltaDecoration[] = filteredInsights.map(insight => {
       const isSelected = selectedInsightId === insight.id;
-      const isActive = activeInsightId === insight.id;
-      
-      // Map category to CSS class for color
-      // We'll use inline styles via className in global CSS or just use standard classes
-      // Since Monaco needs CSS classes for decorations, we'll define them in index.css
-      // For now, let's use a generic class and dynamic class names
-      
+
       let className = `insight-decoration insight-${insight.category.toLowerCase()}`;
       if (isSelected) className += " insight-selected";
-      if (isActive) className += " insight-active";
-      
+
       return {
         range: new monacoRef.current!.Range(
           insight.position.from.line,
@@ -138,23 +146,22 @@ export default function CodePane() {
         options: {
           isWholeLine: false,
           className: className,
-          // hoverMessage: { value: generateHoverMarkdown(insight) }, // Disabled in favor of custom overlay
           inlineClassName: isSelected ? "insight-text-selected" : undefined
         }
       };
     });
-    
+
     if (decorationsCollectionRef.current) {
       decorationsCollectionRef.current.clear();
     }
     decorationsCollectionRef.current = editorRef.current.createDecorationsCollection(decorations);
-    
-  }, [filteredInsights, activeInsightId, selectedInsightId, snippet]);
+
+  }, [filteredInsights, selectedInsightId, snippet]);
 
   // Scroll to selected insight
   useEffect(() => {
     if (!editorRef.current || !monacoRef.current || !selectedInsightId) return;
-    
+
     const insight = filteredInsights.find(i => i.id === selectedInsightId);
     if (insight) {
       editorRef.current.revealRangeInCenter(
@@ -169,8 +176,17 @@ export default function CodePane() {
     }
   }, [selectedInsightId, filteredInsights]);
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="h-full w-full bg-[#1E1F22] border-r border-[#2B2D30]">
+    <div className="h-full w-full bg-[#1E1F22] relative">
       <Editor
         height="100%"
         defaultLanguage="kotlin"
@@ -197,20 +213,40 @@ export default function CodePane() {
           }
         }}
       />
-      
-      {/* Custom Hover Overlay */}
-      {hoveredInsight && hoverPosition && (
-        <div 
-          className="fixed z-50 pointer-events-none"
-          style={{ 
-            top: hoverPosition.top, 
-            left: hoverPosition.left,
-            maxWidth: '450px'
+
+      {/* Lightweight Hover Tooltip */}
+      {hoverInfo && (
+        <div
+          className="fixed z-50 pointer-events-none bg-popover border border-border rounded-md shadow-lg px-2 py-1.5 max-w-xs"
+          style={{
+            top: hoverInfo.top,
+            left: hoverInfo.left,
           }}
         >
-          <InsightCard insight={hoveredInsight} className="shadow-xl border-primary/20 pointer-events-auto" />
+          <div className="flex items-center gap-2 text-xs">
+            <span className={`font-medium text-${getCategoryColor(hoverInfo.insight.category)}`}>
+              {CATEGORY_LABELS[hoverInfo.insight.category]}
+            </span>
+            <span className="text-muted-foreground">{hoverInfo.insight.kind}</span>
+          </div>
+          <div className="font-mono text-sm text-foreground mt-0.5">
+            {hoverInfo.insight.tokenText}
+          </div>
         </div>
       )}
     </div>
   );
+}
+
+function getCategoryColor(category: string): string {
+  const colors: Record<string, string> = {
+    TYPE_INFERENCE: "cyan-400",
+    NULLABILITY: "orange-400",
+    SMART_CASTS: "green-400",
+    SCOPING: "purple-400",
+    EXTENSIONS: "blue-400",
+    LAMBDAS: "yellow-400",
+    OVERLOADS: "red-400",
+  };
+  return colors[category] || "gray-400";
 }

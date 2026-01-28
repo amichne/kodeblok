@@ -6,22 +6,21 @@ import { Switch } from "@/components/ui/switch";
 import { useAppState } from "@/contexts/AppStateContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { CATEGORY_LABELS, getInsightColor } from "@/lib/utils";
-import { BookOpen, ChevronDown, Filter, Moon, Search, Sun, Upload } from "lucide-react";
+import { ChevronDown, Filter, Moon, Search, Sun, Upload } from "lucide-react";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { InsightCategory } from "@/lib/types";
 
 export default function TopBar() {
-  const { 
-    selectedCategories, 
-    toggleCategory, 
-    showHighlightsOnly, 
+  const {
+    selectedCategories,
+    toggleCategory,
+    showHighlightsOnly,
     setShowHighlightsOnly,
     searchQuery,
     setSearchQuery,
-    isNarrativeMode,
-    setNarrativeMode,
-    setSnippet
+    setSnippet,
+    filteredInsights
   } = useAppState();
 
   const { theme, toggleTheme } = useTheme();
@@ -36,7 +35,7 @@ export default function TopBar() {
       try {
         const content = e.target?.result as string;
         const json = JSON.parse(content);
-        
+
         // Basic validation for SemanticProfile
         if (!json.snippetId || !json.code || !Array.isArray(json.insights)) {
           throw new Error("Invalid SemanticProfile format");
@@ -50,22 +49,22 @@ export default function TopBar() {
       }
     };
     reader.readAsText(file);
-    
+
     // Reset input so same file can be selected again
     event.target.value = "";
   };
 
   return (
-    <div className="h-14 bg-background border-b border-border flex items-center justify-between px-4 gap-4">
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 font-bold text-lg tracking-tight">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-md flex items-center justify-center text-white">
+    <div className="h-12 bg-background border-b border-border flex items-center justify-between px-4 gap-4 shrink-0">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 font-bold text-base tracking-tight">
+          <div className="w-7 h-7 bg-gradient-to-br from-purple-600 to-blue-600 rounded-md flex items-center justify-center text-white text-sm">
             K
           </div>
           <span>Kodeblok</span>
         </div>
-        
-        <div className="h-6 w-[1px] bg-border mx-2" />
+
+        <div className="h-5 w-[1px] bg-border mx-1" />
 
         {/* File Upload */}
         <input
@@ -75,52 +74,52 @@ export default function TopBar() {
           accept=".json"
           onChange={handleFileUpload}
         />
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="h-8 border-input bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-7 text-xs border-input bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
           onClick={() => fileInputRef.current?.click()}
         >
-          <Upload className="h-3.5 w-3.5 mr-2" />
-          Import JSON
+          <Upload className="h-3 w-3 mr-1.5" />
+          Import
         </Button>
 
         {/* Category Filter */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="h-8 border-input bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground">
-              <Filter className="h-3.5 w-3.5 mr-2" />
-              Categories
+            <Button variant="outline" size="sm" className="h-7 text-xs border-input bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground">
+              <Filter className="h-3 w-3 mr-1.5" />
+              Filter
               {selectedCategories.length > 0 && (
-                <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-[10px]">
+                <Badge variant="secondary" className="ml-1.5 h-4 px-1 text-[10px]">
                   {selectedCategories.length}
                 </Badge>
               )}
-              <ChevronDown className="h-3.5 w-3.5 ml-2 opacity-50" />
+              <ChevronDown className="h-3 w-3 ml-1.5 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-2 bg-popover border-border" align="start">
+          <PopoverContent className="w-56 p-2 bg-popover border-border" align="start">
             <div className="space-y-1">
-              <div 
+              <div
                 className={`flex items-center px-2 py-1.5 rounded-sm cursor-pointer hover:bg-accent ${selectedCategories.length === 0 ? 'bg-accent' : ''}`}
                 onClick={() => {
                   // Clear all categories to show all (default state)
                   selectedCategories.forEach(c => toggleCategory(c));
                 }}
               >
-                <div className={`w-3 h-3 rounded-full mr-2 ${selectedCategories.length === 0 ? 'bg-foreground' : 'bg-muted-foreground'}`} />
+                <div className={`w-2.5 h-2.5 rounded-full mr-2 ${selectedCategories.length === 0 ? 'bg-foreground' : 'bg-muted-foreground'}`} />
                 <span className={`text-sm ${selectedCategories.length === 0 ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
                   All Categories
                 </span>
               </div>
-              
+
               {(Object.keys(CATEGORY_LABELS) as InsightCategory[]).map((category) => {
                 const isSelected = selectedCategories.includes(category);
                 const colorClass = getInsightColor(category);
                 const dotColor = colorClass.split(' ').find(c => c.startsWith('text-'))?.replace('text-', 'bg-') || 'bg-gray-400';
-                
+
                 return (
-                  <div 
+                  <div
                     key={category}
                     className={`flex items-center px-2 py-1.5 rounded-sm cursor-pointer hover:bg-accent ${isSelected ? 'bg-accent' : ''}`}
                     onClick={() => {
@@ -137,7 +136,7 @@ export default function TopBar() {
                       }
                     }}
                   >
-                    <div className={`w-3 h-3 rounded-full mr-2 ${isSelected ? dotColor : 'bg-muted-foreground'}`} />
+                    <div className={`w-2.5 h-2.5 rounded-full mr-2 ${isSelected ? dotColor : 'bg-muted-foreground'}`} />
                     <span className={`text-sm ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
                       {CATEGORY_LABELS[category]}
                     </span>
@@ -147,56 +146,48 @@ export default function TopBar() {
             </div>
           </PopoverContent>
         </Popover>
-        
+
         {/* Highlights Toggle */}
-        <div className="flex items-center gap-2 ml-2">
-          <Switch 
-            id="highlights-mode" 
+        <div className="flex items-center gap-1.5">
+          <Switch
+            id="highlights-mode"
             checked={showHighlightsOnly}
             onCheckedChange={setShowHighlightsOnly}
-            className="data-[state=checked]:bg-purple-600"
+            className="data-[state=checked]:bg-purple-600 scale-90"
           />
-          <label htmlFor="highlights-mode" className="text-xs font-medium text-muted-foreground cursor-pointer select-none">
-            HIGHLIGHTS ONLY
+          <label htmlFor="highlights-mode" className="text-xs text-muted-foreground cursor-pointer select-none">
+            Highlights
           </label>
         </div>
+
+        {/* Insight count */}
+        <span className="text-xs text-muted-foreground ml-2">
+          {filteredInsights.length} insight{filteredInsights.length !== 1 ? 's' : ''}
+        </span>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {/* Search */}
-        <div className="relative w-64">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search insights..." 
-            className="h-8 pl-9 bg-secondary border-input text-sm focus-visible:ring-ring"
+        <div className="relative w-48">
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            placeholder="Search..."
+            className="h-7 pl-7 bg-secondary border-input text-xs focus-visible:ring-ring"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
-        <div className="h-6 w-[1px] bg-border" />
-        
-        {/* Narrative Mode Toggle */}
-        <Button 
-          variant={isNarrativeMode ? "default" : "ghost"} 
-          size="sm" 
-          className={`h-8 gap-2 ${isNarrativeMode ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}
-          onClick={() => setNarrativeMode(!isNarrativeMode)}
-        >
-          <BookOpen className="h-4 w-4" />
-          Narrative Mode
-        </Button>
 
-        <div className="h-6 w-[1px] bg-border" />
+        <div className="h-5 w-[1px] bg-border" />
 
         {/* Theme Toggle */}
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent"
+          className="h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-accent"
           onClick={toggleTheme}
         >
-          {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          {theme === 'dark' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
         </Button>
       </div>
     </div>
