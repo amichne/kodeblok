@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppState } from "@/contexts/AppStateContext";
 import { InsightData, ScopeRef } from "@/lib/types";
 import { CATEGORY_LABELS, getInsightColor } from "@/lib/utils";
-import { ChevronDown, ChevronUp, ArrowRight, Code, FileCode, GitBranch } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowRight, Code, GitBranch } from "lucide-react";
 
 export default function InsightDetails() {
   const {
@@ -52,8 +52,6 @@ export default function InsightDetails() {
     );
   }
 
-  const colorClass = getInsightColor(insight.category);
-
   const renderScopeChain = () => {
     if (!insight.scopeChain || insight.scopeChain.length === 0) {
       return <span className="text-muted-foreground text-xs italic">Global Scope</span>;
@@ -74,10 +72,10 @@ export default function InsightDetails() {
   };
 
   const renderDataFields = (data: InsightData) => {
-    const Field = ({ label, value, highlight }: { label: string; value: React.ReactNode; highlight?: boolean }) => (
+    const Field = ({ label, value, highlight, color }: { label: string; value: React.ReactNode; highlight?: boolean; color?: string }) => (
       <div className="flex items-start gap-3 py-1.5">
         <span className="text-xs text-muted-foreground w-24 shrink-0">{label}</span>
-        <span className={`font-mono text-sm ${highlight ? 'text-blue-400 font-semibold' : 'text-foreground'}`}>
+        <span className={`font-mono text-sm ${color ? color : highlight ? 'text-blue-400 font-semibold' : 'text-foreground'}`}>
           {value}
         </span>
       </div>
@@ -175,6 +173,122 @@ export default function InsightDetails() {
             <Field label="Candidates" value={`${data.candidateCount} matches`} />
             {data.resolutionFactors.length > 0 && (
               <Field label="Factors" value={data.resolutionFactors.join(", ")} />
+            )}
+          </>
+        );
+
+      // NEW: Operator resolution
+      case "Operator":
+        return (
+          <>
+            <Field
+              label="Operator"
+              value={
+                <span className="flex items-center gap-2">
+                  <code className="px-2 py-0.5 bg-pink-500/20 rounded text-pink-400 font-bold">{data.operator}</code>
+                  <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-pink-300">{data.resolvedFunction}()</span>
+                </span>
+              }
+            />
+            <Field label="Receiver" value={data.receiverType} color="text-pink-400" />
+            {data.parameterTypes.length > 0 && (
+              <Field label="Parameters" value={data.parameterTypes.join(", ")} />
+            )}
+            <Field label="Returns" value={data.returnType} highlight />
+            <Field label="Defined in" value={<span className="text-muted-foreground italic">{data.declaringClass}</span>} />
+            {data.isInfix && <Field label="Style" value={<Badge variant="outline" className="text-xs">infix</Badge>} />}
+          </>
+        );
+
+      // NEW: Receiver resolution
+      case "Receiver":
+        return (
+          <>
+            <Field
+              label="Receiver"
+              value={
+                <span className="flex items-center gap-2">
+                  <span className="text-indigo-400 font-semibold">{data.receiverType}</span>
+                  <Badge variant="outline" className="text-xs text-indigo-300">{data.receiverKind}</Badge>
+                </span>
+              }
+            />
+            {data.label && <Field label="Label" value={<code className="text-indigo-300">this@{data.label}</code>} />}
+            <Field label="Scope Depth" value={`${data.scopeDepth} level${data.scopeDepth !== 1 ? 's' : ''} up`} />
+            {data.alternativeReceivers.length > 0 && (
+              <Field
+                label="Alternatives"
+                value={
+                  <span className="text-muted-foreground">
+                    {data.alternativeReceivers.map((r, i) => (
+                      <span key={i} className="mr-2 line-through opacity-60">{r}</span>
+                    ))}
+                  </span>
+                }
+              />
+            )}
+          </>
+        );
+
+      // NEW: Delegation
+      case "Delegation":
+        return (
+          <>
+            <Field
+              label="Kind"
+              value={
+                <Badge variant="outline" className="text-teal-400 border-teal-400/30">
+                  {data.delegationKind}
+                </Badge>
+              }
+            />
+            <Field label="Property Type" value={data.propertyType} highlight />
+            <Field label="Delegate Type" value={data.delegateType} color="text-teal-400" />
+            {data.delegateExpression && (
+              <Field label="Expression" value={<code className="text-xs">{data.delegateExpression}</code>} />
+            )}
+            <Field
+              label="Generates"
+              value={
+                <span className="flex gap-1">
+                  {(data.accessorGenerated === "getter" || data.accessorGenerated === "both") && (
+                    <Badge variant="secondary" className="text-xs">get</Badge>
+                  )}
+                  {(data.accessorGenerated === "setter" || data.accessorGenerated === "both") && (
+                    <Badge variant="secondary" className="text-xs">set</Badge>
+                  )}
+                </span>
+              }
+            />
+            {data.interfaceDelegatedTo && (
+              <Field label="Delegates to" value={<span className="text-teal-300">{data.interfaceDelegatedTo}</span>} />
+            )}
+          </>
+        );
+
+      // NEW: Destructuring
+      case "Destructuring":
+        return (
+          <>
+            <Field
+              label="Variable"
+              value={<span className="text-amber-400 font-semibold">{data.variableName}</span>}
+            />
+            <Field label="Source Type" value={data.sourceType} />
+            <Field
+              label="Component"
+              value={
+                <span className="flex items-center gap-2">
+                  <code className="text-amber-300">{data.componentFunction}()</code>
+                  <span className="text-muted-foreground">→</span>
+                  <span className="text-amber-400">{data.componentType}</span>
+                </span>
+              }
+            />
+            <Field label="Index" value={`#${data.componentIndex}`} />
+            {data.isDataClass && (
+              <Field label="Source" value={<Badge variant="outline" className="text-xs text-amber-300">data class</Badge>} />
             )}
           </>
         );

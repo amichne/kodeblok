@@ -14,6 +14,11 @@ export const CATEGORY_COLORS: Record<InsightCategory, string> = {
   EXTENSIONS: "text-blue-400 border-blue-400/30 bg-blue-400/10",
   LAMBDAS: "text-yellow-400 border-yellow-400/30 bg-yellow-400/10",
   OVERLOADS: "text-red-400 border-red-400/30 bg-red-400/10",
+  // New categories
+  OPERATORS: "text-pink-400 border-pink-400/30 bg-pink-400/10",
+  RECEIVERS: "text-indigo-400 border-indigo-400/30 bg-indigo-400/10",
+  DELEGATION: "text-teal-400 border-teal-400/30 bg-teal-400/10",
+  DESTRUCTURING: "text-amber-400 border-amber-400/30 bg-amber-400/10",
 };
 
 export const CATEGORY_LABELS: Record<InsightCategory, string> = {
@@ -24,6 +29,26 @@ export const CATEGORY_LABELS: Record<InsightCategory, string> = {
   EXTENSIONS: "Extensions",
   LAMBDAS: "Lambdas",
   OVERLOADS: "Overloads",
+  // New categories
+  OPERATORS: "Operators",
+  RECEIVERS: "Receivers",
+  DELEGATION: "Delegation",
+  DESTRUCTURING: "Destructuring",
+};
+
+// Icons/emojis for categories (useful for compact displays)
+export const CATEGORY_ICONS: Record<InsightCategory, string> = {
+  TYPE_INFERENCE: "T",
+  NULLABILITY: "?",
+  SMART_CASTS: "→",
+  SCOPING: "{}",
+  EXTENSIONS: "⊕",
+  LAMBDAS: "λ",
+  OVERLOADS: "#",
+  OPERATORS: "±",
+  RECEIVERS: "@",
+  DELEGATION: "⇢",
+  DESTRUCTURING: "( )",
 };
 
 export function getInsightColor(category: InsightCategory) {

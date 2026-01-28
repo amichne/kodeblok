@@ -5,7 +5,11 @@ export type InsightCategory =
   | "SCOPING"
   | "EXTENSIONS"
   | "LAMBDAS"
-  | "OVERLOADS";
+  | "OVERLOADS"
+  | "OPERATORS"
+  | "RECEIVERS"
+  | "DELEGATION"
+  | "DESTRUCTURING";
 
 export type InsightLevel = "OFF" | "HIGHLIGHTS" | "ALL";
 
@@ -104,6 +108,46 @@ export interface OverloadData {
   defaultArgumentsUsed?: string[] | null;
 }
 
+export interface OperatorData {
+  type: "Operator";
+  operator: string;
+  resolvedFunction: string;
+  receiverType: string;
+  parameterTypes: string[];
+  returnType: string;
+  isInfix: boolean;
+  declaringClass: string;
+}
+
+export interface ReceiverData {
+  type: "Receiver";
+  receiverType: string;
+  receiverKind: "dispatch" | "extension" | "implicit" | "labeled";
+  label?: string | null;
+  scopeDepth: number;
+  alternativeReceivers: string[];
+}
+
+export interface DelegationData {
+  type: "Delegation";
+  delegationKind: "lazy" | "observable" | "vetoable" | "notNull" | "map" | "custom" | "interface";
+  delegateType: string;
+  propertyType: string;
+  delegateExpression?: string | null;
+  accessorGenerated: "getter" | "setter" | "both";
+  interfaceDelegatedTo?: string | null;
+}
+
+export interface DestructuringData {
+  type: "Destructuring";
+  sourceType: string;
+  componentIndex: number;
+  componentFunction: string;
+  componentType: string;
+  isDataClass: boolean;
+  variableName: string;
+}
+
 export type InsightData =
   | TypeInferenceData
   | NullabilityData
@@ -111,7 +155,11 @@ export type InsightData =
   | ScopingData
   | ExtensionData
   | LambdaData
-  | OverloadData;
+  | OverloadData
+  | OperatorData
+  | ReceiverData
+  | DelegationData
+  | DestructuringData;
 
 export interface SemanticInsight {
   id: string;
@@ -140,6 +188,10 @@ export const CATEGORY_COLORS: Record<InsightCategory, string> = {
   EXTENSIONS: "#60a5fa",
   LAMBDAS: "#facc15",
   OVERLOADS: "#f87171",
+  OPERATORS: "#f472b6",
+  RECEIVERS: "#818cf8",
+  DELEGATION: "#2dd4bf",
+  DESTRUCTURING: "#fbbf24",
 };
 
 export const CATEGORY_LABELS: Record<InsightCategory, string> = {
@@ -150,4 +202,8 @@ export const CATEGORY_LABELS: Record<InsightCategory, string> = {
   EXTENSIONS: "Extensions",
   LAMBDAS: "Lambdas",
   OVERLOADS: "Overloads",
+  OPERATORS: "Operators",
+  RECEIVERS: "Receivers",
+  DELEGATION: "Delegation",
+  DESTRUCTURING: "Destructuring",
 };
