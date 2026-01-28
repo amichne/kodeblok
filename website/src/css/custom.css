@@ -1,0 +1,197 @@
+/**
+ * Kodeblok custom styles for Docusaurus
+ */
+
+:root {
+  --ifm-color-primary: #7c3aed;
+  --ifm-color-primary-dark: #6d28d9;
+  --ifm-color-primary-darker: #5b21b6;
+  --ifm-color-primary-darkest: #4c1d95;
+  --ifm-color-primary-light: #8b5cf6;
+  --ifm-color-primary-lighter: #a78bfa;
+  --ifm-color-primary-lightest: #c4b5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #a78bfa;
+  --ifm-color-primary-dark: #8b5cf6;
+  --ifm-color-primary-darker: #7c3aed;
+  --ifm-color-primary-darkest: #6d28d9;
+  --ifm-color-primary-light: #c4b5fd;
+  --ifm-color-primary-lighter: #ddd6fe;
+  --ifm-color-primary-lightest: #ede9fe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: #1e1f22;
+}
+
+/* Playground styles */
+.playground-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  background: var(--ifm-background-color);
+}
+
+.playground-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-navbar-background-color);
+}
+
+.playground-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.playground-editor {
+  flex: 1;
+  min-height: 0;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.playground-insights {
+  height: 200px;
+  overflow: auto;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.playground-details {
+  background: var(--ifm-card-background-color);
+}
+
+/* Insight list styles */
+.insight-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.insight-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  transition: background-color 0.15s;
+}
+
+.insight-item:hover {
+  background: var(--ifm-menu-color-background-hover);
+}
+
+.insight-item.selected {
+  background: var(--ifm-menu-color-background-active);
+}
+
+.insight-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.insight-dot.type-inference { background-color: #22d3ee; }
+.insight-dot.nullability { background-color: #fb923c; }
+.insight-dot.smart-casts { background-color: #4ade80; }
+.insight-dot.scoping { background-color: #c084fc; }
+.insight-dot.extensions { background-color: #60a5fa; }
+.insight-dot.lambdas { background-color: #facc15; }
+.insight-dot.overloads { background-color: #f87171; }
+
+.insight-token {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 500;
+}
+
+.insight-summary {
+  color: var(--ifm-color-secondary-darkest);
+  font-size: 0.85rem;
+}
+
+.insight-meta {
+  font-size: 0.75rem;
+  color: var(--ifm-color-secondary);
+}
+
+/* Upload button */
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.15s;
+}
+
+.upload-button:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+/* Details panel */
+.details-panel {
+  padding: 1rem;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-menu-color-background-hover);
+  cursor: pointer;
+}
+
+.details-content {
+  padding: 1rem;
+}
+
+.detail-field {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.detail-label {
+  width: 120px;
+  color: var(--ifm-color-secondary);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+}
+
+/* Monaco editor overrides */
+.monaco-editor .insight-decoration {
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.monaco-editor .insight-type_inference { border-bottom-color: #22d3ee; }
+.monaco-editor .insight-nullability { border-bottom-color: #fb923c; }
+.monaco-editor .insight-smart_casts { border-bottom-color: #4ade80; }
+.monaco-editor .insight-scoping { border-bottom-color: #c084fc; }
+.monaco-editor .insight-extensions { border-bottom-color: #60a5fa; }
+.monaco-editor .insight-lambdas { border-bottom-color: #facc15; }
+.monaco-editor .insight-overloads { border-bottom-color: #f87171; }
+
+.monaco-editor .insight-selected {
+  background-color: rgba(124, 58, 237, 0.2) !important;
+  border-bottom-width: 3px;
+}
