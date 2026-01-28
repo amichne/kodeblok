@@ -16,16 +16,16 @@ done
 SCRIPT_DIR=$(cd "$(dirname "$SCRIPT")" && pwd)
 
 # Paths to bundled JRE and JAR (override with env vars)
-if [ -n "${HOVER_CLI_HOME:-}" ]; then
-    DEFAULT_JAVA="$HOVER_CLI_HOME/jre/bin/java"
-    DEFAULT_JAR="$HOVER_CLI_HOME/lib/kodeblok-cli.jar"
+if [ -n "${KODEBLOK_CLI_HOME:-}" ]; then
+    DEFAULT_JAVA="$KODEBLOK_CLI_HOME/jre/bin/java"
+    DEFAULT_JAR="$KODEBLOK_CLI_HOME/lib/kodeblok-cli.jar"
 else
     DEFAULT_JAVA="$SCRIPT_DIR/../jre/bin/java"
     DEFAULT_JAR="$SCRIPT_DIR/../lib/kodeblok-cli.jar"
 fi
 
-JAVA_BIN="${HOVER_CLI_JAVA:-$DEFAULT_JAVA}"
-JAR_PATH="${HOVER_CLI_JAR:-$DEFAULT_JAR}"
+JAVA_BIN="${KODEBLOK_CLI_JAVA:-$DEFAULT_JAVA}"
+JAR_PATH="${KODEBLOK_CLI_JAR:-$DEFAULT_JAR}"
 
 # Validation
 if [ ! -x "$JAVA_BIN" ]; then
@@ -35,7 +35,7 @@ if [ ! -x "$JAVA_BIN" ]; then
         JAVA_BIN="java"
     else
         echo "Error: Java runtime not found at $JAVA_BIN" >&2
-        echo "Set HOVER_CLI_JAVA or JAVA_HOME." >&2
+        echo "Set KODEBLOK_CLI_JAVA or JAVA_HOME." >&2
         exit 1
     fi
 fi

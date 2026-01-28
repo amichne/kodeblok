@@ -35,7 +35,7 @@ For a portable install, build the macOS distribution:
 
 ```bash
 ./gradlew :kodeblok-cli:assembleMacosDistribution
-export HOVER_CLI_HOME=/path/to/kodeblok-cli/build/dist/kodeblok-cli
+export KODEBLOK_CLI_HOME=/path/to/kodeblok-cli/build/dist/kodeblok-cli
 kodeblok --snippets-dir ./docs/snippets --output-dir ./website/static/hovermaps
 ```
 

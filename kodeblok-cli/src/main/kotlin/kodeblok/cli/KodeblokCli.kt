@@ -150,22 +150,22 @@ fun parseArgs(args: Array<String>): CliConfig? {
         return null
     }
 
-    var snippetsDir: File? = envValue("HOVER_SNIPPETS_DIR")?.let(::File)
-    var docsDir: File? = envValue("HOVER_DOCS_DIR")?.let(::File)
-    var outputDir: File? = envValue("HOVER_OUTPUT_DIR")?.let(::File)
+    var snippetsDir: File? = envValue("KODEBLOK_SNIPPETS_DIR")?.let(::File)
+    var docsDir: File? = envValue("KODEBLOK_DOCS_DIR")?.let(::File)
+    var outputDir: File? = envValue("KODEBLOK_OUTPUT_DIR")?.let(::File)
 
-    val includeMdxEnv = readEnvBoolean("HOVER_INCLUDE_MDX")
+    val includeMdxEnv = readEnvBoolean("KODEBLOK_INCLUDE_MDX")
     if (includeMdxEnv.invalid) return null
     var includeMdx = includeMdxEnv.value ?: true
 
-    var kotlinVersion = envValue("HOVER_KOTLIN_VERSION") ?: ENGINE_KOTLIN_VERSION
+    var kotlinVersion = envValue("KODEBLOK_KOTLIN_VERSION") ?: ENGINE_KOTLIN_VERSION
     val classpath = mutableListOf<String>().apply {
-        envValue("HOVER_CLASSPATH")?.let { addAll(splitClasspath(it)) }
+        envValue("KODEBLOK_CLASSPATH")?.let { addAll(splitClasspath(it)) }
     }
 
-    var jdkHome: String? = envValue("HOVER_JDK_HOME")
+    var jdkHome: String? = envValue("KODEBLOK_JDK_HOME")
 
-    val verboseEnv = readEnvBoolean("HOVER_VERBOSE")
+    val verboseEnv = readEnvBoolean("KODEBLOK_VERBOSE")
     if (verboseEnv.invalid) return null
     var verbose = verboseEnv.value ?: false
 
@@ -281,14 +281,14 @@ fun printUsage() {
           -h, --help                    Show this help message
 
         Environment Defaults (overridden by CLI options):
-          HOVER_SNIPPETS_DIR            Same as --snippets-dir
-          HOVER_DOCS_DIR                Same as --docs-dir
-          HOVER_OUTPUT_DIR              Same as --output-dir
-          HOVER_INCLUDE_MDX             true/false (default: true)
-          HOVER_KOTLIN_VERSION          Same as --kotlin-version
-          HOVER_CLASSPATH               Classpath (use OS path separator)
-          HOVER_JDK_HOME                Same as --jdk-home
-          HOVER_VERBOSE                 true/false (default: false)
+          KODEBLOK_SNIPPETS_DIR            Same as --snippets-dir
+          KODEBLOK_DOCS_DIR                Same as --docs-dir
+          KODEBLOK_OUTPUT_DIR              Same as --output-dir
+          KODEBLOK_INCLUDE_MDX             true/false (default: true)
+          KODEBLOK_KOTLIN_VERSION          Same as --kotlin-version
+          KODEBLOK_CLASSPATH               Classpath (use OS path separator)
+          KODEBLOK_JDK_HOME                Same as --jdk-home
+          KODEBLOK_VERBOSE                 true/false (default: false)
 
         Examples:
           # Basic usage - extract from snippets directory

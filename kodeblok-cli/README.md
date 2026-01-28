@@ -35,19 +35,19 @@ The distribution is created at `kodeblok-cli/build/dist/kodeblok-cli`.
 The `kodeblok` launcher script at the repo root handles JAR and Java resolution:
 
 ```bash
-export HOVER_CLI_HOME=/path/to/kodeblok-cli
+export KODEBLOK_CLI_HOME=/path/to/kodeblok-cli
 kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
-For portable installations, set `HOVER_CLI_HOME`:
+For portable installations, set `KODEBLOK_CLI_HOME`:
 
 ```bash
-export HOVER_CLI_JAR=/path/to/kodeblok-cli.jar
-export HOVER_CLI_JAVA=/path/to/java
+export KODEBLOK_CLI_JAR=/path/to/kodeblok-cli.jar
+export KODEBLOK_CLI_JAVA=/path/to/java
 kodeblock --snippets-dir ./docs/snippets --output-dir ./output
 ```
 
-`HOVER_CLI_HOME` should point to the distribution root containing `bin/`, `lib/`, and `jre/`.
+`KODEBLOK_CLI_HOME` should point to the distribution root containing `bin/`, `lib/`, and `jre/`.
 
 ### Using the development script
 
@@ -99,14 +99,14 @@ These provide defaults that CLI options override:
 
 | Variable | Description |
 |----------|-------------|
-| `HOVER_SNIPPETS_DIR` | Same as `--snippets-dir` |
-| `HOVER_DOCS_DIR` | Same as `--docs-dir` |
-| `HOVER_OUTPUT_DIR` | Same as `--output-dir` |
-| `HOVER_INCLUDE_MDX` | `true`/`false` (default: true) |
-| `HOVER_KOTLIN_VERSION` | Same as `--kotlin-version` |
-| `HOVER_CLASSPATH` | Classpath (use OS path separator) |
-| `HOVER_JDK_HOME` | Same as `--jdk-home` |
-| `HOVER_VERBOSE` | `true`/`false` (default: false) |
+| `KODEBLOK_SNIPPETS_DIR` | Same as `--snippets-dir` |
+| `KODEBLOK_DOCS_DIR` | Same as `--docs-dir` |
+| `KODEBLOK_OUTPUT_DIR` | Same as `--output-dir` |
+| `KODEBLOK_INCLUDE_MDX` | `true`/`false` (default: true) |
+| `KODEBLOK_KOTLIN_VERSION` | Same as `--kotlin-version` |
+| `KODEBLOK_CLASSPATH` | Classpath (use OS path separator) |
+| `KODEBLOK_JDK_HOME` | Same as `--jdk-home` |
+| `KODEBLOK_VERBOSE` | `true`/`false` (default: false) |
 
 ## Examples
 

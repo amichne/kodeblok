@@ -15,12 +15,12 @@ if [ "${1:-}" == "--rebuild" ]; then
 fi
 
 resolve_java_bin() {
-    if [ -n "${HOVER_CLI_JAVA:-}" ]; then
-        echo "$HOVER_CLI_JAVA"
+    if [ -n "${KODEBLOK_CLI_JAVA:-}" ]; then
+        echo "$KODEBLOK_CLI_JAVA"
         return
     fi
-    if [ -n "${HOVER_CLI_HOME:-}" ] && [ -x "$HOVER_CLI_HOME/jre/bin/java" ]; then
-        echo "$HOVER_CLI_HOME/jre/bin/java"
+    if [ -n "${KODEBLOK_CLI_HOME:-}" ] && [ -x "$KODEBLOK_CLI_HOME/jre/bin/java" ]; then
+        echo "$KODEBLOK_CLI_HOME/jre/bin/java"
         return
     fi
     if [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
@@ -35,18 +35,18 @@ resolve_repo_jar() {
 }
 
 resolve_jar_path() {
-    if [ -n "${HOVER_CLI_JAR:-}" ]; then
-        echo "$HOVER_CLI_JAR"
+    if [ -n "${KODEBLOK_CLI_JAR:-}" ]; then
+        echo "$KODEBLOK_CLI_JAR"
         return
     fi
-    if [ -n "${HOVER_CLI_HOME:-}" ]; then
-        echo "$HOVER_CLI_HOME/lib/kodeblok-cli.jar"
+    if [ -n "${KODEBLOK_CLI_HOME:-}" ]; then
+        echo "$KODEBLOK_CLI_HOME/lib/kodeblok-cli.jar"
         return
     fi
     resolve_repo_jar
 }
 
-if [ -n "${HOVER_CLI_JAR:-}" ] || [ -n "${HOVER_CLI_HOME:-}" ]; then
+if [ -n "${KODEBLOK_CLI_JAR:-}" ] || [ -n "${KODEBLOK_CLI_HOME:-}" ]; then
     JAR_PATH="$(resolve_jar_path)"
 else
     if $REBUILD || [ -z "$(resolve_repo_jar)" ]; then
@@ -58,14 +58,14 @@ fi
 
 if [ -z "$JAR_PATH" ] || [ ! -f "$JAR_PATH" ]; then
     echo "Error: kodeblok-cli JAR not found." >&2
-    echo "Set HOVER_CLI_JAR or HOVER_CLI_HOME, or run with --rebuild." >&2
+    echo "Set KODEBLOK_CLI_JAR or KODEBLOK_CLI_HOME, or run with --rebuild." >&2
     exit 1
 fi
 
 JAVA_BIN="$(resolve_java_bin)"
 if [ "$JAVA_BIN" = "java" ] && ! command -v java >/dev/null 2>&1; then
     echo "Error: java not found on PATH." >&2
-    echo "Set HOVER_CLI_JAVA or JAVA_HOME." >&2
+    echo "Set KODEBLOK_CLI_JAVA or JAVA_HOME." >&2
     exit 1
 fi
 
