@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "lib": ["ES2019", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "kodeblok": ["../dist/index.d.ts"],
+      "kodeblok/styles.css": ["../dist/styles.css"]
+    },
+    "types": ["vite/client"]
+  },
+  "include": ["src"]
+}
