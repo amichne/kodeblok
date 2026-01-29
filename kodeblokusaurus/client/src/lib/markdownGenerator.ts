@@ -1,7 +1,7 @@
-import { SemanticInsight } from "./types";
+import type { SemanticInsight } from "@shared/types";
 
 export function generateHoverMarkdown(insight: SemanticInsight): string {
-  const header = `**${insight.category}** • ${insight.kind}`;
+  const header = `**${insight.category}** \u2022 ${insight.kind}`;
   let body = "";
 
   switch (insight.data.type) {
@@ -14,7 +14,7 @@ ${insight.data.declaredType ? `**Declared Type**: \`${insight.data.declaredType}
 
     case "SmartCast":
       body = `
-**Smart Cast**: \`${insight.data.originalType}\` → \`${insight.data.narrowedType}\`
+**Smart Cast**: \`${insight.data.originalType}\` \u2192 \`${insight.data.narrowedType}\`
 **Evidence**: ${insight.data.evidenceKind}
 `;
       break;
@@ -22,7 +22,7 @@ ${insight.data.declaredType ? `**Declared Type**: \`${insight.data.declaredType}
     case "Scoping":
       body = `
 **Scope Function**: \`${insight.data.scopeFunction}\`
-**Context**: \`${insight.data.outerReceiver || "Global"}\` → \`${insight.data.innerReceiver || "Unit"}\`
+**Context**: \`${insight.data.outerReceiver || "Global"}\` \u2192 \`${insight.data.innerReceiver || "Unit"}\`
 ${insight.data.itParameterType ? `**it**: \`${insight.data.itParameterType}\`` : ""}
 `;
       break;
@@ -35,13 +35,14 @@ ${insight.data.itParameterType ? `**it**: \`${insight.data.itParameterType}\`` :
 `;
       break;
 
-    case "Lambda":
+    case "Lambda": {
       const params = insight.data.parameterTypes.map(p => `${p.name}: ${p.type}`).join(", ");
       body = `
 **Lambda**: \`(${params}) -> ${insight.data.returnType}\`
 **Context**: _${insight.data.inferredFromContext}_
 `;
       break;
+    }
 
     case "Nullability":
       body = `
@@ -57,7 +58,43 @@ ${insight.data.narrowedToNonNull ? "**Status**: Narrowed to Non-Null" : ""}
 **Candidates**: ${insight.data.candidateCount}
 `;
       break;
-      
+
+    case "Operator":
+      body = `
+**Operator**: \`${insight.data.operator}\` \u2192 \`${insight.data.resolvedFunction}()\`
+**Receiver**: \`${insight.data.receiverType}\`
+**Returns**: \`${insight.data.returnType}\`
+**Declared in**: _${insight.data.declaringClass}_
+`;
+      break;
+
+    case "Receiver":
+      body = `
+**Receiver**: \`${insight.data.receiverType}\`
+**Kind**: ${insight.data.receiverKind}
+${insight.data.label ? `**Label**: \`${insight.data.label}\`` : ""}
+**Scope Depth**: ${insight.data.scopeDepth}
+`;
+      break;
+
+    case "Delegation":
+      body = `
+**Delegation**: ${insight.data.delegationKind}
+**Delegate Type**: \`${insight.data.delegateType}\`
+**Property Type**: \`${insight.data.propertyType}\`
+**Accessor**: ${insight.data.accessorGenerated}
+`;
+      break;
+
+    case "Destructuring":
+      body = `
+**Variable**: \`${insight.data.variableName}\`
+**Source**: \`${insight.data.sourceType}\`
+**Component**: \`${insight.data.componentFunction}()\` \u2192 \`${insight.data.componentType}\`
+${insight.data.isDataClass ? "**Data Class**: Yes" : ""}
+`;
+      break;
+
     default:
       body = `No details available.`;
   }

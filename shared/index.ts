@@ -22,10 +22,14 @@ export type {
   InsightData,
   SemanticInsight,
   SemanticProfile,
-} from "@shared/types";
+} from "./types";
 
 export {
-  CATEGORY_HEX_COLORS as CATEGORY_COLORS,
+  CATEGORY_HEX_COLORS,
   CATEGORY_LABELS,
   CATEGORY_ICONS,
-} from "@shared/constants";
+  sortInsightsByPosition,
+  getInsightSummary,
+} from "./constants";
+
+export { SAMPLE_SNIPPET } from "./sampleData";

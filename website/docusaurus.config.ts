@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import path from 'path';
 
 const config: Config = {
   title: 'Kodeblok',
@@ -20,6 +21,23 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  plugins: [
+    function sharedAliasPlugin() {
+      return {
+        name: 'shared-alias',
+        configureWebpack() {
+          return {
+            resolve: {
+              alias: {
+                '@shared': path.resolve(__dirname, '../shared'),
+              },
+            },
+          };
+        },
+      };
+    },
+  ],
 
   presets: [
     [

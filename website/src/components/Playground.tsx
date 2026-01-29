@@ -1,35 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Editor, { Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
-import {
-  SemanticProfile,
-  SemanticInsight,
-  InsightCategory,
-  CATEGORY_LABELS,
-  CATEGORY_COLORS,
-} from './types';
-import { SAMPLE_SNIPPET } from './sampleData';
-
-function getInsightSummary(insight: SemanticInsight): string {
-  switch (insight.data.type) {
-    case 'TypeInference':
-      return insight.data.inferredType;
-    case 'SmartCast':
-      return `${insight.data.originalType} → ${insight.data.narrowedType}`;
-    case 'Scoping':
-      return insight.data.scopeFunction || 'scope change';
-    case 'Extension':
-      return insight.data.functionOrProperty;
-    case 'Lambda':
-      return insight.data.returnType;
-    case 'Nullability':
-      return insight.data.nullableType;
-    case 'Overload':
-      return `${insight.data.candidateCount} candidates`;
-    default:
-      return '';
-  }
-}
+import type { SemanticProfile, SemanticInsight, InsightCategory } from '@shared/types';
+import { CATEGORY_HEX_COLORS as CATEGORY_COLORS, CATEGORY_LABELS, getInsightSummary } from '@shared/constants';
+import { SAMPLE_SNIPPET } from '@shared/sampleData';
 
 function getCategoryClass(category: InsightCategory): string {
   return category.toLowerCase().replace('_', '-');
@@ -338,7 +312,7 @@ export default function Playground(): JSX.Element {
               >
                 <span className={`insight-dot ${getCategoryClass(insight.category)}`} />
                 <span className="insight-token">{insight.tokenText}</span>
-                <span className="insight-summary">{getInsightSummary(insight)}</span>
+                <span className="insight-summary">{getInsightSummary(insight.data)}</span>
                 <span className="insight-meta" style={{ marginLeft: 'auto' }}>
                   Ln {insight.position.from.line}
                 </span>
