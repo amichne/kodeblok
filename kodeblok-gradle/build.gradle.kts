@@ -18,7 +18,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("hoverMaps") {
-            id = "com.komunasuarus.hovermaps"
+            id = "com.kodeblok.hovermaps"
             implementationClass = "kodeblok.gradle.KodeblokMapsPlugin"
         }
     }

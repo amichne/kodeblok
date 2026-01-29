@@ -6,6 +6,7 @@ import kodeblok.schema.InsightCategory
 import kodeblok.schema.InsightData
 import kodeblok.schema.InsightKind
 import kodeblok.schema.InsightLevel
+import kodeblok.schema.Range
 import kodeblok.schema.ScopeRef
 import kodeblok.schema.SemanticInsight
 import kodeblok.schema.SmartCastData
@@ -44,3 +45,19 @@ data class RawInsight(
         )
     }
 }
+
+data class InsightSignature(
+    val category: InsightCategory,
+    val kind: InsightKind,
+    val position: Range,
+    val tokenText: String,
+    val data: InsightData,
+)
+
+fun SemanticInsight.signature(): InsightSignature = InsightSignature(
+    category = category,
+    kind = kind,
+    position = position,
+    tokenText = tokenText,
+    data = data
+)

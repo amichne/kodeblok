@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.kotlin
 
 plugins {
     kotlin("jvm") version "2.3.0"
-    id("com.komunasuarus.hovermaps")
+    id("com.kodeblok.hovermaps")
 }
 
 repositories {

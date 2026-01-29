@@ -16,7 +16,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
-rootProject.name = "komunasuarus"
+rootProject.name = "kodeblok"
 include("kodeblok-schema")
 include("kodeblok-engine")
 include("kodeblok-gradle")

@@ -45,7 +45,7 @@ Apply the plugin in your `build.gradle.kts`:
 
 ```kotlin
 plugins {
-    id("com.komunasuarus.hovermaps")
+    id("com.kodeblok.hovermaps")
 }
 
 hoverMaps {
@@ -96,7 +96,7 @@ intellijHome=/Applications/IntelliJ IDEA.app
 ```kotlin
 plugins {
     kotlin("jvm") version "2.3.0"
-    id("com.komunasuarus.hovermaps") version "1.0.0"
+    id("com.kodeblok.hovermaps") version "1.0.0"
 }
 
 repositories {

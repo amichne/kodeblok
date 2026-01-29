@@ -11,7 +11,7 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "com.komunasuarus.hovermaps") {
+            if (requested.id.id == "com.kodeblok.hovermaps") {
                 useVersion(hoverPluginVersion)
             }
         }

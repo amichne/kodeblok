@@ -17,7 +17,7 @@ import kotlin.system.exitProcess
 fun main(args: Array<String>) {
     // Handle --version flag
     if (args.contains("--version")) {
-        println("Komunasuarus Hover CLI version ${BuildConfig.VERSION}")
+        println("kodeblok Hover CLI version ${BuildConfig.VERSION}")
         exitProcess(0)
     }
 
@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
     }
 
     try {
-        println("Komunasuarus Hover Maps Generator")
+        println("kodeblok Hover Maps Generator")
         println("==================================")
         println()
         println("Configuration:")
@@ -263,7 +263,7 @@ fun parseArgs(args: Array<String>): CliConfig? {
 fun printUsage() {
     println(
         """
-        Komunasuarus Hover Maps Generator - Standalone CLI
+        kodeblok Hover Maps Generator - Standalone CLI
 
         Usage: kodeblok-cli [OPTIONS]
 

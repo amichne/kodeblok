@@ -4,7 +4,7 @@ plugins {
 }
 
 subprojects {
-    group = "com.komunasuarus"
+    group = "com.kodeblok"
     version = providers.gradleProperty("kodeblok.plugin.version")
         .orElse(providers.gradleProperty("kodeblok.cli.version"))
         .orElse("0.1.0-SNAPSHOT")

@@ -3,6 +3,7 @@ package kodeblok.gradle
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 
 class KodeblokMapsPlugin : Plugin<Project> {
@@ -30,7 +31,7 @@ class KodeblokMapsPlugin : Plugin<Project> {
                             ?.let { project.file(it) }
                         ?: throw GradleException("Unable to locate hovermaps plugin jar.")
         val engineClasspath = project.configurations.detachedConfiguration(
-            project.dependencies.create("com.komunasuarus:kodeblok-engine:$pluginVersion")
+            project.dependencies.create("com.kodeblok:kodeblok-engine:$pluginVersion")
         ).apply {
             isTransitive = true
             resolutionStrategy.force(
@@ -50,6 +51,11 @@ class KodeblokMapsPlugin : Plugin<Project> {
             task.includeMdx.set(extension.includeMdx)
             task.kotlinVersion.set(extension.kotlinVersion)
             task.workerClasspath.from(kotlinPluginJars, engineClasspath, pluginJar)
+            task.analysisClasspath.from(extension.analysisClasspath)
+            val sourceSets = project.extensions.findByType(JavaPluginExtension::class.java)?.sourceSets
+            sourceSets?.findByName("main")?.let { main ->
+                task.analysisClasspath.from(main.output)
+            }
             project.configurations.findByName("compileClasspath")
                 ?.let { task.analysisClasspath.from(it) }
             ?: task.analysisClasspath.from(engineClasspath)
