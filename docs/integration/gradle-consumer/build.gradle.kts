@@ -18,4 +18,6 @@ hoverMaps {
     snippetsDir.set(layout.projectDirectory.dir("docs/snippets"))
     outputDir.set(layout.projectDirectory.dir("build/hovermaps"))
     includeMdx.set(false)
+    analysisClasspath.from(sourceSets.main.get().output)
+    analysisClasspath.from(configurations.compileClasspath)
 }

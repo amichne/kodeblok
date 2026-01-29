@@ -19,6 +19,10 @@
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
 }
 
+.kb-codeblock {
+  min-height: 180px;
+}
+
 .kb-codepane * {
   box-sizing: border-box;
 }

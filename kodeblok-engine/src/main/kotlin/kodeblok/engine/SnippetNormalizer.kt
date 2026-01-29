@@ -56,7 +56,8 @@ class SnippetNormalizer {
         return NormalizedSnippet(
             snippetId = source.snippetId,
             code = normalized,
-            origin = source.origin
+            origin = source.origin,
+            imports = source.imports
         )
     }
 

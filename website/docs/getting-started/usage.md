@@ -111,6 +111,20 @@ fun demo(service: UserService, user: User) {
 
 Because this snippet contains `import` statements, Kodeblok treats it as a file-level snippet and analysis will resolve your custom types.
 
+### Short snippets with imports (MDX)
+
+For small examples, keep the snippet minimal and declare imports in the fence metadata:
+
+````mdx
+```kotlin id=user-short imports="com.acme.user.UserService, com.acme.user.User"
+val user = service.findUser(id)
+println(user.name)
+```
+````
+
+Kodeblok injects these imports into the analysis wrapper, so your short snippet can reference project types without adding boilerplate.
+Avoid `package` declarations in these short snippets; if you need a package, use a full `.kt` snippet file with explicit imports instead.
+
 ### Gradle plugin (recommended)
 
 Add your library output + dependencies to the hover maps classpath:

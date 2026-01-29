@@ -6,6 +6,7 @@ data class SnippetSource(
     val snippetId: String,
     val rawCode: String,
     val origin: OriginLocation,
+    val imports: List<String> = emptyList(),
 )
 
 data class OriginLocation(
@@ -20,6 +21,7 @@ data class NormalizedSnippet(
     val snippetId: String,
     val code: String,
     val origin: OriginLocation,
+    val imports: List<String> = emptyList(),
 )
 
 data class WrappedSnippet(

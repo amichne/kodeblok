@@ -53,6 +53,9 @@ hoverMaps {
     snippetsDir.set(file("docs/snippets"))
     outputDir.set(file("website/static/hovermaps"))
     includeMdx.set(true)
+    // Include your library output so snippets can import project types
+    analysisClasspath.from(sourceSets.main.get().output)
+    analysisClasspath.from(configurations.compileClasspath)
 }
 ```
 
@@ -112,6 +115,8 @@ hoverMaps {
     snippetsDir.set(layout.projectDirectory.dir("docs/snippets"))
     outputDir.set(layout.projectDirectory.dir("build/hovermaps"))
     includeMdx.set(false)
+    analysisClasspath.from(sourceSets.main.get().output)
+    analysisClasspath.from(configurations.compileClasspath)
 }
 ```
 
@@ -156,14 +161,24 @@ The analyzer automatically extracts insights for type inference, nullability che
 
 ### MDX Fenced Code Blocks
 
-Embed snippets in documentation with `snippet:id` metadata:
+Embed snippets in documentation with `id` metadata:
 
 ````markdown
-```kotlin snippet:id=example
+```kotlin id=example
 val items = listOf("a", "b")
 val mapped = items.map { it.uppercase() }
 ```
 ````
+
+For short snippets that need custom imports, add an `imports` list and keep the snippet itself minimal:
+
+````markdown
+```kotlin id=user-demo imports="com.acme.user.UserService, com.acme.user.User"
+val user = service.findUser(id)
+println(user.name)
+```
+````
+Avoid `package` declarations in these short snippets; use a full `.kt` snippet file with explicit imports when you need a package.
 
 ## Output Format
 

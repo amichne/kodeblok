@@ -187,13 +187,21 @@ The analyzer automatically extracts insights without requiring manual markers.
 
 ### MDX Fenced Code Blocks
 
-Add kodeblock markers in fenced code blocks with `snippet:id` metadata:
-Add `snippet:id` metadata to fenced code blocks:
+Add `id` metadata to fenced code blocks:
 
 ````markdown
-```kotlin snippet:id=example
+```kotlin id=example
 val items = listOf("a", "b")
 val mapped = items.map { it.uppercase() }
+```
+````
+
+For short snippets that need custom imports:
+
+````markdown
+```kotlin id=user-demo imports="com.acme.user.UserService, com.acme.user.User"
+val user = service.findUser(id)
+println(user.name)
 ```
 ````
 

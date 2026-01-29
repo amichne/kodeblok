@@ -12,7 +12,7 @@ pnpm add kodeblok
 
 ```tsx
 import "kodeblok/styles.css";
-import { CodePane, type SemanticProfile } from "kodeblok";
+import { CodePane, InsightCodeBlock, type SemanticProfile } from "kodeblok";
 
 export function Example({ snippet }: { snippet: SemanticProfile }) {
   return (
@@ -20,6 +20,19 @@ export function Example({ snippet }: { snippet: SemanticProfile }) {
       <CodePane snippet={snippet} />
     </div>
   );
+}
+```
+
+## Minimal code block
+
+For short snippets (no side panel), use the lightweight block:
+
+```tsx
+import "kodeblok/styles.css";
+import { InsightCodeBlock, type SemanticProfile } from "kodeblok";
+
+export function MiniExample({ snippet }: { snippet: SemanticProfile }) {
+  return <InsightCodeBlock snippet={snippet} height={220} />;
 }
 ```
 

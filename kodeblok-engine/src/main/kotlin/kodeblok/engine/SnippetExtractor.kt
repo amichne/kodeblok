@@ -63,7 +63,8 @@ class SnippetExtractor {
                 index += 1
                 continue
             }
-            val snippetId = fenceInfo
+            val snippetId = fenceInfo.snippetId
+            val imports = fenceInfo.imports
             val startLine = index + 1
             val builder = StringBuilder()
             index += 1
@@ -79,7 +80,8 @@ class SnippetExtractor {
                 SnippetSource(
                     snippetId = snippetId,
                     rawCode = builder.toString(),
-                    origin = OriginLocation(path.toString(), startLine + 1, 1)
+                    origin = OriginLocation(path.toString(), startLine + 1, 1),
+                    imports = imports
                 )
             )
             index += 1
@@ -87,7 +89,12 @@ class SnippetExtractor {
         return sources
     }
 
-    private fun parseFenceInfo(line: String): String? {
+    private data class FenceInfo(
+        val snippetId: String,
+        val imports: List<String>,
+    )
+
+    private fun parseFenceInfo(line: String): FenceInfo? {
         val trimmed = line.trim()
         if (!trimmed.startsWith("```") || !trimmed.contains("kotlin")) {
             return null
@@ -95,15 +102,45 @@ class SnippetExtractor {
         if (!trimmed.startsWith("```kotlin")) {
             return null
         }
-        val idMatch = Regex("\\bid=([^\\s]+)").find(trimmed)
-                      ?: throw HoverEngineException("Missing id in kotlin fence: $line")
-        val rawId = idMatch.groupValues[1].trim()
-        val snippetId = rawId.trim('"', '\'')
+        val attributes = parseFenceAttributes(trimmed.removePrefix("```kotlin").trim())
+        val rawId = attributes["id"]
+            ?: attributes["snippet:id"]
+            ?: throw HoverEngineException("Missing id in kotlin fence: $line")
+        val snippetId = rawId.trim()
         if (snippetId.isBlank()) {
             throw HoverEngineException("Blank id in kotlin fence: $line")
         }
-        return snippetId
+        val importsRaw = attributes["imports"]?.trim().orEmpty()
+        val imports = if (importsRaw.isBlank()) {
+            emptyList()
+        } else {
+            parseImports(importsRaw)
+        }
+        if (attributes.containsKey("imports") && imports.isEmpty()) {
+            throw HoverEngineException("Empty imports in kotlin fence: $line")
+        }
+        return FenceInfo(snippetId = snippetId, imports = imports)
     }
+
+    private fun parseFenceAttributes(raw: String): Map<String, String> {
+        if (raw.isBlank()) return emptyMap()
+        val attributes = mutableMapOf<String, String>()
+        val regex = Regex("([A-Za-z0-9:_-]+)=((\"[^\"]*\")|('[^']*')|([^\\s]+))")
+        regex.findAll(raw).forEach { match ->
+            val key = match.groupValues[1]
+            val value = match.groupValues[3]
+                .ifEmpty { match.groupValues[4] }
+                .ifEmpty { match.groupValues[5] }
+                .trim('"', '\'')
+            attributes[key] = value
+        }
+        return attributes
+    }
+
+    private fun parseImports(raw: String): List<String> =
+        raw.split(",")
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
 
     private fun ensureUniqueSnippetIds(sources: List<SnippetSource>) {
         val seen = mutableMapOf<String, OriginLocation>()
