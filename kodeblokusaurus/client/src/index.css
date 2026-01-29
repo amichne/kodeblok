@@ -206,6 +206,18 @@
   background-color: var(--accent);
 }
 
+/* Scope + receiver highlights */
+.scope-decoration {
+  background-color: rgba(99, 102, 241, 0.08);
+  border-left: 2px solid rgba(99, 102, 241, 0.35);
+  border-radius: 2px;
+}
+
+.scope-decoration.scope-receiver {
+  background-color: rgba(45, 212, 191, 0.10);
+  border-left-color: rgba(45, 212, 191, 0.6);
+}
+
 /* Category Colors */
 .insight-type_inference { border-bottom-color: #22d3ee; } /* cyan-400 */
 .insight-nullability { border-bottom-color: #fb923c; } /* orange-400 */
@@ -220,6 +232,11 @@
   background-color: var(--accent) !important;
   border-bottom-width: 3px;
   z-index: 20;
+}
+
+.insight-active {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  z-index: 10;
 }
 
 .insight-text-selected {
