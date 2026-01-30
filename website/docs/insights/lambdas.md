@@ -20,14 +20,6 @@ Inferred parameter type (often for `it`).
 
 Inferred return type.
 
-### SAM_CONVERSION
-
-Single Abstract Method conversion.
-
-### TRAILING_LAMBDA
-
-Trailing lambda syntax usage.
-
 ## Data Fields
 
 | Field | Type | Description |
@@ -45,9 +37,4 @@ val doubled = numbers.map { it * 2 }
 //            parameterTypes: [{name: "it", type: "Int"}]
 //            returnType: Int
 //            inferredFromContext: "map function"
-
-button.setOnClickListener { view ->
-//                        ^^^^^^^^ LAMBDAS: SAM_CONVERSION
-//     samInterface: View.OnClickListener
-}
 ```

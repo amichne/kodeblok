@@ -12,6 +12,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.workers.WorkerExecutor
 import javax.inject.Inject
+import kodeblok.schema.InsightLevel
 
 abstract class GenerateHoverMapsTask @Inject constructor(
     private val workerExecutor: WorkerExecutor,
@@ -33,6 +34,9 @@ abstract class GenerateHoverMapsTask @Inject constructor(
     @get:Input
     abstract val kotlinVersion: Property<String>
 
+    @get:Input
+    abstract val analysisLevel: Property<InsightLevel>
+
     @get:Classpath
     abstract val analysisClasspath: ConfigurableFileCollection
 
@@ -50,6 +54,7 @@ abstract class GenerateHoverMapsTask @Inject constructor(
             params.outputDir.set(outputDir)
             params.includeMdx.set(includeMdx)
             params.kotlinVersion.set(kotlinVersion)
+            params.analysisLevel.set(analysisLevel)
             params.analysisClasspath.from(analysisClasspath)
         }
         queue.await()

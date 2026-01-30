@@ -5,6 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
+import kodeblok.schema.InsightLevel
 
 class KodeblokMapsPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -25,6 +26,7 @@ class KodeblokMapsPlugin : Plugin<Project> {
         extension.outputDir.convention(project.layout.projectDirectory.dir("website/static/hovermaps"))
         extension.includeMdx.convention(true)
         extension.kotlinVersion.convention(project.getKotlinPluginVersion())
+        extension.analysisLevel.convention(InsightLevel.HIGHLIGHTS)
 
         val kotlinPluginJars = project.fileTree(kotlinPluginLibDir).matching { it.include("*.jar") }
         val pluginJar = KodeblokMapsPlugin::class.java.protectionDomain.codeSource?.location?.toURI()
@@ -50,6 +52,7 @@ class KodeblokMapsPlugin : Plugin<Project> {
             task.outputDir.set(extension.outputDir)
             task.includeMdx.set(extension.includeMdx)
             task.kotlinVersion.set(extension.kotlinVersion)
+            task.analysisLevel.set(extension.analysisLevel)
             task.workerClasspath.from(kotlinPluginJars, engineClasspath, pluginJar)
             task.analysisClasspath.from(extension.analysisClasspath)
             val sourceSets = project.extensions.findByType(JavaPluginExtension::class.java)?.sourceSets

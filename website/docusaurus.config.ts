@@ -31,6 +31,11 @@ const config: Config = {
             resolve: {
               alias: {
                 '@shared': path.resolve(__dirname, '../shared'),
+                kodeblok: path.resolve(__dirname, '../kodeblock-docusaurus/dist/index.js'),
+                'kodeblok/styles.css': path.resolve(
+                  __dirname,
+                  '../kodeblock-docusaurus/dist/styles.css'
+                ),
               },
             },
           };

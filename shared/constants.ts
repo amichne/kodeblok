@@ -9,10 +9,6 @@ export const CATEGORY_HEX_COLORS: Record<InsightCategory, string> = {
   EXTENSIONS: "#60a5fa",
   LAMBDAS: "#facc15",
   OVERLOADS: "#f87171",
-  OPERATORS: "#f472b6",
-  RECEIVERS: "#818cf8",
-  DELEGATION: "#2dd4bf",
-  DESTRUCTURING: "#fbbf24",
 };
 
 /** Human-readable labels for each insight category. */
@@ -24,10 +20,6 @@ export const CATEGORY_LABELS: Record<InsightCategory, string> = {
   EXTENSIONS: "Extensions",
   LAMBDAS: "Lambdas",
   OVERLOADS: "Overloads",
-  OPERATORS: "Operators",
-  RECEIVERS: "Receivers",
-  DELEGATION: "Delegation",
-  DESTRUCTURING: "Destructuring",
 };
 
 /** Compact single-character or short icons for each category. */
@@ -39,10 +31,6 @@ export const CATEGORY_ICONS: Record<InsightCategory, string> = {
   EXTENSIONS: "\u2295",
   LAMBDAS: "\u03BB",
   OVERLOADS: "#",
-  OPERATORS: "\u00B1",
-  RECEIVERS: "@",
-  DELEGATION: "\u21E2",
-  DESTRUCTURING: "( )",
 };
 
 /** Sort insights by source position (line, then column). */
@@ -72,14 +60,6 @@ export function getInsightSummary(data: { type: string } & Record<string, unknow
       return data.nullableType as string;
     case "Overload":
       return `${data.candidateCount} candidates`;
-    case "Operator":
-      return `${data.operator} \u2192 ${data.resolvedFunction}()`;
-    case "Receiver":
-      return `${data.receiverKind}: ${data.receiverType}`;
-    case "Delegation":
-      return `${data.delegationKind}: ${data.propertyType}`;
-    case "Destructuring":
-      return `${data.variableName} \u2190 ${data.componentFunction}()`;
     default:
       return "";
   }

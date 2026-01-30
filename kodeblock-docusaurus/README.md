@@ -1,6 +1,6 @@
-# Kodeblok Code Pane
+# Kodeblok Viewer
 
-A portable React code pane for Kotlin snippets with semantic insights, optimized for use in Docusaurus docs.
+A portable React code viewer for Kotlin snippets with semantic insights, optimized for use in Docusaurus docs.
 
 ## Install
 
@@ -12,34 +12,19 @@ pnpm add kodeblok
 
 ```tsx
 import "kodeblok/styles.css";
-import { CodePane, InsightCodeBlock, type SemanticProfile } from "kodeblok";
+import { Kodeblok, type SemanticProfile } from "kodeblok";
 
 export function Example({ snippet }: { snippet: SemanticProfile }) {
   return (
-    <div style={{ height: 520 }}>
-      <CodePane snippet={snippet} />
-    </div>
+    <Kodeblok snippet={snippet} height={520} />
   );
-}
-```
-
-## Minimal code block
-
-For short snippets (no side panel), use the lightweight block:
-
-```tsx
-import "kodeblok/styles.css";
-import { InsightCodeBlock, type SemanticProfile } from "kodeblok";
-
-export function MiniExample({ snippet }: { snippet: SemanticProfile }) {
-  return <InsightCodeBlock snippet={snippet} height={220} />;
 }
 ```
 
 ## Docusaurus notes
 
 - The component lazy-loads Monaco on the client; server-side renders a lightweight `<pre>` fallback.
-- Ensure the container has an explicit height (inline style or CSS class).
+- Ensure the container has an explicit height via the `height` prop or a parent container.
 
 ## Build
 

@@ -16,14 +16,6 @@ Kotlin's scope functions (`let`, `run`, `with`, `apply`, `also`) create new scop
 
 Entry point of a scope function.
 
-### RECEIVER_CHANGE
-
-Shows how the receiver changes.
-
-### IMPLICIT_THIS
-
-Where `this` is used implicitly.
-
 ## Data Fields
 
 | Field | Type | Description |

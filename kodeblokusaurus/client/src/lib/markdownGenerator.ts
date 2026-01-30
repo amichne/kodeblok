@@ -59,42 +59,6 @@ ${insight.data.narrowedToNonNull ? "**Status**: Narrowed to Non-Null" : ""}
 `;
       break;
 
-    case "Operator":
-      body = `
-**Operator**: \`${insight.data.operator}\` \u2192 \`${insight.data.resolvedFunction}()\`
-**Receiver**: \`${insight.data.receiverType}\`
-**Returns**: \`${insight.data.returnType}\`
-**Declared in**: _${insight.data.declaringClass}_
-`;
-      break;
-
-    case "Receiver":
-      body = `
-**Receiver**: \`${insight.data.receiverType}\`
-**Kind**: ${insight.data.receiverKind}
-${insight.data.label ? `**Label**: \`${insight.data.label}\`` : ""}
-**Scope Depth**: ${insight.data.scopeDepth}
-`;
-      break;
-
-    case "Delegation":
-      body = `
-**Delegation**: ${insight.data.delegationKind}
-**Delegate Type**: \`${insight.data.delegateType}\`
-**Property Type**: \`${insight.data.propertyType}\`
-**Accessor**: ${insight.data.accessorGenerated}
-`;
-      break;
-
-    case "Destructuring":
-      body = `
-**Variable**: \`${insight.data.variableName}\`
-**Source**: \`${insight.data.sourceType}\`
-**Component**: \`${insight.data.componentFunction}()\` \u2192 \`${insight.data.componentType}\`
-${insight.data.isDataClass ? "**Data Class**: Yes" : ""}
-`;
-      break;
-
     default:
       body = `No details available.`;
   }

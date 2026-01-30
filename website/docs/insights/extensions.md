@@ -20,10 +20,6 @@ Call to an extension function.
 
 Access to an extension property.
 
-### MEMBER_VS_EXTENSION_RESOLUTION
-
-When an extension might shadow a member.
-
 ## Data Fields
 
 | Field | Type | Description |

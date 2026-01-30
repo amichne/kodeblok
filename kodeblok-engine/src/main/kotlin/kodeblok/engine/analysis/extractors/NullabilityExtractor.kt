@@ -38,7 +38,7 @@ class NullabilityExtractor(
             level = level,
             kind = InsightKind.NULL_SAFE_CALL,
             data = NullabilityData(
-                type = rendered,
+                nullableType = rendered,
                 isNullable = isNullable,
                 isPlatformType = false,
                 narrowedToNonNull = false
@@ -59,7 +59,7 @@ class NullabilityExtractor(
             level = level,
             kind = InsightKind.ELVIS_OPERATOR,
             data = NullabilityData(
-                type = rendered,
+                nullableType = rendered,
                 isNullable = isNullable,
                 isPlatformType = false,
                 narrowedToNonNull = false
@@ -80,7 +80,7 @@ class NullabilityExtractor(
             level = level,
             kind = InsightKind.NOT_NULL_ASSERTION,
             data = NullabilityData(
-                type = rendered,
+                nullableType = rendered,
                 isNullable = isNullable,
                 isPlatformType = false,
                 narrowedToNonNull = true
@@ -99,7 +99,7 @@ class NullabilityExtractor(
             level = level,
             kind = InsightKind.NULLABLE_TYPE,
             data = NullabilityData(
-                type = text,
+                nullableType = text,
                 isNullable = true,
                 isPlatformType = false,
                 narrowedToNonNull = false

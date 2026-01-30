@@ -82,15 +82,6 @@ export function getReasonText(insight: SemanticInsight): string {
 
     case "LAMBDAS":
       if (data.type === "Lambda") {
-        if (kind === "IMPLICIT_THIS") {
-          return `The implicit 'it' parameter refers to the single lambda parameter of type ${data.parameterTypes[0]?.type || "inferred"}.`;
-        }
-        if (kind === "SAM_CONVERSION") {
-          return `This lambda is converted to a SAM (Single Abstract Method) interface ${data.samInterface || "from Java"}.`;
-        }
-        if (kind === "TRAILING_LAMBDA") {
-          return "The lambda is passed as the last parameter using trailing lambda syntax.";
-        }
         if (data.inferredFromContext) {
           return `Lambda types inferred from ${data.inferredFromContext}: parameters ${data.parameterTypes.map((p) => `${p.name || "_"}: ${p.type}`).join(", ")}, returns ${data.returnType}.`;
         }

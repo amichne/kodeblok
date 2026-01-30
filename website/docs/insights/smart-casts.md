@@ -22,25 +22,13 @@ if (x is String) {
 }
 ```
 
-### NULL_CHECK_CAST
+### NEGATED_CHECK_EXIT
 
-After a null check.
-
-```kotlin
-if (name != null) {
-    println(name.length)  // name is smart cast to String (non-null)
-}
-```
-
-### WHEN_BRANCH_CAST
-
-In `when` expression branches.
+After a negated `is` check that exits early.
 
 ```kotlin
-when (value) {
-    is Int -> value + 1      // value is Int here
-    is String -> value.length // value is String here
-}
+if (value !is String) return
+println(value.length)  // value is smart cast to String
 ```
 
 ## Data Fields

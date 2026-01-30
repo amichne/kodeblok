@@ -5,11 +5,7 @@ export type InsightCategory =
   | "SCOPING"
   | "EXTENSIONS"
   | "LAMBDAS"
-  | "OVERLOADS"
-  | "OPERATORS"
-  | "RECEIVERS"
-  | "DELEGATION"
-  | "DESTRUCTURING";
+  | "OVERLOADS";
 
 export type InsightLevel = "OFF" | "HIGHLIGHTS" | "ALL";
 
@@ -31,64 +27,24 @@ export type InsightKind =
   | "GENERIC_ARGUMENT_INFERRED"
   // Nullability
   | "NULLABLE_TYPE"
-  | "PLATFORM_TYPE"
   | "NULL_SAFE_CALL"
   | "ELVIS_OPERATOR"
   | "NOT_NULL_ASSERTION"
   // Smart Casts
   | "IS_CHECK_CAST"
-  | "WHEN_BRANCH_CAST"
   | "NEGATED_CHECK_EXIT"
-  | "NULL_CHECK_CAST"
   // Scoping
-  | "RECEIVER_CHANGE"
-  | "IMPLICIT_THIS"
   | "SCOPE_FUNCTION_ENTRY"
   // Extensions
   | "EXTENSION_FUNCTION_CALL"
   | "EXTENSION_PROPERTY_ACCESS"
-  | "MEMBER_VS_EXTENSION_RESOLUTION"
   // Lambdas
   | "LAMBDA_PARAMETER_INFERRED"
   | "LAMBDA_RETURN_INFERRED"
-  | "SAM_CONVERSION"
-  | "TRAILING_LAMBDA"
   // Overloads
   | "OVERLOAD_RESOLVED"
   | "DEFAULT_ARGUMENT_USED"
-  | "NAMED_ARGUMENT_REORDER"
-  // Operators
-  | "OPERATOR_OVERLOAD"
-  | "OPERATOR_PLUS"
-  | "OPERATOR_MINUS"
-  | "OPERATOR_TIMES"
-  | "OPERATOR_DIV"
-  | "OPERATOR_REM"
-  | "OPERATOR_RANGE_TO"
-  | "OPERATOR_GET"
-  | "OPERATOR_SET"
-  | "OPERATOR_CONTAINS"
-  | "OPERATOR_INVOKE"
-  | "OPERATOR_COMPARE"
-  | "OPERATOR_EQUALS"
-  | "OPERATOR_ITERATOR"
-  | "OPERATOR_PLUS_ASSIGN"
-  | "OPERATOR_UNARY"
-  // Receivers
-  | "IMPLICIT_RECEIVER"
-  | "LABELED_THIS"
-  | "DISPATCH_RECEIVER"
-  | "EXTENSION_RECEIVER"
-  // Delegation
-  | "PROPERTY_DELEGATION"
-  | "LAZY_DELEGATION"
-  | "OBSERVABLE_DELEGATION"
-  | "MAP_DELEGATION"
-  | "CUSTOM_DELEGATION"
-  | "INTERFACE_DELEGATION"
-  // Destructuring
-  | "DESTRUCTURING_COMPONENT"
-  | "DESTRUCTURING_DECLARATION";
+  | "NAMED_ARGUMENT_REORDER";
 
 export interface Position {
   line: number;
@@ -176,46 +132,6 @@ export interface OverloadData {
   defaultArgumentsUsed?: string[] | null;
 }
 
-export interface OperatorData {
-  type: "Operator";
-  operator: string;
-  resolvedFunction: string;
-  receiverType: string;
-  parameterTypes: string[];
-  returnType: string;
-  isInfix: boolean;
-  declaringClass: string;
-}
-
-export interface ReceiverData {
-  type: "Receiver";
-  receiverType: string;
-  receiverKind: "dispatch" | "extension" | "implicit" | "labeled";
-  label?: string | null;
-  scopeDepth: number;
-  alternativeReceivers: string[];
-}
-
-export interface DelegationData {
-  type: "Delegation";
-  delegationKind: "lazy" | "observable" | "vetoable" | "notNull" | "map" | "custom" | "interface";
-  delegateType: string;
-  propertyType: string;
-  delegateExpression?: string | null;
-  accessorGenerated: "getter" | "setter" | "both";
-  interfaceDelegatedTo?: string | null;
-}
-
-export interface DestructuringData {
-  type: "Destructuring";
-  sourceType: string;
-  componentIndex: number;
-  componentFunction: string;
-  componentType: string;
-  isDataClass: boolean;
-  variableName: string;
-}
-
 export type InsightData =
   | TypeInferenceData
   | NullabilityData
@@ -223,18 +139,14 @@ export type InsightData =
   | ScopingData
   | ExtensionData
   | LambdaData
-  | OverloadData
-  | OperatorData
-  | ReceiverData
-  | DelegationData
-  | DestructuringData;
+  | OverloadData;
 
 export interface SemanticInsight {
   id: string;
   position: Range;
   category: InsightCategory;
   level: InsightLevel;
-  kind: string;
+  kind: InsightKind;
   scopeChain: ScopeRef[];
   data: InsightData;
   tokenText: string;
