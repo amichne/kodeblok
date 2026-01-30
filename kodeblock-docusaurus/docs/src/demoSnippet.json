@@ -1,1 +1,4929 @@
-{"snippetId":"insight-showcase","codeHash":"d1bde8d4036c0c843e54a20f926768f89670e64cddf6ac1d35b2d8332997b79e","code":"data class User(val name: String)\n\nfun <T> wrap(value: T): List<T> = listOf(value)\n\nfun mix(value: Int, label: String): String = \"$label:$value\"\nfun mix(value: String, label: String): String = \"$label:$value\"\n\nfun greet(name: String, title: String = \"Mx\"): String = \"$title $name\"\n\nfun insightShowcase(any: Any?, maybe: String?) {\n    val inferred = 42\n    val explicit: String = \"ok\"\n    val nullable: String? = null\n\n    val safeLength = maybe?.length\n    val fallback = maybe ?: \"default\"\n    val forced = maybe!!\n\n    val mapped = wrap(inferred)\n    val itemList = listOf(1, 2, 3)\n    val incremented = itemList.map { it + 1 }\n    val asText = itemList.map { value: Int -> value.toString() }\n    val lastIndex = itemList.lastIndex\n\n    if (any is String) {\n        println(any.length)\n    }\n    if (any !is String) return\n\n    val scoped = maybe?.let { it.length } ?: 0\n\n    val overload = mix(1, \"id\")\n    val reordered = mix(label = \"rank\", value = 2)\n    val titled = greet(\"Ada\")\n\n    println(\"$explicit $nullable $safeLength $forced $mapped $incremented $asText $lastIndex $scoped $overload $reordered $titled\")\n}\n\n","insights":[{"id":"ins_000","position":{"from":{"line":1,"col":21},"to":{"line":1,"col":24}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_2","kind":"CLASS","position":{"from":{"line":1,"col":1},"to":{"line":1,"col":33}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"name"},{"id":"ins_001","position":{"from":{"line":3,"col":14},"to":{"line":3,"col":18}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_3","kind":"FUNCTION","position":{"from":{"line":3,"col":1},"to":{"line":3,"col":47}}}],"data":{"type":"TypeInference","inferredType":"T","declaredType":"T"},"tokenText":"value"},{"id":"ins_002","position":{"from":{"line":3,"col":35},"to":{"line":3,"col":40}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_3","kind":"FUNCTION","position":{"from":{"line":3,"col":1},"to":{"line":3,"col":47}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<T>","typeArguments":["T"]},"tokenText":"listOf"},{"id":"ins_003","position":{"from":{"line":3,"col":35},"to":{"line":3,"col":40}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_3","kind":"FUNCTION","position":{"from":{"line":3,"col":1},"to":{"line":3,"col":47}}}],"data":{"type":"Overload","selectedSignature":"kotlin.collections.listOf","candidateCount":3,"resolutionFactors":["candidates=3"]},"tokenText":"listOf"},{"id":"ins_004","position":{"from":{"line":5,"col":9},"to":{"line":5,"col":13}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_4","kind":"FUNCTION","position":{"from":{"line":5,"col":1},"to":{"line":5,"col":60}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int","declaredType":"Int"},"tokenText":"value"},{"id":"ins_005","position":{"from":{"line":5,"col":21},"to":{"line":5,"col":25}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_4","kind":"FUNCTION","position":{"from":{"line":5,"col":1},"to":{"line":5,"col":60}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"label"},{"id":"ins_006","position":{"from":{"line":6,"col":9},"to":{"line":6,"col":13}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_5","kind":"FUNCTION","position":{"from":{"line":6,"col":1},"to":{"line":6,"col":63}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"value"},{"id":"ins_007","position":{"from":{"line":6,"col":24},"to":{"line":6,"col":28}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_5","kind":"FUNCTION","position":{"from":{"line":6,"col":1},"to":{"line":6,"col":63}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"label"},{"id":"ins_008","position":{"from":{"line":8,"col":11},"to":{"line":8,"col":14}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_6","kind":"FUNCTION","position":{"from":{"line":8,"col":1},"to":{"line":8,"col":70}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"name"},{"id":"ins_009","position":{"from":{"line":8,"col":25},"to":{"line":8,"col":29}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_6","kind":"FUNCTION","position":{"from":{"line":8,"col":1},"to":{"line":8,"col":70}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"title"},{"id":"ins_010","position":{"from":{"line":10,"col":21},"to":{"line":10,"col":23}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Any?","declaredType":"Any?"},"tokenText":"any"},{"id":"ins_011","position":{"from":{"line":10,"col":26},"to":{"line":10,"col":29}},"category":"NULLABILITY","level":"ALL","kind":"NULLABLE_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"Any?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"Any?"},{"id":"ins_012","position":{"from":{"line":10,"col":32},"to":{"line":10,"col":36}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String?","declaredType":"String?"},"tokenText":"maybe"},{"id":"ins_013","position":{"from":{"line":10,"col":39},"to":{"line":10,"col":45}},"category":"NULLABILITY","level":"ALL","kind":"NULLABLE_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"String?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"String?"},{"id":"ins_014","position":{"from":{"line":11,"col":9},"to":{"line":11,"col":16}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int"},"tokenText":"inferred"},{"id":"ins_015","position":{"from":{"line":12,"col":9},"to":{"line":12,"col":16}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String","declaredType":"String"},"tokenText":"explicit"},{"id":"ins_016","position":{"from":{"line":13,"col":9},"to":{"line":13,"col":16}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String?","declaredType":"String?"},"tokenText":"nullable"},{"id":"ins_017","position":{"from":{"line":13,"col":19},"to":{"line":13,"col":25}},"category":"NULLABILITY","level":"ALL","kind":"NULLABLE_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"String?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"String?"},{"id":"ins_018","position":{"from":{"line":15,"col":9},"to":{"line":15,"col":18}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int?"},"tokenText":"safeLength"},{"id":"ins_019","position":{"from":{"line":15,"col":22},"to":{"line":15,"col":26}},"category":"NULLABILITY","level":"HIGHLIGHTS","kind":"NULL_SAFE_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"kotlin.String?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"maybe"},{"id":"ins_020","position":{"from":{"line":16,"col":9},"to":{"line":16,"col":16}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String"},"tokenText":"fallback"},{"id":"ins_021","position":{"from":{"line":16,"col":26},"to":{"line":16,"col":27}},"category":"NULLABILITY","level":"HIGHLIGHTS","kind":"ELVIS_OPERATOR","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"kotlin.String?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"?:"},{"id":"ins_022","position":{"from":{"line":17,"col":9},"to":{"line":17,"col":14}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String"},"tokenText":"forced"},{"id":"ins_023","position":{"from":{"line":17,"col":23},"to":{"line":17,"col":24}},"category":"NULLABILITY","level":"HIGHLIGHTS","kind":"NOT_NULL_ASSERTION","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"kotlin.String?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":true},"tokenText":"!!"},{"id":"ins_024","position":{"from":{"line":19,"col":9},"to":{"line":19,"col":14}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>"},"tokenText":"mapped"},{"id":"ins_025","position":{"from":{"line":19,"col":18},"to":{"line":19,"col":21}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>","typeArguments":["kotlin.Int"]},"tokenText":"wrap"},{"id":"ins_026","position":{"from":{"line":19,"col":18},"to":{"line":19,"col":21}},"category":"OVERLOADS","level":"ALL","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"wrap","candidateCount":1,"resolutionFactors":[]},"tokenText":"wrap"},{"id":"ins_027","position":{"from":{"line":20,"col":9},"to":{"line":20,"col":16}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>"},"tokenText":"itemList"},{"id":"ins_028","position":{"from":{"line":20,"col":20},"to":{"line":20,"col":25}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>","typeArguments":["kotlin.Int"]},"tokenText":"listOf"},{"id":"ins_029","position":{"from":{"line":20,"col":20},"to":{"line":20,"col":25}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"kotlin.collections.listOf","candidateCount":3,"resolutionFactors":["candidates=3"]},"tokenText":"listOf"},{"id":"ins_030","position":{"from":{"line":21,"col":9},"to":{"line":21,"col":19}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>"},"tokenText":"incremented"},{"id":"ins_031","position":{"from":{"line":21,"col":32},"to":{"line":21,"col":34}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.Int>","typeArguments":["kotlin.Int","kotlin.Int"]},"tokenText":"map"},{"id":"ins_032","position":{"from":{"line":21,"col":32},"to":{"line":21,"col":34}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.collections.map","extensionReceiverType":"kotlin.collections.Iterable<kotlin.Int>","resolvedFrom":"kotlin.collections","competingMember":false},"tokenText":"map"},{"id":"ins_033","position":{"from":{"line":21,"col":32},"to":{"line":21,"col":34}},"category":"OVERLOADS","level":"ALL","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"kotlin.collections.map","candidateCount":1,"resolutionFactors":[]},"tokenText":"map"},{"id":"ins_034","position":{"from":{"line":21,"col":32},"to":{"line":21,"col":34}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.collections.map","extensionReceiverType":"kotlin.collections.Iterable<kotlin.Int>","resolvedFrom":"kotlin.collections","competingMember":false},"tokenText":"map"},{"id":"ins_035","position":{"from":{"line":21,"col":36},"to":{"line":21,"col":45}},"category":"LAMBDAS","level":"HIGHLIGHTS","kind":"LAMBDA_PARAMETER_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_8","kind":"LAMBDA","position":{"from":{"line":21,"col":36},"to":{"line":21,"col":45}}}],"data":{"type":"Lambda","parameterTypes":[{"name":"it","type":"kotlin.Int"}],"returnType":"kotlin.Int"},"tokenText":"{ it + 1 }"},{"id":"ins_036","position":{"from":{"line":22,"col":9},"to":{"line":22,"col":14}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.String>"},"tokenText":"asText"},{"id":"ins_037","position":{"from":{"line":22,"col":27},"to":{"line":22,"col":29}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.collections.List<kotlin.String>","typeArguments":["kotlin.String","kotlin.Int"]},"tokenText":"map"},{"id":"ins_038","position":{"from":{"line":22,"col":27},"to":{"line":22,"col":29}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.collections.map","extensionReceiverType":"kotlin.collections.Iterable<kotlin.Int>","resolvedFrom":"kotlin.collections","competingMember":false},"tokenText":"map"},{"id":"ins_039","position":{"from":{"line":22,"col":27},"to":{"line":22,"col":29}},"category":"OVERLOADS","level":"ALL","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"kotlin.collections.map","candidateCount":1,"resolutionFactors":[]},"tokenText":"map"},{"id":"ins_040","position":{"from":{"line":22,"col":27},"to":{"line":22,"col":29}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.collections.map","extensionReceiverType":"kotlin.collections.Iterable<kotlin.Int>","resolvedFrom":"kotlin.collections","competingMember":false},"tokenText":"map"},{"id":"ins_041","position":{"from":{"line":22,"col":31},"to":{"line":22,"col":64}},"category":"LAMBDAS","level":"ALL","kind":"LAMBDA_RETURN_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_9","kind":"LAMBDA","position":{"from":{"line":22,"col":31},"to":{"line":22,"col":64}}}],"data":{"type":"Lambda","parameterTypes":[{"name":"value","type":"kotlin.Int"}],"returnType":"kotlin.String"},"tokenText":"{ value: Int -> value.toString() }"},{"id":"ins_042","position":{"from":{"line":22,"col":33},"to":{"line":22,"col":37}},"category":"TYPE_INFERENCE","level":"ALL","kind":"EXPLICIT_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_9","kind":"LAMBDA","position":{"from":{"line":22,"col":31},"to":{"line":22,"col":64}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int","declaredType":"Int"},"tokenText":"value"},{"id":"ins_043","position":{"from":{"line":22,"col":53},"to":{"line":22,"col":60}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_9","kind":"LAMBDA","position":{"from":{"line":22,"col":31},"to":{"line":22,"col":64}}}],"data":{"type":"Overload","selectedSignature":"kotlin.Int.toString","candidateCount":3,"resolutionFactors":["candidates=3"]},"tokenText":"toString"},{"id":"ins_044","position":{"from":{"line":23,"col":9},"to":{"line":23,"col":17}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int"},"tokenText":"lastIndex"},{"id":"ins_045","position":{"from":{"line":23,"col":30},"to":{"line":23,"col":38}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_PROPERTY_ACCESS","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.collections.lastIndex","extensionReceiverType":"kotlin.collections.List<kotlin.Int>","resolvedFrom":"kotlin.collections","competingMember":false},"tokenText":"lastIndex"},{"id":"ins_046","position":{"from":{"line":25,"col":13},"to":{"line":25,"col":14}},"category":"SMART_CASTS","level":"HIGHLIGHTS","kind":"IS_CHECK_CAST","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_10","kind":"IF_BRANCH","position":{"from":{"line":25,"col":5},"to":{"line":27,"col":5}}}],"data":{"type":"SmartCast","originalType":"kotlin.Any?","narrowedType":"String","evidencePosition":{"from":{"line":25,"col":13},"to":{"line":25,"col":14}},"evidenceKind":"IS_CHECK_CAST"},"tokenText":"is"},{"id":"ins_047","position":{"from":{"line":26,"col":9},"to":{"line":26,"col":15}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_10","kind":"IF_BRANCH","position":{"from":{"line":25,"col":5},"to":{"line":27,"col":5}}}],"data":{"type":"Overload","selectedSignature":"kotlin.io.println","candidateCount":11,"resolutionFactors":["candidates=11"]},"tokenText":"println"},{"id":"ins_048","position":{"from":{"line":28,"col":13},"to":{"line":28,"col":15}},"category":"SMART_CASTS","level":"HIGHLIGHTS","kind":"NEGATED_CHECK_EXIT","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_11","kind":"IF_BRANCH","position":{"from":{"line":28,"col":5},"to":{"line":28,"col":30}}}],"data":{"type":"SmartCast","originalType":"kotlin.Any?","narrowedType":"String","evidencePosition":{"from":{"line":28,"col":13},"to":{"line":28,"col":15}},"evidenceKind":"NEGATED_CHECK_EXIT"},"tokenText":"is"},{"id":"ins_049","position":{"from":{"line":30,"col":9},"to":{"line":30,"col":14}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int"},"tokenText":"scoped"},{"id":"ins_050","position":{"from":{"line":30,"col":43},"to":{"line":30,"col":44}},"category":"NULLABILITY","level":"HIGHLIGHTS","kind":"ELVIS_OPERATOR","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"kotlin.Int?","isNullable":true,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"?:"},{"id":"ins_051","position":{"from":{"line":30,"col":18},"to":{"line":30,"col":22}},"category":"NULLABILITY","level":"HIGHLIGHTS","kind":"NULL_SAFE_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Nullability","nullableType":"kotlin.String","isNullable":false,"isPlatformType":false,"narrowedToNonNull":false},"tokenText":"maybe"},{"id":"ins_052","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":27}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"GENERIC_ARGUMENT_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}}],"data":{"type":"TypeInference","inferredType":"kotlin.Int","typeArguments":["kotlin.Int","kotlin.String"]},"tokenText":"let"},{"id":"ins_053","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":27}},"category":"SCOPING","level":"HIGHLIGHTS","kind":"SCOPE_FUNCTION_ENTRY","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}}],"data":{"type":"Scoping","scopeFunction":"let","itParameterType":"kotlin.String"},"tokenText":"let"},{"id":"ins_054","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":27}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.let","extensionReceiverType":"kotlin.String","resolvedFrom":"kotlin","competingMember":false},"tokenText":"let"},{"id":"ins_055","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":27}},"category":"OVERLOADS","level":"ALL","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}}],"data":{"type":"Overload","selectedSignature":"kotlin.let","candidateCount":1,"resolutionFactors":[]},"tokenText":"let"},{"id":"ins_056","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":27}},"category":"EXTENSIONS","level":"HIGHLIGHTS","kind":"EXTENSION_FUNCTION_CALL","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}}],"data":{"type":"Extension","functionOrProperty":"kotlin.let","extensionReceiverType":"kotlin.String","resolvedFrom":"kotlin","competingMember":false},"tokenText":"let"},{"id":"ins_057","position":{"from":{"line":30,"col":29},"to":{"line":30,"col":41}},"category":"LAMBDAS","level":"HIGHLIGHTS","kind":"LAMBDA_PARAMETER_INFERRED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}},{"scopeId":"scope_13","kind":"LAMBDA","position":{"from":{"line":30,"col":29},"to":{"line":30,"col":41}}}],"data":{"type":"Lambda","parameterTypes":[{"name":"it","type":"kotlin.String"}],"returnType":"kotlin.Int"},"tokenText":"{ it.length }"},{"id":"ins_058","position":{"from":{"line":32,"col":9},"to":{"line":32,"col":16}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String"},"tokenText":"overload"},{"id":"ins_059","position":{"from":{"line":32,"col":20},"to":{"line":32,"col":22}},"category":"OVERLOADS","level":"ALL","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"mix","candidateCount":2,"resolutionFactors":["candidates=2"]},"tokenText":"mix"},{"id":"ins_060","position":{"from":{"line":33,"col":9},"to":{"line":33,"col":17}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String"},"tokenText":"reordered"},{"id":"ins_061","position":{"from":{"line":33,"col":21},"to":{"line":33,"col":23}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"NAMED_ARGUMENT_REORDER","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"mix","candidateCount":2,"resolutionFactors":["candidates=2","named-arguments"]},"tokenText":"mix"},{"id":"ins_062","position":{"from":{"line":34,"col":9},"to":{"line":34,"col":14}},"category":"TYPE_INFERENCE","level":"HIGHLIGHTS","kind":"INFERRED_TYPE","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"TypeInference","inferredType":"kotlin.String"},"tokenText":"titled"},{"id":"ins_063","position":{"from":{"line":34,"col":18},"to":{"line":34,"col":22}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"DEFAULT_ARGUMENT_USED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"greet","candidateCount":1,"resolutionFactors":["default-arguments"],"defaultArgumentsUsed":["title"]},"tokenText":"greet"},{"id":"ins_064","position":{"from":{"line":36,"col":5},"to":{"line":36,"col":11}},"category":"OVERLOADS","level":"HIGHLIGHTS","kind":"OVERLOAD_RESOLVED","scopeChain":[{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}}],"data":{"type":"Overload","selectedSignature":"kotlin.io.println","candidateCount":11,"resolutionFactors":["candidates=11"]},"tokenText":"println"}],"rootScopes":[{"ref":{"scopeId":"scope_0","kind":"FILE","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},"children":[{"ref":{"scopeId":"scope_1","kind":"FUNCTION","position":{"from":{"line":1,"col":1},"to":{"line":41,"col":1}}},"children":[{"ref":{"scopeId":"scope_2","kind":"CLASS","position":{"from":{"line":1,"col":1},"to":{"line":1,"col":33}}},"children":[],"insights":["ins_000"]},{"ref":{"scopeId":"scope_3","kind":"FUNCTION","position":{"from":{"line":3,"col":1},"to":{"line":3,"col":47}}},"children":[],"insights":["ins_001","ins_002","ins_003"]},{"ref":{"scopeId":"scope_4","kind":"FUNCTION","position":{"from":{"line":5,"col":1},"to":{"line":5,"col":60}}},"children":[],"insights":["ins_004","ins_005"]},{"ref":{"scopeId":"scope_5","kind":"FUNCTION","position":{"from":{"line":6,"col":1},"to":{"line":6,"col":63}}},"children":[],"insights":["ins_006","ins_007"]},{"ref":{"scopeId":"scope_6","kind":"FUNCTION","position":{"from":{"line":8,"col":1},"to":{"line":8,"col":70}}},"children":[],"insights":["ins_008","ins_009"]},{"ref":{"scopeId":"scope_7","kind":"FUNCTION","position":{"from":{"line":10,"col":1},"to":{"line":37,"col":1}}},"children":[{"ref":{"scopeId":"scope_8","kind":"LAMBDA","position":{"from":{"line":21,"col":36},"to":{"line":21,"col":45}}},"children":[],"insights":["ins_035"]},{"ref":{"scopeId":"scope_9","kind":"LAMBDA","position":{"from":{"line":22,"col":31},"to":{"line":22,"col":64}}},"children":[],"insights":["ins_041","ins_042","ins_043"]},{"ref":{"scopeId":"scope_10","kind":"IF_BRANCH","position":{"from":{"line":25,"col":5},"to":{"line":27,"col":5}}},"children":[],"insights":["ins_046","ins_047"]},{"ref":{"scopeId":"scope_11","kind":"IF_BRANCH","position":{"from":{"line":28,"col":5},"to":{"line":28,"col":30}}},"children":[],"insights":["ins_048"]},{"ref":{"scopeId":"scope_12","kind":"SCOPE_FUNCTION","position":{"from":{"line":30,"col":25},"to":{"line":30,"col":41}}},"children":[{"ref":{"scopeId":"scope_13","kind":"LAMBDA","position":{"from":{"line":30,"col":29},"to":{"line":30,"col":41}}},"children":[],"insights":["ins_057"]}],"insights":["ins_052","ins_053","ins_054","ins_055","ins_056"]}],"insights":["ins_010","ins_011","ins_012","ins_013","ins_014","ins_015","ins_016","ins_017","ins_018","ins_019","ins_020","ins_021","ins_022","ins_023","ins_024","ins_025","ins_026","ins_027","ins_028","ins_029","ins_030","ins_031","ins_032","ins_033","ins_034","ins_036","ins_037","ins_038","ins_039","ins_040","ins_044","ins_045","ins_049","ins_050","ins_051","ins_058","ins_059","ins_060","ins_061","ins_062","ins_063","ins_064"]}],"insights":[]}],"insights":[]}]}
+{
+  "snippetId": "insight-showcase",
+  "codeHash": "d1bde8d4036c0c843e54a20f926768f89670e64cddf6ac1d35b2d8332997b79e",
+  "code": "data class User(val name: String)\n\nfun <T> wrap(value: T): List<T> = listOf(value)\n\nfun mix(value: Int, label: String): String = \"$label:$value\"\nfun mix(value: String, label: String): String = \"$label:$value\"\n\nfun greet(name: String, title: String = \"Mx\"): String = \"$title $name\"\n\nfun insightShowcase(any: Any?, maybe: String?) {\n    val inferred = 42\n    val explicit: String = \"ok\"\n    val nullable: String? = null\n\n    val safeLength = maybe?.length\n    val fallback = maybe ?: \"default\"\n    val forced = maybe!!\n\n    val mapped = wrap(inferred)\n    val itemList = listOf(1, 2, 3)\n    val incremented = itemList.map { it + 1 }\n    val asText = itemList.map { value: Int -> value.toString() }\n    val lastIndex = itemList.lastIndex\n\n    if (any is String) {\n        println(any.length)\n    }\n    if (any !is String) return\n\n    val scoped = maybe?.let { it.length } ?: 0\n\n    val overload = mix(1, \"id\")\n    val reordered = mix(label = \"rank\", value = 2)\n    val titled = greet(\"Ada\")\n\n    println(\"$explicit $nullable $safeLength $forced $mapped $incremented $asText $lastIndex $scoped $overload $reordered $titled\")\n}\n\n",
+  "insights": [
+    {
+      "id": "ins_000",
+      "position": {
+        "from": {
+          "line": 1,
+          "col": 21
+        },
+        "to": {
+          "line": 1,
+          "col": 24
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_2",
+          "kind": "CLASS",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 1,
+              "col": 33
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "name"
+    },
+    {
+      "id": "ins_001",
+      "position": {
+        "from": {
+          "line": 3,
+          "col": 14
+        },
+        "to": {
+          "line": 3,
+          "col": 18
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_3",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 3,
+              "col": 1
+            },
+            "to": {
+              "line": 3,
+              "col": 47
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "T",
+        "declaredType": "T"
+      },
+      "tokenText": "value"
+    },
+    {
+      "id": "ins_002",
+      "position": {
+        "from": {
+          "line": 3,
+          "col": 35
+        },
+        "to": {
+          "line": 3,
+          "col": 40
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_3",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 3,
+              "col": 1
+            },
+            "to": {
+              "line": 3,
+              "col": 47
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<T>",
+        "typeArguments": [
+          "T"
+        ]
+      },
+      "tokenText": "listOf"
+    },
+    {
+      "id": "ins_003",
+      "position": {
+        "from": {
+          "line": 3,
+          "col": 35
+        },
+        "to": {
+          "line": 3,
+          "col": 40
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_3",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 3,
+              "col": 1
+            },
+            "to": {
+              "line": 3,
+              "col": 47
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.collections.listOf",
+        "candidateCount": 3,
+        "resolutionFactors": [
+          "candidates=3"
+        ]
+      },
+      "tokenText": "listOf"
+    },
+    {
+      "id": "ins_004",
+      "position": {
+        "from": {
+          "line": 5,
+          "col": 9
+        },
+        "to": {
+          "line": 5,
+          "col": 13
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_4",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 5,
+              "col": 1
+            },
+            "to": {
+              "line": 5,
+              "col": 60
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int",
+        "declaredType": "Int"
+      },
+      "tokenText": "value"
+    },
+    {
+      "id": "ins_005",
+      "position": {
+        "from": {
+          "line": 5,
+          "col": 21
+        },
+        "to": {
+          "line": 5,
+          "col": 25
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_4",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 5,
+              "col": 1
+            },
+            "to": {
+              "line": 5,
+              "col": 60
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "label"
+    },
+    {
+      "id": "ins_006",
+      "position": {
+        "from": {
+          "line": 6,
+          "col": 9
+        },
+        "to": {
+          "line": 6,
+          "col": 13
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_5",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 6,
+              "col": 1
+            },
+            "to": {
+              "line": 6,
+              "col": 63
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "value"
+    },
+    {
+      "id": "ins_007",
+      "position": {
+        "from": {
+          "line": 6,
+          "col": 24
+        },
+        "to": {
+          "line": 6,
+          "col": 28
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_5",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 6,
+              "col": 1
+            },
+            "to": {
+              "line": 6,
+              "col": 63
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "label"
+    },
+    {
+      "id": "ins_008",
+      "position": {
+        "from": {
+          "line": 8,
+          "col": 11
+        },
+        "to": {
+          "line": 8,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_6",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 8,
+              "col": 1
+            },
+            "to": {
+              "line": 8,
+              "col": 70
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "name"
+    },
+    {
+      "id": "ins_009",
+      "position": {
+        "from": {
+          "line": 8,
+          "col": 25
+        },
+        "to": {
+          "line": 8,
+          "col": 29
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_6",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 8,
+              "col": 1
+            },
+            "to": {
+              "line": 8,
+              "col": 70
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "title"
+    },
+    {
+      "id": "ins_010",
+      "position": {
+        "from": {
+          "line": 10,
+          "col": 21
+        },
+        "to": {
+          "line": 10,
+          "col": 23
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Any?",
+        "declaredType": "Any?"
+      },
+      "tokenText": "any"
+    },
+    {
+      "id": "ins_011",
+      "position": {
+        "from": {
+          "line": 10,
+          "col": 26
+        },
+        "to": {
+          "line": 10,
+          "col": 29
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "ALL",
+      "kind": "NULLABLE_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "Any?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "Any?"
+    },
+    {
+      "id": "ins_012",
+      "position": {
+        "from": {
+          "line": 10,
+          "col": 32
+        },
+        "to": {
+          "line": 10,
+          "col": 36
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String?",
+        "declaredType": "String?"
+      },
+      "tokenText": "maybe"
+    },
+    {
+      "id": "ins_013",
+      "position": {
+        "from": {
+          "line": 10,
+          "col": 39
+        },
+        "to": {
+          "line": 10,
+          "col": 45
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "ALL",
+      "kind": "NULLABLE_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "String?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "String?"
+    },
+    {
+      "id": "ins_014",
+      "position": {
+        "from": {
+          "line": 11,
+          "col": 9
+        },
+        "to": {
+          "line": 11,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int"
+      },
+      "tokenText": "inferred"
+    },
+    {
+      "id": "ins_015",
+      "position": {
+        "from": {
+          "line": 12,
+          "col": 9
+        },
+        "to": {
+          "line": 12,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String",
+        "declaredType": "String"
+      },
+      "tokenText": "explicit"
+    },
+    {
+      "id": "ins_016",
+      "position": {
+        "from": {
+          "line": 13,
+          "col": 9
+        },
+        "to": {
+          "line": 13,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String?",
+        "declaredType": "String?"
+      },
+      "tokenText": "nullable"
+    },
+    {
+      "id": "ins_017",
+      "position": {
+        "from": {
+          "line": 13,
+          "col": 19
+        },
+        "to": {
+          "line": 13,
+          "col": 25
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "ALL",
+      "kind": "NULLABLE_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "String?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "String?"
+    },
+    {
+      "id": "ins_018",
+      "position": {
+        "from": {
+          "line": 15,
+          "col": 9
+        },
+        "to": {
+          "line": 15,
+          "col": 18
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int?"
+      },
+      "tokenText": "safeLength"
+    },
+    {
+      "id": "ins_019",
+      "position": {
+        "from": {
+          "line": 15,
+          "col": 22
+        },
+        "to": {
+          "line": 15,
+          "col": 26
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "NULL_SAFE_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "kotlin.String?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "maybe"
+    },
+    {
+      "id": "ins_020",
+      "position": {
+        "from": {
+          "line": 16,
+          "col": 9
+        },
+        "to": {
+          "line": 16,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String"
+      },
+      "tokenText": "fallback"
+    },
+    {
+      "id": "ins_021",
+      "position": {
+        "from": {
+          "line": 16,
+          "col": 26
+        },
+        "to": {
+          "line": 16,
+          "col": 27
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "ELVIS_OPERATOR",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "kotlin.String?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "?:"
+    },
+    {
+      "id": "ins_022",
+      "position": {
+        "from": {
+          "line": 17,
+          "col": 9
+        },
+        "to": {
+          "line": 17,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String"
+      },
+      "tokenText": "forced"
+    },
+    {
+      "id": "ins_023",
+      "position": {
+        "from": {
+          "line": 17,
+          "col": 23
+        },
+        "to": {
+          "line": 17,
+          "col": 24
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "NOT_NULL_ASSERTION",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "kotlin.String?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": true
+      },
+      "tokenText": "!!"
+    },
+    {
+      "id": "ins_024",
+      "position": {
+        "from": {
+          "line": 19,
+          "col": 9
+        },
+        "to": {
+          "line": 19,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>"
+      },
+      "tokenText": "mapped"
+    },
+    {
+      "id": "ins_025",
+      "position": {
+        "from": {
+          "line": 19,
+          "col": 18
+        },
+        "to": {
+          "line": 19,
+          "col": 21
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>",
+        "typeArguments": [
+          "kotlin.Int"
+        ]
+      },
+      "tokenText": "wrap"
+    },
+    {
+      "id": "ins_026",
+      "position": {
+        "from": {
+          "line": 19,
+          "col": 18
+        },
+        "to": {
+          "line": 19,
+          "col": 21
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "ALL",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "wrap",
+        "candidateCount": 1,
+        "resolutionFactors": []
+      },
+      "tokenText": "wrap"
+    },
+    {
+      "id": "ins_027",
+      "position": {
+        "from": {
+          "line": 20,
+          "col": 9
+        },
+        "to": {
+          "line": 20,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>"
+      },
+      "tokenText": "itemList"
+    },
+    {
+      "id": "ins_028",
+      "position": {
+        "from": {
+          "line": 20,
+          "col": 20
+        },
+        "to": {
+          "line": 20,
+          "col": 25
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>",
+        "typeArguments": [
+          "kotlin.Int"
+        ]
+      },
+      "tokenText": "listOf"
+    },
+    {
+      "id": "ins_029",
+      "position": {
+        "from": {
+          "line": 20,
+          "col": 20
+        },
+        "to": {
+          "line": 20,
+          "col": 25
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.collections.listOf",
+        "candidateCount": 3,
+        "resolutionFactors": [
+          "candidates=3"
+        ]
+      },
+      "tokenText": "listOf"
+    },
+    {
+      "id": "ins_030",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 9
+        },
+        "to": {
+          "line": 21,
+          "col": 19
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>"
+      },
+      "tokenText": "incremented"
+    },
+    {
+      "id": "ins_031",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 32
+        },
+        "to": {
+          "line": 21,
+          "col": 34
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.Int>",
+        "typeArguments": [
+          "kotlin.Int",
+          "kotlin.Int"
+        ]
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_032",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 32
+        },
+        "to": {
+          "line": 21,
+          "col": 34
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.collections.map",
+        "extensionReceiverType": "kotlin.collections.Iterable<kotlin.Int>",
+        "resolvedFrom": "kotlin.collections",
+        "competingMember": false
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_033",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 32
+        },
+        "to": {
+          "line": 21,
+          "col": 34
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "ALL",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.collections.map",
+        "candidateCount": 1,
+        "resolutionFactors": []
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_034",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 32
+        },
+        "to": {
+          "line": 21,
+          "col": 34
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.collections.map",
+        "extensionReceiverType": "kotlin.collections.Iterable<kotlin.Int>",
+        "resolvedFrom": "kotlin.collections",
+        "competingMember": false
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_035",
+      "position": {
+        "from": {
+          "line": 21,
+          "col": 36
+        },
+        "to": {
+          "line": 21,
+          "col": 45
+        }
+      },
+      "category": "LAMBDAS",
+      "level": "HIGHLIGHTS",
+      "kind": "LAMBDA_PARAMETER_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_8",
+          "kind": "LAMBDA",
+          "position": {
+            "from": {
+              "line": 21,
+              "col": 36
+            },
+            "to": {
+              "line": 21,
+              "col": 45
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Lambda",
+        "parameterTypes": [
+          {
+            "name": "it",
+            "type": "kotlin.Int"
+          }
+        ],
+        "returnType": "kotlin.Int"
+      },
+      "tokenText": "{ it + 1 }"
+    },
+    {
+      "id": "ins_036",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 9
+        },
+        "to": {
+          "line": 22,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.String>"
+      },
+      "tokenText": "asText"
+    },
+    {
+      "id": "ins_037",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 27
+        },
+        "to": {
+          "line": 22,
+          "col": 29
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.collections.List<kotlin.String>",
+        "typeArguments": [
+          "kotlin.String",
+          "kotlin.Int"
+        ]
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_038",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 27
+        },
+        "to": {
+          "line": 22,
+          "col": 29
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.collections.map",
+        "extensionReceiverType": "kotlin.collections.Iterable<kotlin.Int>",
+        "resolvedFrom": "kotlin.collections",
+        "competingMember": false
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_039",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 27
+        },
+        "to": {
+          "line": 22,
+          "col": 29
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "ALL",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.collections.map",
+        "candidateCount": 1,
+        "resolutionFactors": []
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_040",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 27
+        },
+        "to": {
+          "line": 22,
+          "col": 29
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.collections.map",
+        "extensionReceiverType": "kotlin.collections.Iterable<kotlin.Int>",
+        "resolvedFrom": "kotlin.collections",
+        "competingMember": false
+      },
+      "tokenText": "map"
+    },
+    {
+      "id": "ins_041",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 31
+        },
+        "to": {
+          "line": 22,
+          "col": 64
+        }
+      },
+      "category": "LAMBDAS",
+      "level": "ALL",
+      "kind": "LAMBDA_RETURN_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_9",
+          "kind": "LAMBDA",
+          "position": {
+            "from": {
+              "line": 22,
+              "col": 31
+            },
+            "to": {
+              "line": 22,
+              "col": 64
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Lambda",
+        "parameterTypes": [
+          {
+            "name": "value",
+            "type": "kotlin.Int"
+          }
+        ],
+        "returnType": "kotlin.String"
+      },
+      "tokenText": "{ value: Int -> value.toString() }"
+    },
+    {
+      "id": "ins_042",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 33
+        },
+        "to": {
+          "line": 22,
+          "col": 37
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "ALL",
+      "kind": "EXPLICIT_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_9",
+          "kind": "LAMBDA",
+          "position": {
+            "from": {
+              "line": 22,
+              "col": 31
+            },
+            "to": {
+              "line": 22,
+              "col": 64
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int",
+        "declaredType": "Int"
+      },
+      "tokenText": "value"
+    },
+    {
+      "id": "ins_043",
+      "position": {
+        "from": {
+          "line": 22,
+          "col": 53
+        },
+        "to": {
+          "line": 22,
+          "col": 60
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_9",
+          "kind": "LAMBDA",
+          "position": {
+            "from": {
+              "line": 22,
+              "col": 31
+            },
+            "to": {
+              "line": 22,
+              "col": 64
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.Int.toString",
+        "candidateCount": 3,
+        "resolutionFactors": [
+          "candidates=3"
+        ]
+      },
+      "tokenText": "toString"
+    },
+    {
+      "id": "ins_044",
+      "position": {
+        "from": {
+          "line": 23,
+          "col": 9
+        },
+        "to": {
+          "line": 23,
+          "col": 17
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int"
+      },
+      "tokenText": "lastIndex"
+    },
+    {
+      "id": "ins_045",
+      "position": {
+        "from": {
+          "line": 23,
+          "col": 30
+        },
+        "to": {
+          "line": 23,
+          "col": 38
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_PROPERTY_ACCESS",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.collections.lastIndex",
+        "extensionReceiverType": "kotlin.collections.List<kotlin.Int>",
+        "resolvedFrom": "kotlin.collections",
+        "competingMember": false
+      },
+      "tokenText": "lastIndex"
+    },
+    {
+      "id": "ins_046",
+      "position": {
+        "from": {
+          "line": 25,
+          "col": 13
+        },
+        "to": {
+          "line": 25,
+          "col": 14
+        }
+      },
+      "category": "SMART_CASTS",
+      "level": "HIGHLIGHTS",
+      "kind": "IS_CHECK_CAST",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_10",
+          "kind": "IF_BRANCH",
+          "position": {
+            "from": {
+              "line": 25,
+              "col": 5
+            },
+            "to": {
+              "line": 27,
+              "col": 5
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "SmartCast",
+        "originalType": "kotlin.Any?",
+        "narrowedType": "String",
+        "evidencePosition": {
+          "from": {
+            "line": 25,
+            "col": 13
+          },
+          "to": {
+            "line": 25,
+            "col": 14
+          }
+        },
+        "evidenceKind": "IS_CHECK_CAST"
+      },
+      "tokenText": "is"
+    },
+    {
+      "id": "ins_047",
+      "position": {
+        "from": {
+          "line": 26,
+          "col": 9
+        },
+        "to": {
+          "line": 26,
+          "col": 15
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_10",
+          "kind": "IF_BRANCH",
+          "position": {
+            "from": {
+              "line": 25,
+              "col": 5
+            },
+            "to": {
+              "line": 27,
+              "col": 5
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.io.println",
+        "candidateCount": 11,
+        "resolutionFactors": [
+          "candidates=11"
+        ]
+      },
+      "tokenText": "println"
+    },
+    {
+      "id": "ins_048",
+      "position": {
+        "from": {
+          "line": 28,
+          "col": 13
+        },
+        "to": {
+          "line": 28,
+          "col": 15
+        }
+      },
+      "category": "SMART_CASTS",
+      "level": "HIGHLIGHTS",
+      "kind": "NEGATED_CHECK_EXIT",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_11",
+          "kind": "IF_BRANCH",
+          "position": {
+            "from": {
+              "line": 28,
+              "col": 5
+            },
+            "to": {
+              "line": 28,
+              "col": 30
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "SmartCast",
+        "originalType": "kotlin.Any?",
+        "narrowedType": "String",
+        "evidencePosition": {
+          "from": {
+            "line": 28,
+            "col": 13
+          },
+          "to": {
+            "line": 28,
+            "col": 15
+          }
+        },
+        "evidenceKind": "NEGATED_CHECK_EXIT"
+      },
+      "tokenText": "is"
+    },
+    {
+      "id": "ins_049",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 9
+        },
+        "to": {
+          "line": 30,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int"
+      },
+      "tokenText": "scoped"
+    },
+    {
+      "id": "ins_050",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 43
+        },
+        "to": {
+          "line": 30,
+          "col": 44
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "ELVIS_OPERATOR",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "kotlin.Int?",
+        "isNullable": true,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "?:"
+    },
+    {
+      "id": "ins_051",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 18
+        },
+        "to": {
+          "line": 30,
+          "col": 22
+        }
+      },
+      "category": "NULLABILITY",
+      "level": "HIGHLIGHTS",
+      "kind": "NULL_SAFE_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Nullability",
+        "nullableType": "kotlin.String",
+        "isNullable": false,
+        "isPlatformType": false,
+        "narrowedToNonNull": false
+      },
+      "tokenText": "maybe"
+    },
+    {
+      "id": "ins_052",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 25
+        },
+        "to": {
+          "line": 30,
+          "col": 27
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "GENERIC_ARGUMENT_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.Int",
+        "typeArguments": [
+          "kotlin.Int",
+          "kotlin.String"
+        ]
+      },
+      "tokenText": "let"
+    },
+    {
+      "id": "ins_053",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 25
+        },
+        "to": {
+          "line": 30,
+          "col": 27
+        }
+      },
+      "category": "SCOPING",
+      "level": "HIGHLIGHTS",
+      "kind": "SCOPE_FUNCTION_ENTRY",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Scoping",
+        "scopeFunction": "let",
+        "itParameterType": "kotlin.String"
+      },
+      "tokenText": "let"
+    },
+    {
+      "id": "ins_054",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 25
+        },
+        "to": {
+          "line": 30,
+          "col": 27
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.let",
+        "extensionReceiverType": "kotlin.String",
+        "resolvedFrom": "kotlin",
+        "competingMember": false
+      },
+      "tokenText": "let"
+    },
+    {
+      "id": "ins_055",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 25
+        },
+        "to": {
+          "line": 30,
+          "col": 27
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "ALL",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.let",
+        "candidateCount": 1,
+        "resolutionFactors": []
+      },
+      "tokenText": "let"
+    },
+    {
+      "id": "ins_056",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 25
+        },
+        "to": {
+          "line": 30,
+          "col": 27
+        }
+      },
+      "category": "EXTENSIONS",
+      "level": "HIGHLIGHTS",
+      "kind": "EXTENSION_FUNCTION_CALL",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Extension",
+        "functionOrProperty": "kotlin.let",
+        "extensionReceiverType": "kotlin.String",
+        "resolvedFrom": "kotlin",
+        "competingMember": false
+      },
+      "tokenText": "let"
+    },
+    {
+      "id": "ins_057",
+      "position": {
+        "from": {
+          "line": 30,
+          "col": 29
+        },
+        "to": {
+          "line": 30,
+          "col": 41
+        }
+      },
+      "category": "LAMBDAS",
+      "level": "HIGHLIGHTS",
+      "kind": "LAMBDA_PARAMETER_INFERRED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_12",
+          "kind": "SCOPE_FUNCTION",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 25
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        },
+        {
+          "scopeId": "scope_13",
+          "kind": "LAMBDA",
+          "position": {
+            "from": {
+              "line": 30,
+              "col": 29
+            },
+            "to": {
+              "line": 30,
+              "col": 41
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Lambda",
+        "parameterTypes": [
+          {
+            "name": "it",
+            "type": "kotlin.String"
+          }
+        ],
+        "returnType": "kotlin.Int"
+      },
+      "tokenText": "{ it.length }"
+    },
+    {
+      "id": "ins_058",
+      "position": {
+        "from": {
+          "line": 32,
+          "col": 9
+        },
+        "to": {
+          "line": 32,
+          "col": 16
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String"
+      },
+      "tokenText": "overload"
+    },
+    {
+      "id": "ins_059",
+      "position": {
+        "from": {
+          "line": 32,
+          "col": 20
+        },
+        "to": {
+          "line": 32,
+          "col": 22
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "ALL",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "mix",
+        "candidateCount": 2,
+        "resolutionFactors": [
+          "candidates=2"
+        ]
+      },
+      "tokenText": "mix"
+    },
+    {
+      "id": "ins_060",
+      "position": {
+        "from": {
+          "line": 33,
+          "col": 9
+        },
+        "to": {
+          "line": 33,
+          "col": 17
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String"
+      },
+      "tokenText": "reordered"
+    },
+    {
+      "id": "ins_061",
+      "position": {
+        "from": {
+          "line": 33,
+          "col": 21
+        },
+        "to": {
+          "line": 33,
+          "col": 23
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "NAMED_ARGUMENT_REORDER",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "mix",
+        "candidateCount": 2,
+        "resolutionFactors": [
+          "candidates=2",
+          "named-arguments"
+        ]
+      },
+      "tokenText": "mix"
+    },
+    {
+      "id": "ins_062",
+      "position": {
+        "from": {
+          "line": 34,
+          "col": 9
+        },
+        "to": {
+          "line": 34,
+          "col": 14
+        }
+      },
+      "category": "TYPE_INFERENCE",
+      "level": "HIGHLIGHTS",
+      "kind": "INFERRED_TYPE",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "TypeInference",
+        "inferredType": "kotlin.String"
+      },
+      "tokenText": "titled"
+    },
+    {
+      "id": "ins_063",
+      "position": {
+        "from": {
+          "line": 34,
+          "col": 18
+        },
+        "to": {
+          "line": 34,
+          "col": 22
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "DEFAULT_ARGUMENT_USED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "greet",
+        "candidateCount": 1,
+        "resolutionFactors": [
+          "default-arguments"
+        ],
+        "defaultArgumentsUsed": [
+          "title"
+        ]
+      },
+      "tokenText": "greet"
+    },
+    {
+      "id": "ins_064",
+      "position": {
+        "from": {
+          "line": 36,
+          "col": 5
+        },
+        "to": {
+          "line": 36,
+          "col": 11
+        }
+      },
+      "category": "OVERLOADS",
+      "level": "HIGHLIGHTS",
+      "kind": "OVERLOAD_RESOLVED",
+      "scopeChain": [
+        {
+          "scopeId": "scope_0",
+          "kind": "FILE",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_1",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 1,
+              "col": 1
+            },
+            "to": {
+              "line": 41,
+              "col": 1
+            }
+          }
+        },
+        {
+          "scopeId": "scope_7",
+          "kind": "FUNCTION",
+          "position": {
+            "from": {
+              "line": 10,
+              "col": 1
+            },
+            "to": {
+              "line": 37,
+              "col": 1
+            }
+          }
+        }
+      ],
+      "data": {
+        "type": "Overload",
+        "selectedSignature": "kotlin.io.println",
+        "candidateCount": 11,
+        "resolutionFactors": [
+          "candidates=11"
+        ]
+      },
+      "tokenText": "println"
+    }
+  ],
+  "rootScopes": [
+    {
+      "ref": {
+        "scopeId": "scope_0",
+        "kind": "FILE",
+        "position": {
+          "from": {
+            "line": 1,
+            "col": 1
+          },
+          "to": {
+            "line": 41,
+            "col": 1
+          }
+        }
+      },
+      "children": [
+        {
+          "ref": {
+            "scopeId": "scope_1",
+            "kind": "FUNCTION",
+            "position": {
+              "from": {
+                "line": 1,
+                "col": 1
+              },
+              "to": {
+                "line": 41,
+                "col": 1
+              }
+            }
+          },
+          "children": [
+            {
+              "ref": {
+                "scopeId": "scope_2",
+                "kind": "CLASS",
+                "position": {
+                  "from": {
+                    "line": 1,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 1,
+                    "col": 33
+                  }
+                }
+              },
+              "children": [],
+              "insights": [
+                "ins_000"
+              ]
+            },
+            {
+              "ref": {
+                "scopeId": "scope_3",
+                "kind": "FUNCTION",
+                "position": {
+                  "from": {
+                    "line": 3,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 3,
+                    "col": 47
+                  }
+                }
+              },
+              "children": [],
+              "insights": [
+                "ins_001",
+                "ins_002",
+                "ins_003"
+              ]
+            },
+            {
+              "ref": {
+                "scopeId": "scope_4",
+                "kind": "FUNCTION",
+                "position": {
+                  "from": {
+                    "line": 5,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 5,
+                    "col": 60
+                  }
+                }
+              },
+              "children": [],
+              "insights": [
+                "ins_004",
+                "ins_005"
+              ]
+            },
+            {
+              "ref": {
+                "scopeId": "scope_5",
+                "kind": "FUNCTION",
+                "position": {
+                  "from": {
+                    "line": 6,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 6,
+                    "col": 63
+                  }
+                }
+              },
+              "children": [],
+              "insights": [
+                "ins_006",
+                "ins_007"
+              ]
+            },
+            {
+              "ref": {
+                "scopeId": "scope_6",
+                "kind": "FUNCTION",
+                "position": {
+                  "from": {
+                    "line": 8,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 8,
+                    "col": 70
+                  }
+                }
+              },
+              "children": [],
+              "insights": [
+                "ins_008",
+                "ins_009"
+              ]
+            },
+            {
+              "ref": {
+                "scopeId": "scope_7",
+                "kind": "FUNCTION",
+                "position": {
+                  "from": {
+                    "line": 10,
+                    "col": 1
+                  },
+                  "to": {
+                    "line": 37,
+                    "col": 1
+                  }
+                }
+              },
+              "children": [
+                {
+                  "ref": {
+                    "scopeId": "scope_8",
+                    "kind": "LAMBDA",
+                    "position": {
+                      "from": {
+                        "line": 21,
+                        "col": 36
+                      },
+                      "to": {
+                        "line": 21,
+                        "col": 45
+                      }
+                    }
+                  },
+                  "children": [],
+                  "insights": [
+                    "ins_035"
+                  ]
+                },
+                {
+                  "ref": {
+                    "scopeId": "scope_9",
+                    "kind": "LAMBDA",
+                    "position": {
+                      "from": {
+                        "line": 22,
+                        "col": 31
+                      },
+                      "to": {
+                        "line": 22,
+                        "col": 64
+                      }
+                    }
+                  },
+                  "children": [],
+                  "insights": [
+                    "ins_041",
+                    "ins_042",
+                    "ins_043"
+                  ]
+                },
+                {
+                  "ref": {
+                    "scopeId": "scope_10",
+                    "kind": "IF_BRANCH",
+                    "position": {
+                      "from": {
+                        "line": 25,
+                        "col": 5
+                      },
+                      "to": {
+                        "line": 27,
+                        "col": 5
+                      }
+                    }
+                  },
+                  "children": [],
+                  "insights": [
+                    "ins_046",
+                    "ins_047"
+                  ]
+                },
+                {
+                  "ref": {
+                    "scopeId": "scope_11",
+                    "kind": "IF_BRANCH",
+                    "position": {
+                      "from": {
+                        "line": 28,
+                        "col": 5
+                      },
+                      "to": {
+                        "line": 28,
+                        "col": 30
+                      }
+                    }
+                  },
+                  "children": [],
+                  "insights": [
+                    "ins_048"
+                  ]
+                },
+                {
+                  "ref": {
+                    "scopeId": "scope_12",
+                    "kind": "SCOPE_FUNCTION",
+                    "position": {
+                      "from": {
+                        "line": 30,
+                        "col": 25
+                      },
+                      "to": {
+                        "line": 30,
+                        "col": 41
+                      }
+                    }
+                  },
+                  "children": [
+                    {
+                      "ref": {
+                        "scopeId": "scope_13",
+                        "kind": "LAMBDA",
+                        "position": {
+                          "from": {
+                            "line": 30,
+                            "col": 29
+                          },
+                          "to": {
+                            "line": 30,
+                            "col": 41
+                          }
+                        }
+                      },
+                      "children": [],
+                      "insights": [
+                        "ins_057"
+                      ]
+                    }
+                  ],
+                  "insights": [
+                    "ins_052",
+                    "ins_053",
+                    "ins_054",
+                    "ins_055",
+                    "ins_056"
+                  ]
+                }
+              ],
+              "insights": [
+                "ins_010",
+                "ins_011",
+                "ins_012",
+                "ins_013",
+                "ins_014",
+                "ins_015",
+                "ins_016",
+                "ins_017",
+                "ins_018",
+                "ins_019",
+                "ins_020",
+                "ins_021",
+                "ins_022",
+                "ins_023",
+                "ins_024",
+                "ins_025",
+                "ins_026",
+                "ins_027",
+                "ins_028",
+                "ins_029",
+                "ins_030",
+                "ins_031",
+                "ins_032",
+                "ins_033",
+                "ins_034",
+                "ins_036",
+                "ins_037",
+                "ins_038",
+                "ins_039",
+                "ins_040",
+                "ins_044",
+                "ins_045",
+                "ins_049",
+                "ins_050",
+                "ins_051",
+                "ins_058",
+                "ins_059",
+                "ins_060",
+                "ins_061",
+                "ins_062",
+                "ins_063",
+                "ins_064"
+              ]
+            }
+          ],
+          "insights": []
+        }
+      ],
+      "insights": []
+    }
+  ]
+}

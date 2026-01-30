@@ -1,0 +1,11 @@
+{
+  "name": "@kodeblok/shared",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./types": "./types.ts",
+    "./constants": "./constants.ts",
+    "./sampleData": "./sampleData.ts"
+  }
+}

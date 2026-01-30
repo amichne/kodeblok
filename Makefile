@@ -12,11 +12,13 @@ help:
 	@echo "  gradle-plugin-build   Build kodeblok-gradle plugin"
 	@echo "  cli-jar               Build CLI jar"
 	@echo "  cli-dist-macos        Build macOS CLI distribution"
-	@echo "  docusaurus-lib-build  Build kodeblock-docusaurus package"
-	@echo "  docusaurus-lib-check  Typecheck kodeblock-docusaurus"
-	@echo "  website-build         Build Docusaurus website"
-	@echo "  website-start         Start Docusaurus website"
-	@echo "  website-typecheck     Typecheck Docusaurus website"
+	@echo "  viewer-build          Build react-viewer library"
+	@echo "  viewer-check          Typecheck react-viewer"
+	@echo "  viewer-demo           Run react-viewer demo site"
+	@echo "  docs-build            Build docs-site"
+	@echo "  docs-start            Start docs-site"
+	@echo "  docs-typecheck        Typecheck docs-site"
+	@echo "  build-all-frontend    Build viewer and docs"
 	@echo "  check                 Run core checks"
 	@echo "  clean                 Clean build outputs"
 
@@ -44,31 +46,38 @@ cli-jar:
 cli-dist-macos:
 	$(GRADLE) :kodeblok-cli:assembleMacosDistribution
 
-.PHONY: docusaurus-lib-build
-docusaurus-lib-build:
-	$(PNPM) -C kodeblock-docusaurus build
+.PHONY: viewer-build
+viewer-build:
+	$(PNPM) --filter kodeblok build
 
-.PHONY: docusaurus-lib-check
-docusaurus-lib-check:
-	$(PNPM) -C kodeblock-docusaurus check
+.PHONY: viewer-check
+viewer-check:
+	$(PNPM) --filter kodeblok check
 
-.PHONY: website-build
-website-build:
-	$(PNPM) -C website build
+.PHONY: viewer-demo
+viewer-demo:
+	$(PNPM) --filter kodeblok run demo
 
-.PHONY: website-start
-website-start:
-	$(PNPM) -C website start
+.PHONY: docs-build
+docs-build:
+	$(PNPM) --filter @kodeblok/docs build
 
-.PHONY: website-typecheck
-website-typecheck:
-	$(PNPM) -C website typecheck
+.PHONY: docs-start
+docs-start:
+	$(PNPM) --filter @kodeblok/docs start
+
+.PHONY: docs-typecheck
+docs-typecheck:
+	$(PNPM) --filter @kodeblok/docs typecheck
+
+.PHONY: build-all-frontend
+build-all-frontend: viewer-build docs-build
 
 .PHONY: check
-check: engine-test docusaurus-lib-check website-typecheck
+check: engine-test viewer-check docs-typecheck
 
 .PHONY: clean
 clean:
 	$(GRADLE) clean
-	$(PNPM) -C kodeblock-docusaurus clean
-	$(PNPM) -C website clear
+	$(PNPM) --filter kodeblok clean
+	$(PNPM) --filter @kodeblok/docs clear

@@ -21,6 +21,7 @@
     "@mdx-js/react": "^3.0.0",
     "@monaco-editor/react": "^4.7.0",
     "clsx": "^2.1.1",
+    "help": "link:../../../Library/pnpm/global/5/node_modules/help",
     "monaco-editor": "^0.55.1",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.3.1",
